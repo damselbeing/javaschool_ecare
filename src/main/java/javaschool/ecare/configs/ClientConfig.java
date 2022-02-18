@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Configuration
@@ -18,7 +18,7 @@ public class ClientConfig {
             Client anna = new Client(
                     "anna",
                     "winter",
-                    Date.valueOf("2001-01-01"),
+                    LocalDate.parse("2001-01-01"),
                     "0000 000000",
                     "moscow",
                     "anna@mail",
@@ -28,7 +28,7 @@ public class ClientConfig {
             Client kate = new Client(
                     "kate",
                     "summer",
-                    Date.valueOf("2000-12-12"),
+                    LocalDate.parse("2000-12-12"),
                     "1111 111111",
                     "perm",
                     "kate@mail",

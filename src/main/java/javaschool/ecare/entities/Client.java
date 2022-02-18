@@ -1,9 +1,13 @@
 package javaschool.ecare.entities;
 
+import lombok.Data;
+import lombok.NonNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "clientdb")
 public class Client implements Serializable {
@@ -20,24 +24,31 @@ public class Client implements Serializable {
 //    )
     private Long id;
 
+    @NonNull
     @Column(name = "name")
     private String name;
 
+    @NonNull
     @Column(name = "last_name")
     private String lastName;
 
+    @NonNull
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
 
+    @NonNull
     @Column(name = "passport")
     private String passport;
 
+    @NonNull
     @Column(name = "address")
     private String address;
 
+    @NonNull
     @Column(name = "e_mail")
     private String email;
 
+    @NonNull
     @Column(name = "password")
     private String password;
 
@@ -47,7 +58,7 @@ public class Client implements Serializable {
 
     public Client(String name,
                   String lastName,
-                  Date birthDate,
+                  LocalDate birthDate,
                   String passport,
                   String address,
                   String email,
@@ -61,83 +72,7 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", passport='" + passport + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getPassport() {
-        return passport;
-    }
-
-    public void setPassport(String passport) {
-        this.passport = passport;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
 
 }
