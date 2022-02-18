@@ -13,15 +13,6 @@ import java.time.LocalDate;
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-//    @SequenceGenerator(
-//            name = "client_sequence",
-//            sequenceName = "client_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = GenerationType.SEQUENCE,
-//            generator = "client_sequence"
-//    )
     private Long id;
 
     @NonNull

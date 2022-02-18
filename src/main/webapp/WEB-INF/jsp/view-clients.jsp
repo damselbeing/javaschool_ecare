@@ -1,0 +1,36 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html>
+<head>
+    <title>View Clients</title>
+    <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Birth Date</th>
+        <th>Passport</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${clients}" var="client">
+        <tr>
+            <td>${client.name}</td>
+            <td>${client.lastName}</td>
+            <td>${client.birthDate}</td>
+            <td>${client.passport}</td>
+            <td>${client.address}</td>
+            <td>${client.email}</td>
+            <td>${client.password}</td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+</body>
+</html>
