@@ -2,12 +2,16 @@ package javaschool.ecare.converters;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@NoArgsConstructor
 public class ClientConverter {
 
     public ClientDto entityToDto(Client client) {
@@ -23,13 +27,20 @@ public class ClientConverter {
         dto.setPassword(client.getPassword());
 
         return dto;
+
+
     }
 
     public List<ClientDto> entityToDto(List<Client> client) {
 
-        return client.stream()
-                .map(x -> entityToDto(x))
-                .collect(Collectors.toList());
+        if(client == null) {
+            return Collections.emptyList();
+        } else {
+            return client.stream()
+                    .map(x -> entityToDto(x))
+                    .collect(Collectors.toList());
+        }
+
     }
 
     public Client dtoToEntity(ClientDto dto) {
@@ -49,9 +60,13 @@ public class ClientConverter {
 
     public List<Client> dtoToEntity(List<ClientDto> dto) {
 
+        if(dto == null) {
+            return Collections.emptyList();
+        } else {
         return dto.stream()
                 .map(x -> dtoToEntity(x))
                 .collect(Collectors.toList());
+        }
     }
 
 

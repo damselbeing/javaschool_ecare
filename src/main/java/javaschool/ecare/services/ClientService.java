@@ -12,13 +12,14 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    @Autowired ClientRepository clientRepository;
-    @Autowired ClientConverter converter;
+    private final ClientRepository clientRepository;
+    private final ClientConverter converter;
 
-//    @Autowired
-//    public ClientService(ClientRepository clientRepository) {
-//        this.clientRepository = clientRepository;
-//    }
+    @Autowired
+    public ClientService(ClientRepository clientRepository, ClientConverter converter) {
+        this.clientRepository = clientRepository;
+        this.converter = converter;
+    }
 
     public List<ClientDto> getClients() {
 
