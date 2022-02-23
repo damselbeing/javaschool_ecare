@@ -1,7 +1,7 @@
 package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
-import javaschool.ecare.services.ClientService;
+import javaschool.ecare.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
