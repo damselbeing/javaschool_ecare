@@ -22,9 +22,13 @@ public class ClientService {
     }
 
     public List<ClientDto> getClients() {
-
         List<Client> getAll = clientRepository.findAll();
         return converter.entityToDto(getAll);
     }
+
+    public void addNewClient(ClientDto dto) {
+        clientRepository.save(converter.dtoToEntity(dto));
+    }
+
 
 }

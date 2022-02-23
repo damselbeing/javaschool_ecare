@@ -3,10 +3,10 @@
 <html>
 <head>
     <title>View Clients</title>
-    <link href="<c:url value="/css/common.css"/>" rel="stylesheet" type="text/css">
+    <jsp:include page="head.jsp"></jsp:include>
 </head>
 <body>
-<table>
+<table class="table">
     <thead>
     <tr>
         <th>Name</th>

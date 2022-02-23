@@ -2,7 +2,6 @@ package javaschool.ecare.converters;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,8 +26,6 @@ public class ClientConverter {
         dto.setPassword(client.getPassword());
 
         return dto;
-
-
     }
 
     public List<ClientDto> entityToDto(List<Client> client) {
