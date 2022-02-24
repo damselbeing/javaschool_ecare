@@ -23,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
         this.converter = converter;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<ClientDto> getClients() {
         List<Client> getAll = clientRepository.findAll();

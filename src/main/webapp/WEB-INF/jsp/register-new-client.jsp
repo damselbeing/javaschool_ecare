@@ -6,7 +6,7 @@
     <jsp:include page="head.jsp"></jsp:include>
 </head>
 <body>
-<form:form method="post" modelAttribute="client" action="/registration">
+<form:form method="post" modelAttribute="client" action="/register-new-client">
     <div class="input-group mb-3">
         <form:label path="name">Name</form:label>
         <form:input type="text" required="name" class="form-control" path="name"/>

@@ -15,7 +15,7 @@
         <th>Passport</th>
         <th>Address</th>
         <th>Email</th>
-        <th>Password</th>
+        <th>Contract</th>
     </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
             <td>${client.passport}</td>
             <td>${client.address}</td>
             <td>${client.email}</td>
-            <td>${client.password}</td>
+            <td>${client.contract}</td>
         </tr>
     </c:forEach>
     </tbody>

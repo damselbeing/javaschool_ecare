@@ -14,7 +14,7 @@ import java.util.Set;
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long idContract;
 
     @Column(nullable = false, name = "number")
     private String number;
@@ -25,16 +25,9 @@ public class Contract implements Serializable {
     @Column(nullable = false, name = "blocked_by_admin")
     private boolean blockedByAdmin = false;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+    @OneToOne
+    @JoinColumn(name = "client_id", referencedColumnName="idClient")
     private Client client;
-
-    @ManyToOne
-    @JoinColumn(name = "tariff_id")
-    private Tariff tariff;
-
-    @ManyToMany
-    private Set<Option> options = new HashSet<>();
 
     public Contract() {
 

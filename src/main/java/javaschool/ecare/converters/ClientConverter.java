@@ -16,7 +16,7 @@ public class ClientConverter {
     public ClientDto entityToDto(Client client) {
 
         ClientDto dto = new ClientDto();
-        dto.setId(client.getId());
+        dto.setIdClient(client.getIdClient());
         dto.setName(client.getName());
         dto.setLastName(client.getLastName());
         dto.setBirthDate(client.getBirthDate());
@@ -24,6 +24,7 @@ public class ClientConverter {
         dto.setAddress(client.getAddress());
         dto.setEmail(client.getEmail());
         dto.setPassword(client.getPassword());
+        dto.setContract(client.getContract());
 
         return dto;
     }
@@ -43,7 +44,7 @@ public class ClientConverter {
     public Client dtoToEntity(ClientDto dto) {
 
         Client client = new Client();
-        client.setId(dto.getId());
+        client.setIdClient(dto.getIdClient());
         client.setName(dto.getName());
         client.setLastName(dto.getLastName());
         client.setBirthDate(dto.getBirthDate());
@@ -51,6 +52,7 @@ public class ClientConverter {
         client.setAddress(dto.getAddress());
         client.setEmail(dto.getEmail());
         client.setPassword(dto.getPassword());
+        client.setContract(dto.getContract());
 
         return client;
     }

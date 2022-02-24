@@ -1,6 +1,6 @@
 package javaschool.ecare.entities;
 
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    private Long idClient;
 
     @Column(nullable = false, name = "name")
     private String name;
@@ -34,6 +34,9 @@ public class Client implements Serializable {
 
     @Column(nullable = false, name = "password")
     private String password;
+
+    @OneToOne(mappedBy = "client")
+    private Contract contract;
 
     public Client() {
 

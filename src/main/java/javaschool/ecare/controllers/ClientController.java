@@ -29,15 +29,15 @@ public class ClientController {
         return "view-clients";
     }
 
-    @GetMapping("registration")
+    @GetMapping("register-new-client")
     public String showRegistrationForm(Model model) {
         ClientDto dto = new ClientDto();
         model.addAttribute("client", dto);
-        return "registration";
+        return "register-new-client";
     }
 
-    @PostMapping("registration")
-    public String registerNewClient(ClientDto dto) {
+    @PostMapping("register-new-client")
+    public String registerNewClient(@ModelAttribute("client") ClientDto dto) {
         clientService.addNewClient(dto);
         return "success";
     }
