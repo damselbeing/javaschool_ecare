@@ -23,12 +23,6 @@ public class ClientController {
         return "welcome";
     }
 
-    @GetMapping("view-clients")
-    public String viewClients(Model model) {
-        model.addAttribute("clients", clientService.getClients());
-        return "view-clients";
-    }
-
     @GetMapping("register-new-client")
     public String showRegistrationForm(Model model) {
         ClientDto dto = new ClientDto();

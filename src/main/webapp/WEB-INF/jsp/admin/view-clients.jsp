@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>View Clients</title>
-    <jsp:include page="head.jsp"></jsp:include>
+    <jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>
 <table class="table">
