@@ -1,39 +1,42 @@
 package javaschool.ecare.services.impl;
 
-import javaschool.ecare.converters.ClientConverter;
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.services.api.ClientService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
-    private final ClientConverter converter;
+    private final ModelMapper mapper;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, ClientConverter converter) {
+    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper) {
         this.clientRepository = clientRepository;
-        this.converter = converter;
+        this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<ClientDto> getClients() {
         List<Client> getAll = clientRepository.findAll();
-        return converter.entityToDto(getAll);
+        return getAll.stream()
+                .map(client -> mapper.map(client, ClientDto.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
     public void addNewClient(ClientDto dto) {
-        clientRepository.save(converter.dtoToEntity(dto));
+        clientRepository.save(mapper.map(dto, Client.class));
     }
 
 
