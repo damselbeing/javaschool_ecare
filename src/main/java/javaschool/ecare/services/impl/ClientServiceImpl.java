@@ -2,6 +2,7 @@ package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
+import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.services.api.ClientService;
 import org.modelmapper.ModelMapper;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +41,19 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(mapper.map(dto, Client.class));
     }
 
+    @Transactional
+    @Override
+    public ClientDto findClientByPassport(String passport) throws ClientNotFoundException {
+        return clientRepository.findClientByPassport(passport)
+                .map(client -> mapper.map(client, ClientDto.class))
+                .orElseThrow(ClientNotFoundException::new);
+    }
 
+    @Transactional
+    @Override
+    public ClientDto findClientByContract(String contract) throws ClientNotFoundException {
+        return clientRepository.findClientByContract(contract)
+                .map(client -> mapper.map(client, ClientDto.class))
+                .orElseThrow(ClientNotFoundException::new);
+    }
 }

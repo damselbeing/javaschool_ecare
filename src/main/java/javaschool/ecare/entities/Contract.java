@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "contractdb")
+@Table(name = "contracts")
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

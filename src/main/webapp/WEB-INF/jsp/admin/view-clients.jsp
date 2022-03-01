@@ -9,6 +9,18 @@
     <header>
         <jsp:include page="header.jsp"></jsp:include>
     </header>
+    <div class="container">
+        <form class="form-inline" method="get" action="/admin/searchClientByContract">
+            <label>
+                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
+            </label>
+            <button type="submit" class="btn btn-primary">Search client</button>
+        </form>
+    </div>
+    <c:if test="${clients.size() == 0}">
+        <h3>Clients are not found</h3>
+    </c:if>
+    <c:if test="${clients.size() > 0}">
     <table class="table">
         <thead>
         <tr>
@@ -35,5 +47,6 @@
         </c:forEach>
         </tbody>
     </table>
+    </c:if>
 </body>
 </html>

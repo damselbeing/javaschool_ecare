@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "clientdb")
+@Table(name = "clients")
 public class Client implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -42,21 +42,21 @@ public class Client implements Serializable {
 
     }
 
-    public Client(String name,
-                  String lastName,
-                  LocalDate birthDate,
-                  String passport,
-                  String address,
-                  String email,
-                  String password) {
-        this.name = name;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.passport = passport;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-    }
+//    public Client(String name,
+//                  String lastName,
+//                  LocalDate birthDate,
+//                  String passport,
+//                  String address,
+//                  String email,
+//                  String password) {
+//        this.name = name;
+//        this.lastName = lastName;
+//        this.birthDate = birthDate;
+//        this.passport = passport;
+//        this.address = address;
+//        this.email = email;
+//        this.password = password;
+//    }
 
 
 
