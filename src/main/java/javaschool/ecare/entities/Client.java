@@ -3,15 +3,15 @@ package javaschool.ecare.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "clients")
-public class Client implements Serializable {
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(nullable = false, name = "id")
     private Long idClient;
 
     @Column(nullable = false, name = "name")
@@ -35,30 +35,12 @@ public class Client implements Serializable {
     @Column(nullable = false, name = "password")
     private String password;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne
+    @JoinColumn(nullable = false, name = "contract_id")
     private Contract contract;
 
     public Client() {
 
     }
-
-//    public Client(String name,
-//                  String lastName,
-//                  LocalDate birthDate,
-//                  String passport,
-//                  String address,
-//                  String email,
-//                  String password) {
-//        this.name = name;
-//        this.lastName = lastName;
-//        this.birthDate = birthDate;
-//        this.passport = passport;
-//        this.address = address;
-//        this.email = email;
-//        this.password = password;
-//    }
-
-
-
 
 }

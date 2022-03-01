@@ -3,17 +3,14 @@ package javaschool.ecare.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "contracts")
-public class Contract implements Serializable {
+public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(nullable = false, name = "id")
     private Long idContract;
 
     @Column(nullable = false, name = "number")
@@ -25,8 +22,7 @@ public class Contract implements Serializable {
     @Column(nullable = false, name = "blocked_by_admin")
     private boolean blockedByAdmin = false;
 
-    @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName="idClient")
+    @OneToOne(mappedBy = "contract")
     private Client client;
 
     public Contract() {
