@@ -23,14 +23,14 @@ public class ClientController {
         return "welcome";
     }
 
-    @GetMapping("register-new-client")
+    @GetMapping("registration")
     public String showRegistrationForm(Model model) {
         ClientDto dto = new ClientDto();
         model.addAttribute("client", dto);
-        return "register-new-client";
+        return "registration";
     }
 
-    @PostMapping("register-new-client")
+    @PostMapping("registration")
     public String registerNewClient(@ModelAttribute("client") ClientDto dto) {
         clientService.addNewClient(dto);
         return "success";

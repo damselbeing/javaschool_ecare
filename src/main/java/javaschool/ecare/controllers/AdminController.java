@@ -22,13 +22,13 @@ public class AdminController {
         this.contractService = contractService;
     }
 
-    @GetMapping("view-clients")
+    @GetMapping("clients")
     public String viewClients(Model model) {
         model.addAttribute("clients", clientService.getClients());
         return "admin/view-clients";
     }
 
-    @GetMapping("view-contracts")
+    @GetMapping("contracts")
     public String viewContracts(Model model) {
         model.addAttribute("contracts", contractService.getContracts());
         return "admin/view-contracts";
