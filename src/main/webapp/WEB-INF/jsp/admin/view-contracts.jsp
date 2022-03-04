@@ -27,7 +27,7 @@
             <th>Number</th>
             <th>Blocked By Client</th>
             <th>Blocked By Admin</th>
-            <th>Client</th>
+            <th>Client's Passport</th>
         </tr>
         </thead>
         <tbody>
@@ -36,7 +36,7 @@
                 <td>${contract.number}</td>
                 <td>${contract.blockedByClient}</td>
                 <td>${contract.blockedByAdmin}</td>
-                <td>${contract.client}</td>
+                <td>${contract.client.passport}</td>
             </tr>
         </c:forEach>
         </tbody>

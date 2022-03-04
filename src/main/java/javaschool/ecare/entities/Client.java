@@ -1,6 +1,7 @@
 package javaschool.ecare.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,6 +38,7 @@ public class Client {
 
     @OneToOne
     @JoinColumn(nullable = false, name = "contract_id")
+    @ToString.Exclude
     private Contract contract;
 
     public Client() {

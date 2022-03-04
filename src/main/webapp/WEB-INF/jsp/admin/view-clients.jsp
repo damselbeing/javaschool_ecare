@@ -42,7 +42,7 @@
                 <td>${client.passport}</td>
                 <td>${client.address}</td>
                 <td>${client.email}</td>
-                <td>${client.contract}</td>
+                <td>${client.contract.number}</td>
             </tr>
         </c:forEach>
         </tbody>

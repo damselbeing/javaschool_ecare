@@ -1,6 +1,7 @@
 package javaschool.ecare.entities;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class Contract {
     private boolean blockedByAdmin = false;
 
     @OneToOne(mappedBy = "contract")
+    @ToString.Exclude
     private Client client;
 
     public Contract() {

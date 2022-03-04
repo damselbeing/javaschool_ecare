@@ -2,8 +2,10 @@ package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
+import javaschool.ecare.entities.Contract;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.repositories.ClientRepository;
+import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,14 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final ContractRepository contractRepository;
     private final ModelMapper mapper;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper) {
+    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper, ContractRepository contractRepository) {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
+        this.contractRepository = contractRepository;
     }
 
     @Transactional(readOnly = true)
@@ -51,7 +55,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public ClientDto findClientByContract(String contract) throws ClientNotFoundException {
+    public ClientDto findClientByContract(String number) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ClientNotFoundException::new);
         return clientRepository.findClientByContract(contract)
                 .map(client -> mapper.map(client, ClientDto.class))
                 .orElseThrow(ClientNotFoundException::new);
