@@ -1,5 +1,6 @@
 package javaschool.ecare.controllers;
 
+import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/admin/")
@@ -27,28 +31,21 @@ public class AdminController {
     }
 
     @GetMapping("clients")
-    public String viewClients(Model model) {
-        model.addAttribute("clients", clientService.getClients());
+    public String viewClients(@RequestParam(required = false, name = "contractNumber") String contractNumber, Model model) throws ClientNotFoundException {
+        if(contractNumber == null) {
+            model.addAttribute("clients", clientService.getClients());
+        } else {
+            List<ClientDto> listOfOne = new ArrayList<>();
+            listOfOne.add(clientService.findClientByContract(contractNumber));
+            model.addAttribute("clients", listOfOne);
+        }
         return "admin/view-clients";
     }
 
-    @GetMapping("contracts")
-    public String viewContracts(Model model) {
-        model.addAttribute("contracts", contractService.getContracts());
-        return "admin/view-contracts";
+    @GetMapping("contractProfile/{id}")
+    public String showContractProfile(@PathVariable(value = "id") Long id, Model model) throws ClientNotFoundException {
+        model.addAttribute("contract", contractService.findContractByIdContract(id));
+        return "admin/contract-profile";
     }
-
-    @GetMapping("searchClientByContract")
-    public String showClientByContract(@RequestParam(name = "contractNumber") String contractNumber, Model model) throws ClientNotFoundException {
-        model.addAttribute("client", clientService.findClientByContract(contractNumber));
-        return "admin/view-profile";
-    }
-
-    @GetMapping("searchClientByPassport")
-    public String showClientByPassport(@RequestParam(name = "passportNumber") String passportNumber, Model model) throws ClientNotFoundException {
-        model.addAttribute("client", clientService.findClientByPassport(passportNumber));
-        return "admin/view-profile";
-    }
-
 
 }

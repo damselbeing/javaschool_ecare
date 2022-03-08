@@ -2,6 +2,7 @@ package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.entities.Contract;
+import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ContractService;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,14 @@ public class ContractServiceImpl implements ContractService {
         return getAll.stream()
                 .map(contract -> mapper.map(contract, ContractDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public ContractDto findContractByIdContract(Long id) throws ClientNotFoundException {
+        return contractRepository.findContractByIdContract(id)
+                .map(contract -> mapper.map(contract, ContractDto.class))
+                .orElseThrow(ClientNotFoundException::new);
     }
 
 }

@@ -10,7 +10,7 @@
         <jsp:include page="header.jsp"></jsp:include>
     </header>
     <div class="container">
-        <form class="form-inline" method="get" action="/admin/searchClientByContract">
+        <form class="form-inline" method="get" action="/admin/clients">
             <label>
                 <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
             </label>
@@ -18,14 +18,13 @@
         </form>
     </div>
     <c:if test="${clients.size() == 0}">
-        <h3>Clients are not found</h3>
+        <h3>Found no client(s)</h3>
     </c:if>
     <c:if test="${clients.size() > 0}">
     <table class="table">
         <thead>
         <tr>
             <th>Name</th>
-            <th>Last Name</th>
             <th>Birth Date</th>
             <th>Passport</th>
             <th>Address</th>
@@ -36,13 +35,21 @@
         <tbody>
         <c:forEach items="${clients}" var="client">
             <tr>
-                <td>${client.name}</td>
-                <td>${client.lastName}</td>
+                <td>${client.name} ${client.lastName}</td>
                 <td>${client.birthDate}</td>
                 <td>${client.passport}</td>
                 <td>${client.address}</td>
                 <td>${client.email}</td>
-                <td>${client.contract.number}</td>
+                <td>
+                    <c:if test="${client.contract.number != null}">
+                        <a href="/admin/contractProfile/${client.contract.idContract}">
+                                ${client.contract.number}
+                        </a>
+                    </c:if>
+                    <c:if test="${client.contract.number == null}">
+                        <a href="/welcome">Sign Contract</a>
+                    </c:if>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

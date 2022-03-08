@@ -37,7 +37,7 @@ public class Client {
     private String password;
 
     @OneToOne
-    @JoinColumn(nullable = false, name = "contract_id")
+    @JoinColumn(name = "contract_id")
     @ToString.Exclude
     private Contract contract;
 

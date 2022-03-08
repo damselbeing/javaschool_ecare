@@ -14,8 +14,6 @@ public interface ClientService {
 
     void addNewClient(ClientDto dto);
 
-    ClientDto findClientByPassport(String passport) throws ClientNotFoundException;
-
     ClientDto findClientByContract(String number) throws ClientNotFoundException;
 
 }

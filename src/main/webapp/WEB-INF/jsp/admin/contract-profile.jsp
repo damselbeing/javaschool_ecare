@@ -10,7 +10,10 @@
         <jsp:include page="header.jsp"></jsp:include>
     </header>
     <div class="container">
-        <h3>Client's Profile ${client.idClient}</h3>
+        <h1>Contract Profile</h1>
+        <h3>Client's Name ${contract.client.name} ${contract.client.lastName}</h3>
+        <h3>Client's Passport ${contract.client.passport}</h3>
+        <h3>Client's Contract ${contract.number}</h3>
     </div>
 </body>
 </html>

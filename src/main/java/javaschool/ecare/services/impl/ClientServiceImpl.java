@@ -47,14 +47,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public ClientDto findClientByPassport(String passport) throws ClientNotFoundException {
-        return clientRepository.findClientByPassport(passport)
-                .map(client -> mapper.map(client, ClientDto.class))
-                .orElseThrow(ClientNotFoundException::new);
-    }
-
-    @Transactional
-    @Override
     public ClientDto findClientByContract(String number) throws ClientNotFoundException {
         Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ClientNotFoundException::new);
         return clientRepository.findClientByContract(contract)
