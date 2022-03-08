@@ -10,6 +10,7 @@
         <jsp:include page="header.jsp"></jsp:include>
     </header>
     <div class="container">
+        <h1>Clients' list</h1>
         <form class="form-inline" method="get" action="/admin/clients">
             <label>
                 <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
@@ -17,43 +18,47 @@
             <button type="submit" class="btn btn-primary">Search client</button>
         </form>
     </div>
+    <div class="container">
     <c:if test="${clients.size() == 0}">
         <h3>Found no client(s)</h3>
     </c:if>
+    </div>
+    <div class="container">
     <c:if test="${clients.size() > 0}">
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Birth Date</th>
-            <th>Passport</th>
-            <th>Address</th>
-            <th>Email</th>
-            <th>Contract</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${clients}" var="client">
+        <table class="table">
+            <thead>
             <tr>
-                <td>${client.name} ${client.lastName}</td>
-                <td>${client.birthDate}</td>
-                <td>${client.passport}</td>
-                <td>${client.address}</td>
-                <td>${client.email}</td>
-                <td>
-                    <c:if test="${client.contract.number != null}">
-                        <a href="/admin/contractProfile/${client.contract.idContract}">
-                                ${client.contract.number}
-                        </a>
-                    </c:if>
-                    <c:if test="${client.contract.number == null}">
-                        <a href="/welcome">Sign Contract</a>
-                    </c:if>
-                </td>
+                <th>Name</th>
+                <th>Birth Date</th>
+                <th>Passport</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Contract</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${clients}" var="client">
+                <tr>
+                    <td>${client.name} ${client.lastName}</td>
+                    <td>${client.birthDate}</td>
+                    <td>${client.passport}</td>
+                    <td>${client.address}</td>
+                    <td>${client.email}</td>
+                    <td>
+                        <c:if test="${client.contract.number != null}">
+                            <a href="/admin/contractProfile/${client.contract.idContract}">
+                                    ${client.contract.number}
+                            </a>
+                        </c:if>
+                        <c:if test="${client.contract.number == null}">
+                            <a href="/welcome">Sign contract</a>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </c:if>
+    </div>
 </body>
 </html>

@@ -7,10 +7,7 @@ import javaschool.ecare.services.api.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
@@ -46,6 +43,18 @@ public class AdminController {
     public String showContractProfile(@PathVariable(value = "id") Long id, Model model) throws ClientNotFoundException {
         model.addAttribute("contract", contractService.findContractByIdContract(id));
         return "admin/contract-profile";
+    }
+
+    @PostMapping("blockContract/{id}")
+    public String blockContract(@PathVariable(value = "id") Long id) throws ClientNotFoundException {
+        contractService.blockByAdmin(id);
+        return "redirect:/admin/contractProfile/{id}";
+    }
+
+    @PostMapping("unblockContract/{id}")
+    public String unblockContract(@PathVariable(value = "id") Long id) throws ClientNotFoundException {
+        contractService.unblockByAdmin(id);
+        return "redirect:/admin/contractProfile/{id}";
     }
 
 }

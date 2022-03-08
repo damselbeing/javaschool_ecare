@@ -42,4 +42,18 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(ClientNotFoundException::new);
     }
 
+    @Transactional
+    @Override
+    public void blockByAdmin(Long id) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+        contract.setBlockedByAdmin(true);
+    }
+
+    @Transactional
+    @Override
+    public void unblockByAdmin(Long id) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+        contract.setBlockedByAdmin(false);
+    }
+
 }

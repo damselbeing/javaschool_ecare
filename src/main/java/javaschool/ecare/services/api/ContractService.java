@@ -11,4 +11,8 @@ public interface ContractService {
     List<ContractDto> getContracts();
 
     ContractDto findContractByIdContract(Long id) throws ClientNotFoundException;
+
+    void blockByAdmin(Long id) throws ClientNotFoundException;
+
+    void unblockByAdmin(Long id) throws ClientNotFoundException;
 }
