@@ -1,6 +1,7 @@
 package javaschool.ecare.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Tariff {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false, name = "id")
+    @Column(nullable = false, name = "tariff_id")
     private Long idTariff;
 
     @Column(nullable = false, name = "name")
@@ -23,16 +24,18 @@ public class Tariff {
     private double price;
 
     @ManyToMany
-    @ToString.Exclude
     @JoinTable(
             name = "options_tariffs",
             joinColumns = {@JoinColumn(name = "tariff_id")},
             inverseJoinColumns = {@JoinColumn(name = "option_id")}
     )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Option> options;
 
     @OneToMany(mappedBy = "tariff", fetch = FetchType.EAGER)
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Contract> contracts;
 
     public Tariff() {

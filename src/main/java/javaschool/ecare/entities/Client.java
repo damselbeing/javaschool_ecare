@@ -1,6 +1,7 @@
 package javaschool.ecare.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -39,6 +40,7 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "contract_id")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Contract contract;
 
     public Client() {
