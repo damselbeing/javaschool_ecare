@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -26,6 +28,15 @@ public class Contract {
     @OneToOne(mappedBy = "contract")
     @ToString.Exclude
     private Client client;
+
+    @ManyToOne
+    @ToString.Exclude
+    @JoinColumn(name = "tariff_id")
+    private Tariff tariff;
+
+    @ManyToMany
+    @ToString.Exclude
+    private Set<Option> options;
 
     public Contract() {
 
