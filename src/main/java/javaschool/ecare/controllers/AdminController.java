@@ -4,6 +4,7 @@ import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
+import javaschool.ecare.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +20,14 @@ public class AdminController {
 
     private final ClientService clientService;
     private final ContractService contractService;
+    private final TariffService tariffService;
 
     @Autowired
-    public AdminController(ClientService clientService, ContractService contractService) {
+    public AdminController(ClientService clientService, ContractService contractService, TariffService tariffService) {
 
         this.clientService = clientService;
         this.contractService = contractService;
+        this.tariffService = tariffService;
     }
 
     @GetMapping("clients")
@@ -55,6 +58,12 @@ public class AdminController {
     public String unblockContract(@PathVariable(value = "id") Long id) throws ClientNotFoundException {
         contractService.unblockByAdmin(id);
         return "redirect:/admin/contractProfile/{id}";
+    }
+
+    @GetMapping("tariffs")
+    public String viewTariffs(Model model) {
+        model.addAttribute("tariffs", tariffService.getTariffs());
+        return "admin/view-tariffs";
     }
 
 }

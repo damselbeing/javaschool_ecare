@@ -26,7 +26,7 @@ public class Option {
     @Column(nullable = false, name = "connection_cost")
     private double connectionCost;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "options")
+    @ManyToMany(mappedBy = "options")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Tariff> tariffs;

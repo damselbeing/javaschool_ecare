@@ -33,7 +33,7 @@ public class Tariff {
     @EqualsAndHashCode.Exclude
     private Set<Option> options;
 
-    @OneToMany(mappedBy = "tariff", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tariff")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Contract> contracts;

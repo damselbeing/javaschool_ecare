@@ -1,7 +1,11 @@
 package javaschool.ecare.services.impl;
 
+import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.dto.ContractDto;
+import javaschool.ecare.dto.TariffDto;
+import javaschool.ecare.entities.Client;
 import javaschool.ecare.entities.Contract;
+import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
@@ -29,6 +33,14 @@ public class TariffServiceImpl implements TariffService {
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<TariffDto> getTariffs() {
+        List<Tariff> getAll = tariffRepository.findAll();
+        return getAll.stream()
+                .map(tariff -> mapper.map(tariff, TariffDto.class))
+                .collect(Collectors.toList());
+    }
 
 
 }

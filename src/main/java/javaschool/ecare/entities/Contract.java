@@ -37,7 +37,7 @@ public class Contract {
     @EqualsAndHashCode.Exclude
     private Tariff tariff;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "contracts")
+    @ManyToMany(mappedBy = "contracts")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Option> options;
