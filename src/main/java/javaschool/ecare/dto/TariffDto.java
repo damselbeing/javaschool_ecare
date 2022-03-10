@@ -14,6 +14,7 @@ public class TariffDto {
     private Long idTariff;
     private String name;
     private double price;
+    private boolean archived;
     private Set<Option> options;
     private Set<Contract> contracts;
 }

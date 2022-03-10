@@ -21,38 +21,60 @@
     </div>
 
     <div class="container">
+
     <c:if test="${tariffs.size() > 0}">
 
         <div class="container">
+
             <div class="row row-cols-3">
                 <c:forEach items="${tariffs}" var="tariff">
                     <div class="col">
-                        <div>Tariff name: ${tariff.name}</div>
+                        <form:form>
+                            <c:if test="${tariff.archived == false}">
+                        <div class="fw-bold">Tariff name: ${tariff.name}</div>
                         <div>Tariff price: ${tariff.price}</div>
                         <div>Tariff options: <c:forEach items="${tariff.options}" var="option">
-                                ${option.name} </c:forEach></div>
-                        <form:form>
-                        <button class="btn btn-outline-primary"
-                                formaction="/welcome"
-                                type="submit">
-                            Archive tariff
-                        </button>
+                                ${option.name} </c:forEach>
+                        </div>
+                            <button class="btn btn-outline-primary"
+                                    formaction="/admin/archiveTariff/${tariff.idTariff}"
+                                    type="submit">
+                                Archive tariff
+                            </button>
+                            </c:if>
+                            <c:if test="${tariff.archived == true}">
+                            <div class="text-muted">
+                                <div class="fw-bold">Tariff name: ${tariff.name}</div>
+                                <div>Tariff price: ${tariff.price}</div>
+                                <div>Tariff options: <c:forEach items="${tariff.options}" var="option">
+                                    ${option.name} </c:forEach>
+                                </div>
+                                <div class="text-decoration-underline">
+                                    Tariff is marked for deletion
+                                </div>
+                            </div>
+                            </c:if>
                         </form:form>
+                        <br>
                     </div>
                 </c:forEach>
                 <div class="col">
                     <div>Here can be a new tariff...</div>
-                    <form:form>
+
                         <button class="btn btn-outline-primary"
                                 formaction="/welcome"
                                 type="submit">
                             Add tariff
                         </button>
-                    </form:form>
+
                 </div>
+
             </div>
+
         </div>
     </c:if>
+
     </div>
+
 </body>
 </html>

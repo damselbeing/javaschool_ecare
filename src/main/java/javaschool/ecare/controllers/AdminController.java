@@ -2,6 +2,7 @@ package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.TariffService;
@@ -64,6 +65,12 @@ public class AdminController {
     public String viewTariffs(Model model) {
         model.addAttribute("tariffs", tariffService.getTariffs());
         return "admin/view-tariffs";
+    }
+
+    @PostMapping("archiveTariff/{id}")
+    public String archiveTariff(@PathVariable(value = "id") Long id) throws TariffNotFoundException {
+        tariffService.archive(id);
+        return "redirect:/admin/tariffs";
     }
 
 }

@@ -12,12 +12,12 @@ INSERT INTO options
     (9, 'option9', 90.00, 150.00);
 
 INSERT INTO tariffs
-(tariff_id, name, price) VALUES
-    (1, 'tariff100', 100.00),
-    (2, 'tariff200', 200.00),
-    (3, 'tariff300', 300.00),
-    (4, 'tariff400', 400.00),
-    (5, 'tariff500', 500.00);
+(tariff_id, name, price, archived) VALUES
+    (1, 'tariff100', 100.00, false),
+    (2, 'tariff200', 200.00, false),
+    (3, 'tariff300', 300.00, false),
+    (4, 'tariff400', 400.00, false),
+    (5, 'tariff500', 500.00, false);
 
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES

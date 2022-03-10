@@ -7,6 +7,7 @@ import javaschool.ecare.entities.Client;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
@@ -42,5 +43,11 @@ public class TariffServiceImpl implements TariffService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    @Override
+    public void archive(Long id) throws TariffNotFoundException {
+        Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
+        tariff.setArchived(true);
+    }
 
 }

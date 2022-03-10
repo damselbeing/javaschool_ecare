@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface TariffRepository extends JpaRepository<Tariff, Long> {
 
+    Optional<Tariff> findTariffByIdTariff(Long id);
 
 
 }
