@@ -13,12 +13,6 @@
     <div class="container">
         <h1>Tariffs' list</h1>
         <br>
-<%--        <form class="form-inline" method="get" action="/admin/clients">--%>
-<%--            <label>--%>
-<%--                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">--%>
-<%--            </label>--%>
-<%--            <button type="submit" class="btn btn-primary">Search client</button>--%>
-<%--        </form>--%>
     </div>
     <div class="container">
     <c:if test="${tariffs.size() == 0}">
@@ -35,16 +29,27 @@
                     <div class="col">
                         <div>Tariff name: ${tariff.name}</div>
                         <div>Tariff price: ${tariff.price}</div>
-                        <div>Tariff options: ${tariff.options}</div>
+                        <div>Tariff options: <c:forEach items="${tariff.options}" var="option">
+                                ${option.name} </c:forEach></div>
                         <form:form>
                         <button class="btn btn-outline-primary"
-                                formaction="/welcome/"
+                                formaction="/welcome"
                                 type="submit">
                             Archive tariff
                         </button>
                         </form:form>
                     </div>
                 </c:forEach>
+                <div class="col">
+                    <div>Here can be a new tariff...</div>
+                    <form:form>
+                        <button class="btn btn-outline-primary"
+                                formaction="/welcome"
+                                type="submit">
+                            Add tariff
+                        </button>
+                    </form:form>
+                </div>
             </div>
         </div>
     </c:if>
