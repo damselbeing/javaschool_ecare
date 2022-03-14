@@ -51,7 +51,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void archive(Long id) throws TariffNotFoundException {
+    public void archiveTariff(Long id) throws TariffNotFoundException {
         Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
         tariff.setArchived(true);
     }
@@ -66,14 +66,18 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void update(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException {
+    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException {
         Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
         Set<Option> optionsUpdated = new HashSet<>();
-        for(int i = 0; i < options.length; i++) {
-            Long optionId = Long.valueOf(options[i]);
-            Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
-            optionsUpdated.add(option);
+
+        if(options != null) {
+            for(int i = 0; i < options.length; i++) {
+                Long optionId = Long.valueOf(options[i]);
+                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                optionsUpdated.add(option);
+            }
         }
+
         tariff.setOptions(optionsUpdated);
     }
 

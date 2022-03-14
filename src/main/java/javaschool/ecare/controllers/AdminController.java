@@ -1,7 +1,6 @@
 package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
-import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +72,7 @@ public class AdminController {
 
     @PostMapping("archiveTariff/{id}")
     public String archiveTariff(@PathVariable(value = "id") Long id) throws TariffNotFoundException {
-        tariffService.archive(id);
+        tariffService.archiveTariff(id);
         return "redirect:/admin/tariffs";
     }
 
@@ -90,7 +88,7 @@ public class AdminController {
             @PathVariable(value = "id") Long id,
             @RequestParam(value = "options", required = false) String[] options
     ) throws TariffNotFoundException, OptionNotFoundException {
-        tariffService.update(id, options);
+        tariffService.updateTariff(id, options);
         return "redirect:/admin/tariffProfile/{id}";
     }
 
