@@ -6,6 +6,7 @@ import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
+import javaschool.ecare.services.api.OptionService;
 import javaschool.ecare.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +24,15 @@ public class AdminController {
     private final ClientService clientService;
     private final ContractService contractService;
     private final TariffService tariffService;
+    private final OptionService optionService;
 
     @Autowired
-    public AdminController(ClientService clientService, ContractService contractService, TariffService tariffService) {
+    public AdminController(ClientService clientService, ContractService contractService, TariffService tariffService, OptionService optionService) {
 
         this.clientService = clientService;
         this.contractService = contractService;
         this.tariffService = tariffService;
+        this.optionService = optionService;
     }
 
     @GetMapping("clients")
@@ -77,7 +80,14 @@ public class AdminController {
     @GetMapping("updateTariff/{id}")
     public String updateTariff(@PathVariable(value = "id") Long id, Model model) throws TariffNotFoundException {
         model.addAttribute("tariff", tariffService.findTariffByIdTariff(id));
+        model.addAttribute("options", optionService.getOptions());
         return "admin/tariff-profile";
+    }
+
+    @GetMapping("options")
+    public String viewOptions(Model model) {
+        model.addAttribute("options", optionService.getOptions());
+        return "admin/view-options";
     }
 
 }

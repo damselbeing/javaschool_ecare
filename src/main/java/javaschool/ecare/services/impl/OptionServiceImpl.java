@@ -1,6 +1,8 @@
 package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.ContractDto;
+import javaschool.ecare.dto.OptionDto;
+import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
@@ -27,6 +29,13 @@ public class OptionServiceImpl implements OptionService {
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<OptionDto> getOptions() {
+        return optionRepository.findAll().stream()
+                .map(option -> mapper.map(option, OptionDto.class))
+                .collect(Collectors.toList());
+    }
 
 
 }

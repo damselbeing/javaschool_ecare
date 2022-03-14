@@ -37,16 +37,31 @@
 
             <div class="col">
                 <div class="h5">Available options for tariff: ${tariff.name}</div>
-                <c:forEach items="${tariff.options}" var="option">
-                    <div class="container">
-                        <span>${option.name}</span>
-                        <button class="btn btn-outline-primary"
-                                formaction="/admin/updateTariff/${tariff.idTariff}"
-                                type="submit">
-                            Add
-                        </button>
-                    </div>
+                <form:form>
+                <c:forEach items="${options}" var="option">
+                        <c:if test="${tariff.options.contains(option) == true}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${option.idOption}" id="option_${option.idOption} checked">
+                                <label class="form-check-label" for="option_${option.idOption}">
+                                        ${option.name}
+                                </label>
+                            </div>
+                        </c:if>
+                        <c:if test="${tariff.options.contains(option) == false}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${option.idOption}" id="option_${option.idOption}">
+                                <label class="form-check-label" for="option_${option.idOption}">
+                                        ${option.name}
+                                </label>
+                            </div>
+                        </c:if>
                 </c:forEach>
+                <button class="btn btn-outline-primary"
+                        formaction="/admin/updateTariff/${tariff.idTariff}"
+                        type="submit">
+                    Save
+                </button>
+                </form:form>
             </div>
         </div>
     </div>

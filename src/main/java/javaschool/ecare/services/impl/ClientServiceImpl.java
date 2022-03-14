@@ -33,8 +33,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional(readOnly = true)
     @Override
     public List<ClientDto> getClients() {
-        List<Client> getAll = clientRepository.findAll();
-        return getAll.stream()
+        return clientRepository.findAll().stream()
                 .map(client -> mapper.map(client, ClientDto.class))
                 .collect(Collectors.toList());
     }

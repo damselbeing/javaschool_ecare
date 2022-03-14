@@ -28,8 +28,7 @@ public class ContractServiceImpl implements ContractService {
     @Transactional(readOnly = true)
     @Override
     public List<ContractDto> getContracts() {
-        List<Contract> getAll = contractRepository.findAll();
-        return getAll.stream()
+        return contractRepository.findAll().stream()
                 .map(contract -> mapper.map(contract, ContractDto.class))
                 .collect(Collectors.toList());
     }

@@ -37,8 +37,7 @@ public class TariffServiceImpl implements TariffService {
     @Transactional(readOnly = true)
     @Override
     public List<TariffDto> getTariffs() {
-        List<Tariff> getAll = tariffRepository.findAll();
-        return getAll.stream()
+        return tariffRepository.findAll().stream()
                 .map(tariff -> mapper.map(tariff, TariffDto.class))
                 .collect(Collectors.toList());
     }
