@@ -105,4 +105,22 @@ public class AdminController {
         return "admin/option-profile";
     }
 
+    @PostMapping("updateAdditionalOptions/{id}")
+    public String updateAdditionalOptions(
+            @PathVariable(value = "id") Long id,
+            @RequestParam(value = "options", required = false) String[] options
+    ) throws OptionNotFoundException {
+        optionService.updateAdditionalOptions(id, options);
+        return "redirect:/admin/optionProfile/{id}";
+    }
+
+    @PostMapping("updateConflictingOptions/{id}")
+    public String updateConflictingOptions(
+            @PathVariable(value = "id") Long id,
+            @RequestParam(value = "options", required = false) String[] options
+    ) throws OptionNotFoundException {
+        optionService.updateConflictingOptions(id, options);
+        return "redirect:/admin/optionProfile/{id}";
+    }
+
 }

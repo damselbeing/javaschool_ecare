@@ -12,4 +12,6 @@ public interface OptionService {
 
     List<OptionDto> getOptions();
     OptionDto findOptionByIdOption(Long id) throws OptionNotFoundException;
+    void updateAdditionalOptions(Long id, String[] options) throws OptionNotFoundException;
+    void updateConflictingOptions(Long id, String[] options) throws OptionNotFoundException;
 }
