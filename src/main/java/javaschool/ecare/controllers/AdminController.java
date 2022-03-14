@@ -85,11 +85,14 @@ public class AdminController {
         return "admin/tariff-profile";
     }
 
-//    @PostMapping("updateTariff/{id}")
-//    public String updateTariff(@PathVariable(value = "id") Long id) throws TariffNotFoundException {
-//        tariffService.update();
-//        return "redirect:/admin/tariffProfile/{id}";
-//    }
+    @PostMapping("updateTariff/{id}")
+    public String updateTariff(
+            @PathVariable(value = "id") Long id,
+            @RequestParam(value = "options", required = false) String[] options
+    ) throws TariffNotFoundException, OptionNotFoundException {
+        tariffService.update(id, options);
+        return "redirect:/admin/tariffProfile/{id}";
+    }
 
     @GetMapping("options")
     public String viewOptions(Model model) {

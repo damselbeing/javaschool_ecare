@@ -46,7 +46,7 @@
                                 .count() > 0
                         }">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
+                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
@@ -59,7 +59,7 @@
                                 .count() == 0
                         }">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
+                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
