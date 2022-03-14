@@ -38,20 +38,30 @@
             <div class="col">
                 <div class="h5">Available options for tariff: ${tariff.name}</div>
                 <form:form>
-                <c:forEach items="${options}" var="option">
-                        <c:if test="${tariff.options.contains(option) == true}">
+                <c:forEach items="${optionsTotal}" var="optionOfTotal">
+                        <c:if test="${
+                            tariff.options
+                                .stream()
+                                .filter(optionOfTariff -> optionOfTariff.idOption == optionOfTotal.idOption)
+                                .count() > 0
+                        }">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${option.idOption}" id="option_${option.idOption} checked">
-                                <label class="form-check-label" for="option_${option.idOption}">
-                                        ${option.name}
+                                <input class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
+                                <label class="form-check-label" for="option_${optionOfTotal.idOption}">
+                                        ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>
-                        <c:if test="${tariff.options.contains(option) == false}">
+                    <c:if test="${
+                            tariff.options
+                                .stream()
+                                .filter(optionOfTariff -> optionOfTariff.idOption == optionOfTotal.idOption)
+                                .count() == 0
+                        }">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${option.idOption}" id="option_${option.idOption}">
-                                <label class="form-check-label" for="option_${option.idOption}">
-                                        ${option.name}
+                                <input class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
+                                <label class="form-check-label" for="option_${optionOfTotal.idOption}">
+                                        ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>

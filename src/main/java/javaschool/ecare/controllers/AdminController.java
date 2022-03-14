@@ -3,6 +3,7 @@ package javaschool.ecare.controllers;
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
@@ -77,17 +78,30 @@ public class AdminController {
         return "redirect:/admin/tariffs";
     }
 
-    @GetMapping("updateTariff/{id}")
-    public String updateTariff(@PathVariable(value = "id") Long id, Model model) throws TariffNotFoundException {
+    @GetMapping("tariffProfile/{id}")
+    public String showTariffProfile(@PathVariable(value = "id") Long id, Model model) throws TariffNotFoundException {
         model.addAttribute("tariff", tariffService.findTariffByIdTariff(id));
-        model.addAttribute("options", optionService.getOptions());
+        model.addAttribute("optionsTotal", optionService.getOptions());
         return "admin/tariff-profile";
     }
+
+//    @PostMapping("updateTariff/{id}")
+//    public String updateTariff(@PathVariable(value = "id") Long id) throws TariffNotFoundException {
+//        tariffService.update();
+//        return "redirect:/admin/tariffProfile/{id}";
+//    }
 
     @GetMapping("options")
     public String viewOptions(Model model) {
         model.addAttribute("options", optionService.getOptions());
         return "admin/view-options";
+    }
+
+    @GetMapping("optionProfile/{id}")
+    public String showOptionProfile(@PathVariable(value = "id") Long id, Model model) throws OptionNotFoundException {
+        model.addAttribute("option", optionService.findOptionByIdOption(id));
+        model.addAttribute("optionsTotal", optionService.getOptions());
+        return "admin/option-profile";
     }
 
 }

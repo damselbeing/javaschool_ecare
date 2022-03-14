@@ -42,7 +42,7 @@
                                     <form:form>
 
                                 <a class="btn btn-outline-primary"
-                                        href="/admin/updateOption/${option.idOption}">
+                                        href="/admin/optionProfile/${option.idOption}">
                                     Edit option
                                 </a>
                                     </form:form>

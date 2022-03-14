@@ -44,7 +44,7 @@
                             </button>
 
                             <a class="btn btn-outline-primary"
-                                    href="/admin/updateTariff/${tariff.idTariff}">
+                                    href="/admin/tariffProfile/${tariff.idTariff}">
                                 Edit tariff
                             </a>
                                 </form:form>

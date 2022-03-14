@@ -5,6 +5,8 @@ import javaschool.ecare.dto.OptionDto;
 import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.OptionNotFoundException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.services.api.ContractService;
@@ -37,5 +39,12 @@ public class OptionServiceImpl implements OptionService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    @Override
+    public OptionDto findOptionByIdOption(Long id) throws OptionNotFoundException {
+        return optionRepository.findOptionByIdOption(id)
+                .map(option -> mapper.map(option, OptionDto.class))
+                .orElseThrow(OptionNotFoundException::new);
+    }
 
 }
