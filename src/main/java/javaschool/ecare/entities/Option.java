@@ -5,7 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,6 +27,26 @@ public class Option {
 
     @Column(nullable = false, name = "connection_cost")
     private double connectionCost;
+
+    @ManyToMany
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinTable(
+            name = "conflicting_options",
+            joinColumns = {@JoinColumn(name = "option_id")},
+            inverseJoinColumns = {@JoinColumn(name = "conflicting_option_id")}
+    )
+    private Set<Option> conflictingOptions;
+
+    @ManyToMany
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JoinTable(
+            name = "additional_options",
+            joinColumns = {@JoinColumn(name = "option_id")},
+            inverseJoinColumns = {@JoinColumn(name = "additional_option_id")}
+    )
+    private Set<Option> additionalOptions;
 
     @ManyToMany(mappedBy = "options")
     @ToString.Exclude

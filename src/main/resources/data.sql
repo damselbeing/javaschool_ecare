@@ -48,3 +48,15 @@ INSERT INTO options_tariffs
     (6, 5),
     (7, 5);
 
+INSERT INTO additional_options
+(option_id, additional_option_id) VALUES
+                           (1, 2),
+                           (3, 1),
+                           (6, 5),
+                           (7, 4);
+
+INSERT INTO conflicting_options
+(option_id, conflicting_option_id) VALUES
+                                      (3, 2),
+                                      (6, 4),
+                                      (1, 5);

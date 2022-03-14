@@ -33,12 +33,12 @@
 
                             <div class="fw-bold">Option name: ${option.name}</div>
                             <div>Option price: ${option.price}</div>
-<%--                            <div>Additional options: <c:forEach items="${option.additionalOptions}" var="option">--%>
-<%--                                    ${option.name} </c:forEach>--%>
-<%--                            </div>--%>
-<%--                            <div>Conflicting options: <c:forEach items="${option.conflictingOptions}" var="option">--%>
-<%--                                ${option.name} </c:forEach>--%>
-<%--                            </div>--%>
+                            <div>Additional options: <c:forEach items="${option.additionalOptions}" var="optionAdd">
+                                    ${optionAdd.name} </c:forEach>
+                            </div>
+                            <div>Conflicting options: <c:forEach items="${option.conflictingOptions}" var="optionConf">
+                                ${optionConf.name} </c:forEach>
+                            </div>
                                     <form:form>
 
                                 <a class="btn btn-outline-primary"

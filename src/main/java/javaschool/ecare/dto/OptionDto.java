@@ -15,6 +15,8 @@ public class OptionDto {
     private String name;
     private double price;
     private double connectionCost;
+    private Set<Option> additionalOptions;
+    private Set<Option> conflictingOptions;
     private Set<Tariff> tariffs;
     private Set<Contract> contracts;
 }
