@@ -50,4 +50,12 @@ public class TariffServiceImpl implements TariffService {
         tariff.setArchived(true);
     }
 
+    @Transactional
+    @Override
+    public TariffDto findTariffByIdTariff(Long id) throws TariffNotFoundException {
+        return tariffRepository.findTariffByIdTariff(id)
+                .map(tariff -> mapper.map(tariff, TariffDto.class))
+                .orElseThrow(TariffNotFoundException::new);
+    }
+
 }

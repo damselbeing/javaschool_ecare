@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>View Profile</title>
+    <title>Contract Profile</title>
     <jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>

@@ -29,18 +29,25 @@
             <div class="row row-cols-3">
                 <c:forEach items="${tariffs}" var="tariff">
                     <div class="col">
-                        <form:form>
+
                             <c:if test="${tariff.archived == false}">
                         <div class="fw-bold">Tariff name: ${tariff.name}</div>
                         <div>Tariff price: ${tariff.price}</div>
                         <div>Tariff options: <c:forEach items="${tariff.options}" var="option">
                                 ${option.name} </c:forEach>
                         </div>
+                                <form:form>
                             <button class="btn btn-outline-primary"
                                     formaction="/admin/archiveTariff/${tariff.idTariff}"
                                     type="submit">
                                 Archive tariff
                             </button>
+
+                            <a class="btn btn-outline-primary"
+                                    href="/admin/updateTariff/${tariff.idTariff}">
+                                Edit tariff
+                            </a>
+                                </form:form>
                             </c:if>
                             <c:if test="${tariff.archived == true}">
                             <div class="text-muted">
@@ -54,7 +61,7 @@
                                 </div>
                             </div>
                             </c:if>
-                        </form:form>
+
                         <br>
                     </div>
                 </c:forEach>

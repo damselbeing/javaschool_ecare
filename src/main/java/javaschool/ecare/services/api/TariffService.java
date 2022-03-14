@@ -12,4 +12,6 @@ public interface TariffService {
 
     List<TariffDto> getTariffs();
     void archive(Long id) throws TariffNotFoundException;
+    TariffDto findTariffByIdTariff(Long id) throws TariffNotFoundException;
+
 }
