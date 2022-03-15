@@ -2,6 +2,7 @@ package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.services.api.ClientService;
@@ -105,22 +106,31 @@ public class AdminController {
         return "admin/option-profile";
     }
 
-    @PostMapping("updateAdditionalOptions/{id}")
-    public String updateAdditionalOptions(
+    @PostMapping("updateOption/{id}")
+    public String updateOption(
             @PathVariable(value = "id") Long id,
-            @RequestParam(value = "options", required = false) String[] options
+            Model model,
+            @RequestParam(value = "optionsAdditional", required = false) String[] optionsAdditional,
+            @RequestParam(value = "optionsConflicting", required = false) String[] optionsConflicting
     ) throws OptionNotFoundException {
-        optionService.updateAdditionalOptions(id, options);
-        return "redirect:/admin/optionProfile/{id}";
+        try {
+            optionService.updateOption(id, optionsAdditional, optionsConflicting);
+            return "redirect:/admin/optionProfile/{id}";
+        } catch (NotValidOptionsException e) {
+            model.addAttribute("option", optionService.findOptionByIdOption(id));
+            model.addAttribute("optionsTotal", optionService.getOptions());
+            model.addAttribute("error", e.getMessage());
+            return "admin/option-profile";
+        }
+
     }
 
-    @PostMapping("updateConflictingOptions/{id}")
-    public String updateConflictingOptions(
-            @PathVariable(value = "id") Long id,
-            @RequestParam(value = "options", required = false) String[] options
-    ) throws OptionNotFoundException {
-        optionService.updateConflictingOptions(id, options);
-        return "redirect:/admin/optionProfile/{id}";
-    }
+//    @GetMapping("updateOption/{id}")
+//    public String showOptionsError(@PathVariable(value = "id") Long id, Model model) throws OptionNotFoundException {
+//
+//        return "redirect:/admin/optionProfile/{id}";
+//    }
+
+
 
 }

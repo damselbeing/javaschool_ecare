@@ -2,6 +2,7 @@ package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.OptionDto;
 import javaschool.ecare.entities.Option;
+import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.services.api.OptionService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,35 +46,44 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Transactional
-    public void updateAdditionalOptions(Long id, String[] options) throws OptionNotFoundException {
-        Option optionMain = optionRepository.findOptionByIdOption(id).orElseThrow(OptionNotFoundException::new);
-        Set<Option> optionsUpdated = new HashSet<>();
-
-        if(options != null) {
-            for(int i = 0; i < options.length; i++) {
-                Long optionId = Long.valueOf(options[i]);
-                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
-                optionsUpdated.add(option);
+    @Override
+    public void validateOptionsSets(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
+        for (int i = 0; i < optionsConflicting.length; i++) {
+            if (Arrays.stream(optionsAdditional).anyMatch(optionsConflicting[i]::equals)) {
+                throw new NotValidOptionsException();
             }
         }
-
-        optionMain.setAdditionalOptions(optionsUpdated);
     }
 
     @Transactional
-    public void updateConflictingOptions(Long id, String[] options) throws OptionNotFoundException {
-        Option optionMain = optionRepository.findOptionByIdOption(id).orElseThrow(OptionNotFoundException::new);
-        Set<Option> optionsUpdated = new HashSet<>();
+    @Override
+    public void updateOption(Long id, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
+        validateOptionsSets(optionsAdditional, optionsConflicting);
 
-        if(options != null) {
-            for(int i = 0; i < options.length; i++) {
-                Long optionId = Long.valueOf(options[i]);
+        Option optionMain = optionRepository.findOptionByIdOption(id).orElseThrow(OptionNotFoundException::new);
+        Set<Option> optionsAdditionalUpdated = new HashSet<>();
+        Set<Option> optionsConflictingUpdated = new HashSet<>();
+
+        if(optionsAdditional != null) {
+            for(int i = 0; i < optionsAdditional.length; i++) {
+                Long optionId = Long.valueOf(optionsAdditional[i]);
                 Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
-                optionsUpdated.add(option);
+                optionsAdditionalUpdated.add(option);
             }
         }
 
-        optionMain.setConflictingOptions(optionsUpdated);
+        if(optionsConflicting != null) {
+            for(int i = 0; i < optionsConflicting.length; i++) {
+                Long optionId = Long.valueOf(optionsConflicting[i]);
+                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                optionsConflictingUpdated.add(option);
+            }
+        }
+
+        optionMain.setConflictingOptions(optionsConflictingUpdated);
+        optionMain.setAdditionalOptions(optionsAdditionalUpdated);
     }
+
+
 
 }

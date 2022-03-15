@@ -16,7 +16,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-4">
                 <div class="h5">Option name: ${option.name}</div>
                 <form:form>
                     <button class="btn btn-outline-primary"
@@ -35,84 +35,104 @@
                 </form:form>
             </div>
 
-            <div class="col">
+            <form:form class="container col-8">
+                <div class="row">
+                    <div class="col">
                 <div class="h5">Additional options for option: ${option.name}</div>
-                <form:form>
+
                 <c:forEach items="${optionsTotal}" var="optionOfTotal">
                     <c:if test="${
-                                option.additionalOptions
+                                (option.additionalOptions
                                         .stream()
                                         .filter(option -> option.idOption == optionOfTotal.idOption)
-                                        .count() > 0
-                                }">
+                                        .count() > 0)
+                                && (optionOfTotal.idOption != option.idOption)}">
                             <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
+                                <input name="optionsAdditional" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>
                         <c:if test="${
-                                option.additionalOptions
+                                (option.additionalOptions
                                         .stream()
                                         .filter(option -> option.idOption == optionOfTotal.idOption)
-                                        .count() == 0
-                                }">
+                                        .count() == 0)
+                                && (optionOfTotal.idOption != option.idOption)}">
                             <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
+                                <input name="optionsAdditional" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>
+                    <c:if test="${optionOfTotal.idOption == option.idOption}">
+                        <div class="form-check">
+                            <input name="optionsAdditional" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" disabled>
+                            <label class="form-check-label" for="option_${optionOfTotal.idOption}">
+                                    ${optionOfTotal.name}
+                            </label>
+                        </div>
+                    </c:if>
                 </c:forEach>
-                <button class="btn btn-outline-primary"
-                        formaction="/admin/updateAdditionalOptions/${option.idOption}"
-                        type="submit">
-                    Save
-                </button>
-                </form:form>
-            </div>
 
-            <div class="col">
+                    </div>
+
+                        <div class="col">
                 <div class="h5">Conflicting options for option: ${option.name}</div>
-                <form:form>
+
                     <c:forEach items="${optionsTotal}" var="optionOfTotal">
                         <c:if test="${
-                                option.conflictingOptions
+                                (option.conflictingOptions
                                         .stream()
                                         .filter(option -> option.idOption == optionOfTotal.idOption)
-                                        .count() > 0
-                                }">
+                                        .count() > 0)
+                                && (optionOfTotal.idOption != option.idOption)}">
                             <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
+                                <input name="optionsConflicting" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" checked>
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>
                         <c:if test="${
-                                option.conflictingOptions
+                                (option.conflictingOptions
                                         .stream()
                                         .filter(option -> option.idOption == optionOfTotal.idOption)
-                                        .count() == 0
-                                }">
+                                        .count() == 0)
+                                && (optionOfTotal.idOption != option.idOption)}">
                             <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
+                                <input name="optionsConflicting" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}">
+                                <label class="form-check-label" for="option_${optionOfTotal.idOption}">
+                                        ${optionOfTotal.name}
+                                </label>
+                            </div>
+                        </c:if>
+                        <c:if test="${optionOfTotal.idOption == option.idOption}">
+                            <div class="form-check">
+                                <input name="optionsConflicting" class="form-check-input" type="checkbox" value="${optionOfTotal.idOption}" id="option_${optionOfTotal.idOption}" disabled>
                                 <label class="form-check-label" for="option_${optionOfTotal.idOption}">
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
                         </c:if>
                     </c:forEach>
-                    <button class="btn btn-outline-primary"
-                            formaction="/admin/updateConflictingOptions/${option.idOption}"
-                            type="submit">
-                        Save
-                    </button>
-                </form:form>
-            </div>
 
+                        </div>
+                    
+                </div>
+                <c:if test="${error != null}">
+                <div class="row alert alert-danger hidden">${error}</div>
+                </c:if>
+                <button class="btn btn-outline-primary"
+                        formaction="/admin/updateOption/${option.idOption}"
+                        type="submit">
+                    Save
+                </button>
+
+
+                </form:form>
         </div>
     </div>
 </body>
