@@ -122,8 +122,13 @@
                         </div>
                     
                 </div>
+                <br>
                 <c:if test="${error != null}">
                 <div class="row alert alert-danger hidden">${error}</div>
+                </c:if>
+                <c:if test="${error == null}">
+                    <div class="row alert alert-secondary">Please note that in case of any option changes
+                        some tariffs must be edited as well!</div>
                 </c:if>
                 <button class="btn btn-outline-primary"
                         formaction="/admin/updateOption/${option.idOption}"
