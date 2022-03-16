@@ -80,12 +80,17 @@ public class TariffServiceImpl implements TariffService {
                 optionSelected.getConflictingOptions().stream()
                         .forEach(opt -> conflOpts.add(String.valueOf(opt.getIdOption())));
 
-                if(addOpts == null || Arrays.asList(options).containsAll(addOpts)) {
+                if(addOpts == null && conflOpts == null) {
+                    optionsUpdated.add(optionSelected);
+                } else if(Arrays.asList(options).containsAll(addOpts)
+                        &&
+                        !Arrays.asList(options)
+                                .stream()
+                                .anyMatch(o -> conflOpts.contains(o))) {
                     optionsUpdated.add(optionSelected);
                 } else {
                     throw new NotValidOptionsException();
                 }
-
             }
         }
 
@@ -93,3 +98,4 @@ public class TariffServiceImpl implements TariffService {
     }
 
 }
+
