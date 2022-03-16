@@ -16,7 +16,7 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-4">
                 <div class="h5">Tariff name: ${tariff.name}</div>
                 <form:form>
                     <button class="btn btn-outline-primary"
@@ -35,7 +35,7 @@
                 </form:form>
             </div>
 
-            <div class="col">
+            <div class="col-8">
                 <div class="h5">Available options for tariff: ${tariff.name}</div>
                 <form:form>
                 <c:forEach items="${optionsTotal}" var="optionOfTotal">
@@ -51,6 +51,18 @@
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <small class="text-muted">Additional options: <c:forEach items="${optionOfTotal.additionalOptions}" var="option">
+                                            ${option.name} </c:forEach></small>
+                                    </div>
+                                    <div class="col">
+                                        <small class="text-muted">Conflicting options: <c:forEach items="${optionOfTotal.conflictingOptions}" var="option">
+                                            ${option.name} </c:forEach></small>
+                                    </div>
+                                </div>
+                            </div>
                         </c:if>
                     <c:if test="${
                             tariff.options
@@ -64,8 +76,23 @@
                                         ${optionOfTotal.name}
                                 </label>
                             </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <small class="text-muted">Additional options: <c:forEach items="${optionOfTotal.additionalOptions}" var="option">
+                                            ${option.name} </c:forEach></small>
+                                    </div>
+                                    <div class="col">
+                                        <small class="text-muted">Conflicting options: <c:forEach items="${optionOfTotal.conflictingOptions}" var="option">
+                                            ${option.name} </c:forEach></small>
+                                    </div>
+                                </div>
+                            </div>
                         </c:if>
                 </c:forEach>
+                <c:if test="${error != null}">
+                    <div class="row alert alert-danger hidden">${error}</div>
+                </c:if>
                 <button class="btn btn-outline-primary"
                         formaction="/admin/updateTariff/${tariff.idTariff}"
                         type="submit">

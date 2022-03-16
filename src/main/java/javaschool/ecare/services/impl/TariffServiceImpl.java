@@ -9,6 +9,7 @@ import javaschool.ecare.entities.Contract;
 import javaschool.ecare.entities.Option;
 import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
@@ -22,9 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,15 +65,27 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException {
+    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
         Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
         Set<Option> optionsUpdated = new HashSet<>();
 
         if(options != null) {
             for(int i = 0; i < options.length; i++) {
                 Long optionId = Long.valueOf(options[i]);
-                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
-                optionsUpdated.add(option);
+                Option optionSelected = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                List<String> addOpts = new ArrayList<>();
+                optionSelected.getAdditionalOptions().stream()
+                        .forEach(opt -> addOpts.add(String.valueOf(opt.getIdOption())));
+                List<String> conflOpts = new ArrayList<>();
+                optionSelected.getConflictingOptions().stream()
+                        .forEach(opt -> conflOpts.add(String.valueOf(opt.getIdOption())));
+
+                if(addOpts == null || Arrays.asList(options).containsAll(addOpts)) {
+                    optionsUpdated.add(optionSelected);
+                } else {
+                    throw new NotValidOptionsException();
+                }
+
             }
         }
 
