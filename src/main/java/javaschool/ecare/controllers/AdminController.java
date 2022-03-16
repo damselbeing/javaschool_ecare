@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -47,9 +48,12 @@ public class AdminController {
         return "admin/view-clients";
     }
 
-    @GetMapping("contractProfile/{id}")
-    public String showContractProfile(@PathVariable(value = "id") Long id, Model model) throws ClientNotFoundException {
-        model.addAttribute("contract", contractService.findContractByIdContract(id));
+    @GetMapping("contractProfile/{idContract}/{idTariff}")
+    public String showContractProfile(@PathVariable(value = "idContract") Long idContract,
+                                      @PathVariable(value = "idTariff") Long idTariff,
+                                      Model model) throws ClientNotFoundException, TariffNotFoundException {
+        model.addAttribute("contract", contractService.findContractByIdContract(idContract));
+        model.addAttribute("tariff", tariffService.findTariffByIdTariff(idTariff));
         return "admin/contract-profile";
     }
 
@@ -134,7 +138,18 @@ public class AdminController {
 
     }
 
+    @PostMapping("updateContract/{idContract}/{idTariff}")
+    public String updateContract(
+            @PathVariable(value = "idContract") Long idContract,
+            @PathVariable(value = "idTariff") Long idTariff,
+            @RequestParam(value = "options", required = false) String[] options) throws ClientNotFoundException {
 
+        contractService.updateContract(idContract, options);
+        System.out.println(contractService.findContractByIdContract(idContract));
+        // выводит обновленные данные по контрактным опциям, но на страничке обновления не отображаются
+        return "redirect:/admin/contractProfile/{idContract}/{idTariff}";
+
+    }
 
 
 }

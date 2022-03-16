@@ -44,15 +44,42 @@
                 </form:form>
             </div>
 
-    <div class="col">
+    <form:form class="col">
         <div class="h5">Available options for tariff: ${contract.tariff.name}</div>
-        <c:forEach items="${contract.tariff.options}" var="option">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label" for="flexSwitchCheckDefault">${option.name}</label>
-            </div>
+        <c:forEach items="${tariff.options}" var="tariffOption">
+
+            <c:if test="${(contract.options
+                                        .stream()
+                                        .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                        .count() > 0)}">
+                <div class="form-check">
+                    <input name="options" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
+                    <label class="form-check-label" for="option_${tariffOption.idOption}">
+                            ${tariffOption.name}
+                    </label>
+                </div>
+            </c:if>
+
+            <c:if test="${(contract.options
+                                        .stream()
+                                        .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                        .count() == 0)}">
+                <div class="form-check">
+                    <input name="options" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
+                    <label class="form-check-label" for="option_${tariffOption.idOption}">
+                            ${tariffOption.name}
+                    </label>
+                </div>
+            </c:if>
+
         </c:forEach>
-    </div>
+        <button class="btn btn-outline-primary"
+                formaction="/admin/updateContract/${contract.idContract}/${tariff.idTariff}"
+                type="submit">
+            Save
+        </button>
+
+    </form:form>
         </div>
     </div>
 </body>

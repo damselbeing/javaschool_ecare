@@ -33,7 +33,6 @@ INSERT INTO clients
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES
     (1, 1),
-    (2, 1),
     (3, 1);
 
 INSERT INTO options_tariffs
