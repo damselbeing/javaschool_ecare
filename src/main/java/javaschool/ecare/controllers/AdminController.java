@@ -125,11 +125,6 @@ public class AdminController {
 
     }
 
-//    @GetMapping("updateOption/{id}")
-//    public String showOptionsError(@PathVariable(value = "id") Long id, Model model) throws OptionNotFoundException {
-//
-//        return "redirect:/admin/optionProfile/{id}";
-//    }
 
 
 

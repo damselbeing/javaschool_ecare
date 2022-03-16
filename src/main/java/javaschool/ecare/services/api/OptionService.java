@@ -11,5 +11,5 @@ public interface OptionService {
     List<OptionDto> getOptions();
     OptionDto findOptionByIdOption(Long id) throws OptionNotFoundException;
     void updateOption(Long id, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException;
-    void validateOptionsSets(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException;
+    void validateOptions(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException;
 }

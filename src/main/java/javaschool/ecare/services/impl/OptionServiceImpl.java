@@ -47,7 +47,7 @@ public class OptionServiceImpl implements OptionService {
 
     @Transactional
     @Override
-    public void validateOptionsSets(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
+    public void validateOptions(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
         for (int i = 0; i < optionsConflicting.length; i++) {
             if (Arrays.stream(optionsAdditional).anyMatch(optionsConflicting[i]::equals)) {
                 throw new NotValidOptionsException();
@@ -58,7 +58,9 @@ public class OptionServiceImpl implements OptionService {
     @Transactional
     @Override
     public void updateOption(Long id, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
-        validateOptionsSets(optionsAdditional, optionsConflicting);
+        if(optionsAdditional != null && optionsConflicting != null) {
+            validateOptions(optionsAdditional, optionsConflicting);
+        }
 
         Option optionMain = optionRepository.findOptionByIdOption(id).orElseThrow(OptionNotFoundException::new);
         Set<Option> optionsAdditionalUpdated = new HashSet<>();
