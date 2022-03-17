@@ -46,7 +46,7 @@
 
     <form:form class="col">
         <div class="h5">Available options for tariff: ${contract.tariff.name}</div>
-        <c:forEach items="${tariff.options}" var="tariffOption">
+        <c:forEach items="${contract.tariff.options}" var="tariffOption">
 
             <c:if test="${(contract.options
                                         .stream()
@@ -74,7 +74,7 @@
 
         </c:forEach>
         <button class="btn btn-outline-primary"
-                formaction="/admin/updateContract/${contract.idContract}/${tariff.idTariff}"
+                formaction="/admin/updateContract/${contract.idContract}"
                 type="submit">
             Save
         </button>

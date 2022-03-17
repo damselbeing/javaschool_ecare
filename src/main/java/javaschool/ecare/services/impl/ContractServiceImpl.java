@@ -81,6 +81,7 @@ public class ContractServiceImpl implements ContractService {
                     }); }
 
         contract.setOptions(optionsUpdated);
+        // данные по контрактным опциям обновляются, но на страничке обновления не отображаются
 
     }
 

@@ -46,7 +46,7 @@
                     <td>${client.email}</td>
                     <td>
                         <c:if test="${client.contract.number != null}">
-                            <a href="/admin/contractProfile/${client.contract.idContract}/${client.contract.tariff.idTariff}">
+                            <a href="/admin/contractProfile/${client.contract.idContract}">
                                     ${client.contract.number}
                             </a>
                         </c:if>

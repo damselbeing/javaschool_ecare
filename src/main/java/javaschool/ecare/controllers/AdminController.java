@@ -48,12 +48,10 @@ public class AdminController {
         return "admin/view-clients";
     }
 
-    @GetMapping("contractProfile/{idContract}/{idTariff}")
+    @GetMapping("contractProfile/{idContract}")
     public String showContractProfile(@PathVariable(value = "idContract") Long idContract,
-                                      @PathVariable(value = "idTariff") Long idTariff,
-                                      Model model) throws ClientNotFoundException, TariffNotFoundException {
+                                      Model model) throws ClientNotFoundException {
         model.addAttribute("contract", contractService.findContractByIdContract(idContract));
-        model.addAttribute("tariff", tariffService.findTariffByIdTariff(idTariff));
         return "admin/contract-profile";
     }
 
@@ -138,16 +136,13 @@ public class AdminController {
 
     }
 
-    @PostMapping("updateContract/{idContract}/{idTariff}")
+    @PostMapping("updateContract/{idContract}")
     public String updateContract(
-            @PathVariable(value = "idContract") Long idContract,
-            @PathVariable(value = "idTariff") Long idTariff,
+            @PathVariable(value = "idContract") Long id,
             @RequestParam(value = "options", required = false) String[] options) throws ClientNotFoundException {
 
-        contractService.updateContract(idContract, options);
-        System.out.println(contractService.findContractByIdContract(idContract));
-        // выводит обновленные данные по контрактным опциям, но на страничке обновления не отображаются
-        return "redirect:/admin/contractProfile/{idContract}/{idTariff}";
+        contractService.updateContract(id, options);
+        return "redirect:/admin/contractProfile/{idContract}";
 
     }
 
