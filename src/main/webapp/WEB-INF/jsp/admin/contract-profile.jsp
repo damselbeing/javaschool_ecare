@@ -73,6 +73,9 @@
             </c:if>
 
         </c:forEach>
+        <c:if test="${error != null}">
+            <div class="row alert alert-danger hidden">${error}</div>
+        </c:if>
         <button class="btn btn-outline-primary"
                 formaction="/admin/updateContract/${contract.idContract}"
                 type="submit">

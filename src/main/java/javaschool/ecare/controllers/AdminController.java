@@ -139,10 +139,17 @@ public class AdminController {
     @PostMapping("updateContract/{idContract}")
     public String updateContract(
             @PathVariable(value = "idContract") Long id,
-            @RequestParam(value = "options", required = false) String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
-
-        contractService.updateContract(id, options);
-        return "redirect:/admin/contractProfile/{idContract}";
+            Model model,
+            @RequestParam(value = "options", required = false) String[] options)
+            throws ClientNotFoundException, OptionNotFoundException {
+        try {
+            contractService.updateContract(id, options);
+            return "redirect:/admin/contractProfile/{idContract}";
+        } catch (NotValidOptionsException e) {
+            model.addAttribute("contact", contractService.findContractByIdContract(id));
+            model.addAttribute("error", e.getMessage());
+            return "admin/contract-profile";
+        }
 
     }
 
