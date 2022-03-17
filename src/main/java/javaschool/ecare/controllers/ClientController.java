@@ -2,6 +2,8 @@ package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
+import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.ClientService;
@@ -80,5 +82,23 @@ public class ClientController {
         return "redirect:/account/{idClient}";
     }
 
+    @PostMapping("updateOptions/{idClient}/{idContract}")
+    public String updateOptions(
+            @PathVariable(value = "idClient") Long idClient,
+            @PathVariable(value = "idContract") Long idContract,
+            Model model,
+            @RequestParam(value = "optionsUpdated", required = false) String[] options)
+            throws ClientNotFoundException, OptionNotFoundException {
+        try {
+            contractService.updateContract(idContract, options);
+            return "redirect:/account/{idClient}";
+        } catch (NotValidOptionsException e) {
+            model.addAttribute("client", clientService.findClientByIdClient(idClient));
+            model.addAttribute("tariffs", tariffService.getTariffs());
+            model.addAttribute("error", e.getMessage());
+            return "account";
+        }
+
+    }
 
 }

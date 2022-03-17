@@ -28,7 +28,7 @@ public class ContractServiceImpl implements ContractService {
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
     private final TariffRepository tariffRepository;
-    private final TariffServiceImpl tariffService;
+    private final TariffService tariffService;
     private final ModelMapper mapper;
 
     @Autowired
@@ -102,6 +102,7 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
         contract.setContractOptions(optionsUpdated);
+
 //        optionsUpdated.forEach(option -> {
 //            if(option.getContracts() == null) {
 //                option.setContracts(Set.of(contract));

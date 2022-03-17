@@ -77,13 +77,55 @@
                     <button class="btn btn-primary btn-sm"
                             formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
                             type="submit">
-                        Save tariff
+                        Update tariff
                     </button>
                 </form:form>
             </div>
 
             <div class="col-4">
                 <div class="h4">Available options:</div>
+                <c:if test="${(client.contract.tariff.options == null)}">
+                    <div class="h6">No option(s) found</div>
+                </c:if>
+                <c:forEach items="${client.contract.tariff.options}" var="tariffOption">
+                    <c:if test="${(client.contract.contractOptions
+                                                    .stream()
+                                                    .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                                    .count() > 0)}">
+                        <div class="form-check">
+                            <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
+                            <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                    ${tariffOption.name}
+                            </label>
+                            <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                ${optionAdd.name} </c:forEach></small>
+                        </div>
+                    </c:if>
+                    <c:if test="${(client.contract.contractOptions
+                                                    .stream()
+                                                    .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                                    .count() == 0)}">
+                        <div class="form-check">
+                            <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
+                            <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                    ${tariffOption.name}
+                            </label>
+                            <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                ${optionAdd.name} </c:forEach></small>
+                        </div>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${error != null}">
+                    <div class="row alert alert-danger hidden">${error}</div>
+                </c:if>
+                <br>
+                <form:form>
+                <button class="btn btn-primary btn-sm"
+                        formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
+                        type="submit">
+                    Save options
+                </button>
+                </form:form>
             </div>
 
         </div>
