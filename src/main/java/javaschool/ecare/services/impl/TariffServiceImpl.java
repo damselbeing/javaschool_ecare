@@ -65,8 +65,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
-        Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
+    public Set<Option> changeTariffOptions(String[] options) throws NotValidOptionsException, OptionNotFoundException {
         Set<Option> optionsUpdated = new HashSet<>();
 
         if(options != null) {
@@ -83,8 +82,8 @@ public class TariffServiceImpl implements TariffService {
                 if((addOpts == null || Arrays.asList(options).containsAll(addOpts))
                         &&
                         (conflOpts == null || !Arrays.asList(options)
-                                                        .stream()
-                                                        .anyMatch(o -> conflOpts.contains(o)))) {
+                                .stream()
+                                .anyMatch(o -> conflOpts.contains(o)))) {
                     optionsUpdated.add(optionSelected);
                 } else {
                     throw new NotValidOptionsException();
@@ -92,6 +91,14 @@ public class TariffServiceImpl implements TariffService {
             }
         }
 
+        return optionsUpdated;
+    }
+
+    @Transactional
+    @Override
+    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
+        Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
+        Set<Option> optionsUpdated = changeTariffOptions(options);
         tariff.setOptions(optionsUpdated);
     }
 
