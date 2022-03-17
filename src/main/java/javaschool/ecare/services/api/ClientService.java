@@ -4,11 +4,15 @@ import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import org.springframework.expression.spel.ast.OpAnd;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ClientService {
+
+    @Transactional
+    ClientDto findClientByIdClient(Long id) throws ClientNotFoundException;
 
     List<ClientDto> getClients();
 

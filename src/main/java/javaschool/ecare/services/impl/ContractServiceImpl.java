@@ -24,11 +24,14 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
-    private final TariffService tariffService;
+    private final TariffServiceImpl tariffService;
     private final ModelMapper mapper;
 
     @Autowired
-    public ContractServiceImpl(ContractRepository contractRepository, OptionRepository optionRepository, TariffService tariffService, ModelMapper mapper) {
+    public ContractServiceImpl(ContractRepository contractRepository,
+                               OptionRepository optionRepository,
+                               TariffServiceImpl tariffService,
+                               ModelMapper mapper) {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
         this.tariffService = tariffService;
@@ -60,9 +63,23 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional
     @Override
+    public void blockByClient(Long id) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+        contract.setBlockedByClient(true);
+    }
+
+    @Transactional
+    @Override
     public void unblockByAdmin(Long id) throws ClientNotFoundException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByAdmin(false);
+    }
+
+    @Transactional
+    @Override
+    public void unblockByClient(Long id) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+        contract.setBlockedByClient(false);
     }
 
     @Transactional

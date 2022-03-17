@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +27,14 @@ public class ClientServiceImpl implements ClientService {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
         this.contractRepository = contractRepository;
+    }
+
+    @Transactional
+    @Override
+    public ClientDto findClientByIdClient(Long id) throws ClientNotFoundException {
+        return clientRepository.findClientByIdClient(id)
+                .map(client -> mapper.map(client, ClientDto.class))
+                .orElseThrow(ClientNotFoundException::new);
     }
 
     @Transactional(readOnly = true)

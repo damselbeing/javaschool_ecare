@@ -19,4 +19,8 @@ public interface ContractService {
     void unblockByAdmin(Long id) throws ClientNotFoundException;
 
     void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException;
+
+    void blockByClient(Long id) throws ClientNotFoundException;
+
+    void unblockByClient(Long id) throws ClientNotFoundException;
 }
