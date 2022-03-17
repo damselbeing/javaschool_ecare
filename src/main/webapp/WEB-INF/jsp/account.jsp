@@ -56,7 +56,7 @@
                 </form:form>
             </div>
 
-            <div class="col-4">
+            <div class="col-3">
                 <div class="h4">Actual tariffs:</div>
                 <form:form>
                 <c:forEach items="${tariffs}" var="tariff">
@@ -82,11 +82,12 @@
                 </form:form>
             </div>
 
-            <div class="col-4">
+            <div class="col-5">
                 <div class="h4">Available options:</div>
-                <c:if test="${(client.contract.tariff.options == null)}">
+                <c:if test="${(client.contract.tariff.options.size() == 0)}">
                     <div class="h6">No option(s) found</div>
                 </c:if>
+                <form:form>
                 <c:forEach items="${client.contract.tariff.options}" var="tariffOption">
                     <c:if test="${(client.contract.contractOptions
                                                     .stream()
@@ -119,7 +120,7 @@
                     <div class="row alert alert-danger hidden">${error}</div>
                 </c:if>
                 <br>
-                <form:form>
+
                 <button class="btn btn-primary btn-sm"
                         formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
                         type="submit">
