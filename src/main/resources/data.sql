@@ -25,7 +25,7 @@ INSERT INTO contracts
     (2, false, false, 987654321, 3);
 
 INSERT INTO clients
-(id, name, last_name, birth_date, passport, address, e_mail, password, contract_id) VALUES
+(client_id, name, last_name, birth_date, passport, address, e_mail, password, contract_id) VALUES
     (1, 'anna', 'winter', '2001-01-01', '0000111111', 'moscow', 'anna@mail', 'mypass1', 1),
     (2, 'mike', 'summer', '2002-02-02', '0000222222', 'perm', 'mike@mail', 'mypass2', 2),
     (3, 'lena', 'smith', '2003-03-03', '0000333333', 'kiev', 'lena@mail', 'mypass3', null);

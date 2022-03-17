@@ -71,7 +71,14 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
         contract.setContractOptions(optionsUpdated);
-        // данные по контрактным опциям обновляются, но на страничке обновления не отображаются
+//        optionsUpdated.forEach(option -> {
+//            if(option.getContracts() == null) {
+//                option.setContracts(Set.of(contract));
+//            } else {
+//                option.getContracts().add(contract);
+//            }
+//        });
+
     }
 
 }

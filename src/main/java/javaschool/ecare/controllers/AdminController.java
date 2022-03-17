@@ -146,7 +146,7 @@ public class AdminController {
             contractService.updateContract(id, options);
             return "redirect:/admin/contractProfile/{idContract}";
         } catch (NotValidOptionsException e) {
-            model.addAttribute("contact", contractService.findContractByIdContract(id));
+            model.addAttribute("contract", contractService.findContractByIdContract(id));
             model.addAttribute("error", e.getMessage());
             return "admin/contract-profile";
         }

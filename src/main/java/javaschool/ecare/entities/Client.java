@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(nullable = false, name = "id")
+    @Column(nullable = false, name = "client_id")
     private Long idClient;
 
     @Column(nullable = false, name = "name")
