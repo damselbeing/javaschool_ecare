@@ -4,6 +4,7 @@ import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface ContractService {
     void blockByClient(Long id) throws ClientNotFoundException;
 
     void unblockByClient(Long id) throws ClientNotFoundException;
+
+    void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
 }

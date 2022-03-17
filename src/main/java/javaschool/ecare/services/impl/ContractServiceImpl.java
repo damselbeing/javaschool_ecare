@@ -3,11 +3,14 @@ package javaschool.ecare.services.impl;
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.entities.Option;
+import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
+import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.TariffService;
 import org.modelmapper.ModelMapper;
@@ -24,16 +27,19 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
+    private final TariffRepository tariffRepository;
     private final TariffServiceImpl tariffService;
     private final ModelMapper mapper;
 
     @Autowired
     public ContractServiceImpl(ContractRepository contractRepository,
                                OptionRepository optionRepository,
+                               TariffRepository tariffRepository,
                                TariffServiceImpl tariffService,
                                ModelMapper mapper) {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
+        this.tariffRepository = tariffRepository;
         this.tariffService = tariffService;
         this.mapper = mapper;
     }
@@ -80,6 +86,14 @@ public class ContractServiceImpl implements ContractService {
     public void unblockByClient(Long id) throws ClientNotFoundException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByClient(false);
+    }
+
+    @Transactional
+    @Override
+    public void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
+        Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
+        contract.setTariff(tariff);
     }
 
     @Transactional
