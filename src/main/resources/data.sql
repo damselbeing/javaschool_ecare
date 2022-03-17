@@ -22,7 +22,7 @@ INSERT INTO tariffs
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES
     (1, false, false, 123456789, 1),
-    (2, false, false, 987654321, 2);
+    (2, false, false, 987654321, 3);
 
 INSERT INTO clients
 (id, name, last_name, birth_date, passport, address, e_mail, password, contract_id) VALUES
@@ -33,29 +33,26 @@ INSERT INTO clients
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES
     (1, 1),
-    (3, 1);
+    (2, 1),
+    (5, 2),
+    (6, 2);
 
 INSERT INTO options_tariffs
 (option_id, tariff_id) VALUES
     (1, 1),
     (2, 1),
     (3, 1),
-    (9, 2),
     (4, 3),
     (5, 3),
-    (8, 4),
-    (6, 5),
-    (7, 5);
+    (6, 3);
 
 INSERT INTO additional_options
 (option_id, additional_option_id) VALUES
-                           (1, 2),
-                           (3, 1),
-                           (6, 5),
-                           (7, 4);
+                           (7, 1),
+                           (8, 2);
 
 INSERT INTO conflicting_options
 (option_id, conflicting_option_id) VALUES
-                                      (3, 2),
-                                      (6, 4),
-                                      (1, 5);
+                                      (7, 2),
+                                      (8, 4),
+                                      (9, 5);
