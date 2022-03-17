@@ -16,5 +16,5 @@ public class ContractDto implements Serializable {
     private boolean blockedByAdmin;
     private Client client;
     private Tariff tariff;
-    private Set<Option> options;
+    private Set<Option> contractOptions;
 }

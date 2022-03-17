@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,7 +70,7 @@ public class ContractServiceImpl implements ContractService {
     public void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
-        contract.setOptions(optionsUpdated);
+        contract.setContractOptions(optionsUpdated);
         // данные по контрактным опциям обновляются, но на страничке обновления не отображаются
     }
 

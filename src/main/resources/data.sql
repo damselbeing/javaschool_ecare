@@ -48,7 +48,7 @@ INSERT INTO options_tariffs
 
 INSERT INTO additional_options
 (option_id, additional_option_id) VALUES
-                           (7, 1),
+                           (1, 3),
                            (8, 2);
 
 INSERT INTO conflicting_options
