@@ -2,6 +2,8 @@ package javaschool.ecare.services.api;
 
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
+import javaschool.ecare.exceptions.OptionNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,5 +18,5 @@ public interface ContractService {
 
     void unblockByAdmin(Long id) throws ClientNotFoundException;
 
-    void updateContract(Long id, String[] options) throws ClientNotFoundException;
+    void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException;
 }

@@ -4,10 +4,12 @@ import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.entities.Option;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.services.api.ContractService;
+import javaschool.ecare.services.api.TariffService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,14 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
+    private final TariffService tariffService;
     private final ModelMapper mapper;
 
     @Autowired
-    public ContractServiceImpl(ContractRepository contractRepository, OptionRepository optionRepository, ModelMapper mapper) {
+    public ContractServiceImpl(ContractRepository contractRepository, OptionRepository optionRepository, TariffService tariffService, ModelMapper mapper) {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
+        this.tariffService = tariffService;
         this.mapper = mapper;
     }
 
@@ -65,24 +69,11 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional
     @Override
-    public void updateContract(Long id, String[] options) throws ClientNotFoundException {
+    public void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
-        Set<Option> optionsUpdated = new HashSet<>();
-        if(options != null) {
-            Arrays.asList(options)
-                    .stream()
-                    .mapToLong(i -> Long.parseLong(i))
-                    .forEach(x -> {
-                        try {
-                            optionsUpdated.add(optionRepository.findOptionByIdOption(x).orElseThrow(OptionNotFoundException::new));
-                        } catch (OptionNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }); }
-
+        Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
         contract.setOptions(optionsUpdated);
         // данные по контрактным опциям обновляются, но на страничке обновления не отображаются
-
     }
 
 }

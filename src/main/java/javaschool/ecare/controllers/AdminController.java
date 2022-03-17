@@ -139,7 +139,7 @@ public class AdminController {
     @PostMapping("updateContract/{idContract}")
     public String updateContract(
             @PathVariable(value = "idContract") Long id,
-            @RequestParam(value = "options", required = false) String[] options) throws ClientNotFoundException {
+            @RequestParam(value = "options", required = false) String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
 
         contractService.updateContract(id, options);
         return "redirect:/admin/contractProfile/{idContract}";
