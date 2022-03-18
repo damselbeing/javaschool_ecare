@@ -185,6 +185,12 @@ public class AdminController {
     }
 
 
+    @GetMapping("addContract/{idClient}")
+    public String addNewContract(@PathVariable(value = "idClient") Long idClient, Model model) throws ClientNotFoundException {
+        model.addAttribute("client", clientService.findClientByIdClient(idClient));
+        model.addAttribute("numbers", contractService.getGeneratedNumbers());
+        return "admin/view-numbers";
+    }
 
 
 }

@@ -39,24 +39,24 @@
                         </div>
                     </c:if>
                 </div>
-                <br>
+
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
-                    <button class="btn btn-primary btn-sm"
+                    <button class="btn btn-outline-primary"
                             formaction="/blockContract/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Block contract
                     </button>
                     </c:if>
                     <c:if test="${client.contract.blockedByClient == true && client.contract.blockedByAdmin == false}">
-                        <button class="btn btn-primary btn-sm"
+                        <button class="btn btn-outline-primary"
                                 formaction="/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
                         </button>
                     </c:if>
                     <c:if test="${client.contract.blockedByAdmin == true}">
-                        <button class="btn btn-primary btn-sm disabled"
+                        <button class="btn btn-outline-primary disabled"
                                 formaction="/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
@@ -91,8 +91,8 @@
                         </div>
                     </c:if>
                 </c:forEach>
-                    <br>
-                    <button class="btn btn-primary btn-sm"
+
+                    <button class="btn btn-outline-primary"
                             formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Update tariff
@@ -119,8 +119,8 @@
                                     </div>
                                 </c:if>
                             </c:forEach>
-                            <br>
-                            <button class="btn btn-primary btn-sm"
+
+                            <button class="btn btn-outline-primary"
                                     formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Update tariff
@@ -173,9 +173,9 @@
                 <c:if test="${error != null}">
                     <div class="row alert alert-danger hidden">${error}</div>
                 </c:if>
-                <br>
 
-                <button class="btn btn-primary btn-sm"
+
+                <button class="btn btn-outline-primary"
                         formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
                         type="submit">
                     Save options
@@ -217,9 +217,9 @@
                             <c:if test="${error != null}">
                                 <div class="row alert alert-danger hidden">${error}</div>
                             </c:if>
-                            <br>
 
-                            <button class="btn btn-primary btn-sm"
+
+                            <button class="btn btn-outline-primary"
                                     formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Save options

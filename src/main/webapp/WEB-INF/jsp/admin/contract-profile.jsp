@@ -47,17 +47,24 @@
                         </span>
                     </c:if>
                 </div>
-                <br>
+
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
-                    <button class="btn btn-primary btn-sm"
+                    <button class="btn btn-outline-primary"
                             formaction="/admin/blockContract/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Block contract
                     </button>
                     </c:if>
                     <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
-                        <button class="btn btn-primary btn-sm"
+                        <button class="btn btn-outline-primary"
+                                formaction="/admin/unblockContract/${client.idClient}/${client.contract.idContract}"
+                                type="submit">
+                            Unblock contract
+                        </button>
+                    </c:if>
+                    <c:if test="${client.contract.blockedByClient == true && client.contract.blockedByAdmin == true}">
+                        <button class="btn btn-outline-primary"
                                 formaction="/admin/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
@@ -92,12 +99,13 @@
                         </div>
                     </c:if>
                 </c:forEach>
-                    <br>
-                    <button class="btn btn-primary btn-sm"
+
+                    <button class="btn btn-outline-primary"
                             formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Update tariff
                     </button>
+
                     </fieldset>
                     </c:if>
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
@@ -120,12 +128,13 @@
                                     </div>
                                 </c:if>
                             </c:forEach>
-                            <br>
-                            <button class="btn btn-primary btn-sm"
+
+                            <button class="btn btn-outline-primary"
                                     formaction="/admin/updateTariff/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Update tariff
                             </button>
+
 
                     </c:if>
                 </form:form>
@@ -136,7 +145,9 @@
             <div class="col-5">
                 <div class="h4">Your tariff options:</div>
                 <c:if test="${(client.contract.tariff.options.size() == 0 || client.contract.contractOptions.size() == 0)}">
+                    <div class="container">
                     <div class="h6">No option(s) found</div>
+                    </div>
                 </c:if>
                 <form:form>
                 <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
@@ -174,13 +185,13 @@
                 <c:if test="${error != null}">
                     <div class="row alert alert-danger hidden">${error}</div>
                 </c:if>
-                <br>
 
-                <button class="btn btn-primary btn-sm"
+                <button class="btn btn-outline-primary"
                         formaction="/admin/updateOptions/${client.idClient}/${client.contract.idContract}"
                         type="submit">
                     Save options
                 </button>
+
                 </fieldset>
                 </c:if>
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
@@ -218,13 +229,14 @@
                             <c:if test="${error != null}">
                                 <div class="row alert alert-danger hidden">${error}</div>
                             </c:if>
-                            <br>
 
-                            <button class="btn btn-primary btn-sm"
+
+                            <button class="btn btn-outline-primary"
                                     formaction="/admin/updateOptions/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Save options
                             </button>
+
                     </c:if>
                 </form:form>
             </div>

@@ -11,5 +11,6 @@ public interface ContractRepository extends JpaRepository<Contract, Long> {
 
     Optional<Contract> findContractByNumber(String number);
     Optional<Contract> findContractByIdContract(Long id);
+    boolean existsContractByNumber(String number);
 
 }

@@ -18,12 +18,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class ContractServiceImpl implements ContractService {
+
+
+    private static final String BASE_NUMBER = "8909001";
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
@@ -79,6 +84,7 @@ public class ContractServiceImpl implements ContractService {
     public void unblockByAdmin(Long id) throws ClientNotFoundException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByAdmin(false);
+        contract.setBlockedByClient(false);
     }
 
     @Transactional
@@ -94,6 +100,37 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
         contract.setTariff(tariff);
+    }
+
+    @Override
+    public Set<String> getGeneratedNumbers() {
+        Set<String> numbers = new HashSet<>();
+
+        for(int i = 0; i < 10; i++) {
+            String number = generateNumber();
+
+            while (contractRepository.existsContractByNumber(number)) {
+                number = generateNumber();
+            }
+            numbers.add(number);
+        }
+
+        return numbers;
+    }
+
+    private String generateNumber() {
+        Random random = new Random();
+        String result;
+        int suffix = random.nextInt(9999) + 1;
+        if (suffix < 10)
+            result = BASE_NUMBER + "000" + suffix;
+        else if (suffix < 100)
+            result = BASE_NUMBER + "00" + suffix;
+        else if (suffix < 1000)
+            result = BASE_NUMBER + "0" + suffix;
+        else
+            result = BASE_NUMBER + suffix;
+        return result;
     }
 
     @Transactional

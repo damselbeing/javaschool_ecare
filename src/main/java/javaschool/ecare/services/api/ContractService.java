@@ -8,6 +8,7 @@ import javaschool.ecare.exceptions.TariffNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ContractService {
 
@@ -24,6 +25,8 @@ public interface ContractService {
     void blockByClient(Long id) throws ClientNotFoundException;
 
     void unblockByClient(Long id) throws ClientNotFoundException;
+
+    Set<String> getGeneratedNumbers();
 
     void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
 }

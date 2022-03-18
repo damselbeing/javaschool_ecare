@@ -51,7 +51,7 @@
                             </a>
                         </c:if>
                         <c:if test="${client.contract.number == null}">
-                            <a href="/welcome">Sign contract</a>
+                            <a href="/admin/addContract/${client.idClient}">Sign contract</a>
                         </c:if>
                     </td>
                 </tr>
