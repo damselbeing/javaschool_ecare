@@ -65,15 +65,24 @@
                         <br>
                     </div>
                 </c:forEach>
+
+
                 <div class="col">
                     <div>Here can be a new tariff...</div>
-
-                        <button class="btn btn-outline-primary"
-                                formaction="/welcome"
-                                type="submit">
-                            Add tariff
-                        </button>
-
+                    <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
+                    <div class="form-group">
+                        <form:label path="name">Name</form:label>
+                        <form:input type="text" required="name" class="form-control" path="name"/>
+                        <form:errors path="name" cssClass="error"/>
+                    </div>
+                    <div class="form-group">
+                        <form:label path="price">Price</form:label>
+                        <form:input type="text" required="price" class="form-control" path="price"/>
+                        <form:errors path="price" cssClass="error"/>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary">Add tariff</button>
+                    </form:form>
                 </div>
 
             </div>

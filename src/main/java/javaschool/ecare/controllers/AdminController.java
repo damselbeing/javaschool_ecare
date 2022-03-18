@@ -1,6 +1,7 @@
 package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
+import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
@@ -80,8 +81,17 @@ public class AdminController {
     @GetMapping("tariffs")
     public String viewTariffs(Model model) {
         model.addAttribute("tariffs", tariffService.getTariffs());
+        TariffDto dto = new TariffDto();
+        model.addAttribute("newTariff", dto);
         return "admin/view-tariffs";
     }
+
+    @PostMapping("addTariff")
+    public String addNewTariff(@ModelAttribute("newTariff") TariffDto dto) {
+        tariffService.addNewTariff(dto);
+        return "redirect:/admin/tariffs";
+    }
+
 
     @PostMapping("archiveTariff/{id}")
     public String archiveTariff(@PathVariable(value = "id") Long id) throws TariffNotFoundException {
