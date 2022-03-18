@@ -41,6 +41,11 @@
                             <small class="text-muted">Your tariff is archived</small>
                         </div>
                     </c:if>
+                    <c:if test="${client.contract.tariff == null}">
+                        <span>
+                            no tariff found
+                        </span>
+                    </c:if>
                 </div>
                 <br>
                 <form:form>
@@ -130,7 +135,7 @@
 
             <div class="col-5">
                 <div class="h4">Your tariff options:</div>
-                <c:if test="${(client.contract.tariff.options.size() == 0)}">
+                <c:if test="${(client.contract.tariff.options.size() == 0 || client.contract.contractOptions.size() == 0)}">
                     <div class="h6">No option(s) found</div>
                 </c:if>
                 <form:form>

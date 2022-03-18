@@ -21,14 +21,14 @@ INSERT INTO tariffs
 
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES
-    (2, false, false, 123456789, 2),
-    (3, false, false, 987654321, 3);
+    (2, false, false, 123456789, 3),
+    (3, false, false, 987654321, null);
 
 INSERT INTO clients
 (client_id, name, last_name, birth_date, passport, address, e_mail, password, contract_id) VALUES
-    (2, 'anna', 'winter', '2001-01-01', '0000111111', 'moscow', 'anna@mail', 'mypass1', 2),
-    (3, 'mike', 'summer', '2002-02-02', '0000222222', 'perm', 'mike@mail', 'mypass2', 3),
-    (4, 'lena', 'smith', '2003-03-03', '0000333333', 'kiev', 'lena@mail', 'mypass3', null);
+    (3, 'anna', 'winter', '2001-01-01', '0000111111', 'moscow', 'anna@mail', 'mypass1', 2),
+    (4, 'mike', 'summer', '2002-02-02', '0000222222', 'perm', 'mike@mail', 'mypass2', 3),
+    (5, 'lena', 'smith', '2003-03-03', '0000333333', 'kiev', 'lena@mail', 'mypass3', null);
 
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES

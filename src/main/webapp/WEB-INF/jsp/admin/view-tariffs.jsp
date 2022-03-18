@@ -17,6 +17,30 @@
     <div class="container">
     <c:if test="${tariffs.size() == 0}">
         <h3>Found no tariff(s)</h3>
+        <br>
+        <div class="col">
+            <div>Here can be a new tariff...</div>
+
+            <div class="col-6">
+                <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
+
+                <div class="form-group">
+                    <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1">
+                    <label class="form-label" for="formID1"></label>
+                </div>
+                <div class="form-group">
+                    <input name="price" class="form-control form-control-sm" type="text" placeholder="Tariff price" id="formID2">
+                    <label class="form-label" for="formID2"></label>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-sm" type="submit">Add tariff</button>
+                </div>
+
+            </div>
+
+            </form:form>
+        </div>
+
     </c:if>
     </div>
 
@@ -66,24 +90,29 @@
                     </div>
                 </c:forEach>
 
-
                 <div class="col">
                     <div>Here can be a new tariff...</div>
-                    <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
-                    <div class="form-group">
-                        <form:label path="name">Name</form:label>
-                        <form:input type="text" required="name" class="form-control" path="name"/>
-                        <form:errors path="name" cssClass="error"/>
+
+                    <div class="col-6">
+                        <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
+
+                            <div class="form-group">
+                                <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1">
+                                <label class="form-label" for="formID1"></label>
+                            </div>
+                            <div class="form-group">
+                                <input name="price" class="form-control form-control-sm" type="text" placeholder="Tariff price" id="formID2">
+                                <label class="form-label" for="formID2"></label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm" type="submit">Add tariff</button>
+                            </div>
+
                     </div>
-                    <div class="form-group">
-                        <form:label path="price">Price</form:label>
-                        <form:input type="text" required="price" class="form-control" path="price"/>
-                        <form:errors path="price" cssClass="error"/>
-                    </div>
-                    <br>
-                    <button type="submit" class="btn btn-outline-primary">Add tariff</button>
+
                     </form:form>
                 </div>
+
 
             </div>
 
