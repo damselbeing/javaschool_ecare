@@ -34,7 +34,7 @@ public class Tariff {
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Option> options;
+    private Set<Option> options = new HashSet<>();
 
     @OneToMany(mappedBy = "tariff")
     @ToString.Exclude

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -39,7 +40,7 @@ public class Contract {
     @ManyToMany(mappedBy = "contracts")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Option> contractOptions;
+    private Set<Option> contractOptions = new HashSet<>();
 
     public Contract() {
 

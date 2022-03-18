@@ -16,27 +16,37 @@
             <div class="col-4">
                 <div class="h4">Personal information:</div>
                 <div>
-                    <span class="h6">Name: </span><span>${client.name} ${client.lastName}</span>
+                    <strong>Name: </strong><span>${client.name} ${client.lastName}</span>
                 </div>
                 <div>
-                    <span class="h6">Passport: </span><span>${client.passport}</span>
+                    <strong>Passport: </strong><span>${client.passport}</span>
                 </div>
                 <div>
-                    <span class="h6">Address: </span><span>${client.address}</span>
+                    <strong>Address: </strong><span>${client.address}</span>
                 </div>
                 <div>
-                    <span class="h6">Email: </span><span>${client.email}</span>
+                    <strong>Email: </strong><span>${client.email}</span>
                 </div>
                 <br>
                 <div>
-                    <span class="h6">Contract: </span><span>${client.contract.number}</span>
+                    <strong>Contract: </strong><span>${client.contract.number}</span>
+                    <c:if test="${client.contract == null}">
+                        <span>
+                            no contract found
+                        </span>
+                    </c:if>
                 </div>
                 <div>
-                    <span class="h6">Tariff: </span><span>${client.contract.tariff.name}</span>
+                    <strong>Tariff: </strong><span>${client.contract.tariff.name}</span>
                     <c:if test="${client.contract.tariff.archived == true}">
                         <div>
                             <small class="text-muted">Your tariff is archived</small>
                         </div>
+                    </c:if>
+                    <c:if test="${client.contract.tariff == null}">
+                        <span>
+                            no tariff found
+                        </span>
                     </c:if>
                 </div>
 
@@ -70,6 +80,11 @@
 
             <div class="col-3">
                 <div class="h4">Actual tariffs:</div>
+                <c:if test="${(client.contract == null)}">
+                    <div class="container">
+                        <div class="h6">No tariff(s) found</div>
+                    </div>
+                </c:if>
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
                 <fieldset disabled>
@@ -134,8 +149,10 @@
 
             <div class="col-5">
                 <div class="h4">Your tariff options:</div>
-                <c:if test="${(client.contract.tariff.options.size() == 0)}">
-                    <div class="h6">No option(s) found</div>
+                <c:if test="${(client.contract.tariff.options.size() == 0 || client.contract.tariff.options == null)}">
+                    <div class="container">
+                        <div class="h6">No option(s) found</div>
+                    </div>
                 </c:if>
                 <form:form>
                 <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">

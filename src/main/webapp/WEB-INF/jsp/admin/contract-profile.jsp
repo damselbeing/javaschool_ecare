@@ -33,6 +33,11 @@
                 <br>
                 <div>
                     <strong>Contract: </strong><span>${client.contract.number}</span>
+                    <c:if test="${client.contract == null}">
+                        <span>
+                            no contract found
+                        </span>
+                    </c:if>
                 </div>
                 <div>
                     <strong>Tariff: </strong><span>${client.contract.tariff.name}</span>
@@ -78,6 +83,11 @@
 
             <div class="col-3">
                 <div class="h4">Actual tariffs:</div>
+                <c:if test="${(client.contract == null)}">
+                    <div class="container">
+                        <div class="h6">No tariff(s) found</div>
+                    </div>
+                </c:if>
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
                 <fieldset disabled>
@@ -144,7 +154,7 @@
 
             <div class="col-5">
                 <div class="h4">Your tariff options:</div>
-                <c:if test="${(client.contract.tariff.options.size() == 0)}">
+                <c:if test="${(client.contract.tariff.options.size() == 0 || client.contract.tariff.options == null)}">
                     <div class="container">
                     <div class="h6">No option(s) found</div>
                     </div>

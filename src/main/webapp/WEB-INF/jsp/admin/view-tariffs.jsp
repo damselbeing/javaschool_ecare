@@ -107,10 +107,10 @@
                             <div class="form-group">
                                 <button class="btn btn-primary btn-sm" type="submit">Add tariff</button>
                             </div>
-
+                        </form:form>
                     </div>
 
-                    </form:form>
+
                 </div>
 
 
