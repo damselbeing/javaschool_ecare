@@ -149,15 +149,13 @@ public class ContractServiceImpl implements ContractService {
     public void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
         Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
         Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
+
+        contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+
         contract.setContractOptions(optionsUpdated);
 
-//        optionsUpdated.forEach(option -> {
-//            if(option.getContracts() == null) {
-//                option.setContracts(Set.of(contract));
-//            } else {
-//                option.getContracts().add(contract);
-//            }
-//        });
+        optionsUpdated.forEach(option -> option.getContracts().add(contract));
+
 
     }
 

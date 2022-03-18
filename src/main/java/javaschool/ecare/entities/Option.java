@@ -51,7 +51,7 @@ public class Option {
     @ManyToMany(mappedBy = "options")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Tariff> tariffs = new HashSet<>();
+    private Set<Tariff> tariffs;
 
     @ManyToMany
     @JoinTable(
@@ -61,7 +61,7 @@ public class Option {
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Contract> contracts = new HashSet<>();
+    private Set<Contract> contracts;
 
     public Option() {
 

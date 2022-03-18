@@ -40,7 +40,7 @@ public class Contract {
     @ManyToMany(mappedBy = "contracts")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Option> contractOptions = new HashSet<>();
+    private Set<Option> contractOptions;
 
     public Contract() {
 

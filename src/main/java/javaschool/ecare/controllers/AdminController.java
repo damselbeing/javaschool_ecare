@@ -138,6 +138,7 @@ public class AdminController {
         return "admin/option-profile";
     }
 
+
     @PostMapping("updateOption/{id}")
     public String updateOption(
             @PathVariable(value = "id") Long id,
@@ -157,6 +158,7 @@ public class AdminController {
 
     }
 
+    //    bug
     @PostMapping("updateOptions/{idClient}/{idContract}")
     public String updateContractOptions(
             @PathVariable(value = "idClient") Long idClient,
