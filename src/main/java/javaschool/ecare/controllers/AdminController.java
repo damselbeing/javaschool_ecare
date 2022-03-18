@@ -48,23 +48,33 @@ public class AdminController {
         return "admin/view-clients";
     }
 
-    @GetMapping("contractProfile/{idContract}")
-    public String showContractProfile(@PathVariable(value = "idContract") Long idContract,
-                                      Model model) throws ClientNotFoundException {
-        model.addAttribute("contract", contractService.findContractByIdContract(idContract));
+    @GetMapping("contractProfile/{idClient}")
+    public String showContractProfile(
+            @PathVariable(value = "idClient") Long idClient,
+            Model model
+    ) throws ClientNotFoundException {
+        model.addAttribute("client", clientService.findClientByIdClient(idClient));
+        model.addAttribute("tariffs", tariffService.getTariffs());
         return "admin/contract-profile";
     }
 
-    @PostMapping("blockContract/{id}")
-    public String blockContract(@PathVariable(value = "id") Long id) throws ClientNotFoundException {
-        contractService.blockByAdmin(id);
-        return "redirect:/admin/contractProfile/{id}";
+
+    @PostMapping("blockContract/{idClient}/{idContract}")
+    public String blockContract(
+            @PathVariable(value = "idClient") Long idClient,
+            @PathVariable(value = "idContract") Long idContract
+            ) throws ClientNotFoundException {
+        contractService.blockByAdmin(idContract);
+        return "redirect:/admin/contractProfile/{idClient}";
     }
 
-    @PostMapping("unblockContract/{id}")
-    public String unblockContract(@PathVariable(value = "id") Long id) throws ClientNotFoundException {
-        contractService.unblockByAdmin(id);
-        return "redirect:/admin/contractProfile/{id}";
+    @PostMapping("unblockContract/{idClient}/{idContract}")
+    public String unblockContract(
+            @PathVariable(value = "idClient") Long idClient,
+            @PathVariable(value = "idContract") Long idContract
+    ) throws ClientNotFoundException {
+        contractService.unblockByAdmin(idContract);
+        return "redirect:/admin/contractProfile/{idClient}";
     }
 
     @GetMapping("tariffs")
@@ -136,22 +146,35 @@ public class AdminController {
 
     }
 
-    @PostMapping("updateContract/{idContract}")
-    public String updateContract(
-            @PathVariable(value = "idContract") Long id,
+    @PostMapping("updateOptions/{idClient}/{idContract}")
+    public String updateContractOptions(
+            @PathVariable(value = "idClient") Long idClient,
+            @PathVariable(value = "idContract") Long idContract,
             Model model,
-            @RequestParam(value = "options", required = false) String[] options)
+            @RequestParam(value = "optionsUpdated", required = false) String[] options)
             throws ClientNotFoundException, OptionNotFoundException {
         try {
-            contractService.updateContract(id, options);
-            return "redirect:/admin/contractProfile/{idContract}";
+            contractService.updateContract(idContract, options);
+            return "redirect:/admin/contractProfile/{idClient}";
         } catch (NotValidOptionsException e) {
-            model.addAttribute("contract", contractService.findContractByIdContract(id));
+            model.addAttribute("client", clientService.findClientByIdClient(idClient));
+            model.addAttribute("tariffs", tariffService.getTariffs());
             model.addAttribute("error", e.getMessage());
             return "admin/contract-profile";
         }
 
     }
+
+    @PostMapping("updateTariff/{idClient}/{idContract}")
+    public String updateContractTariff(@PathVariable(value = "idClient") Long idClient,
+                               @PathVariable(value = "idContract") Long idContract,
+                               @RequestParam(value = "tariffUpdated", required = false) String idTariff)
+            throws ClientNotFoundException, TariffNotFoundException {
+        contractService.updateTariff(idContract, idTariff);
+        return "redirect:/admin/contractProfile/{idClient}";
+    }
+
+
 
 
 }

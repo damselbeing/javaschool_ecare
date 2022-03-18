@@ -68,13 +68,17 @@
                     <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
-                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}</label>
+                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                            <div class="small">Price: ${tariff.price} EUR</div>
+                        </label>
                     </div>
                     </c:if>
                     <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
-                            <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}</label>
+                            <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                <div class="small">Price: ${tariff.price} EUR</div>
+                            </label>
                         </div>
                     </c:if>
                 </c:forEach>
@@ -92,13 +96,17 @@
                                 <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
-                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}</label>
+                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                            <div class="small">Price: ${tariff.price} EUR</div>
+                                        </label>
                                     </div>
                                 </c:if>
                                 <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
-                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}</label>
+                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                            <div class="small">Price: ${tariff.price} EUR</div>
+                                        </label>
                                     </div>
                                 </c:if>
                             </c:forEach>
@@ -132,9 +140,10 @@
                             <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
                             <label class="form-check-label" for="option_${tariffOption.idOption}">
                                     ${tariffOption.name}
+                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                            ${optionAdd.name} </c:forEach></small>
+                                        <div class="small">Price: ${tariffOption.price} EUR</div>
                             </label>
-                            <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                ${optionAdd.name} </c:forEach></small>
                         </div>
                     </c:if>
                     <c:if test="${(client.contract.contractOptions
@@ -145,9 +154,10 @@
                             <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
                             <label class="form-check-label" for="option_${tariffOption.idOption}">
                                     ${tariffOption.name}
+                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                            ${optionAdd.name} </c:forEach></small>
+                                        <div class="small">Price: ${tariffOption.price} EUR</div>
                             </label>
-                            <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                ${optionAdd.name} </c:forEach></small>
                         </div>
                     </c:if>
                 </c:forEach>
@@ -174,9 +184,10 @@
                                         <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
                                         <label class="form-check-label" for="option_${tariffOption.idOption}">
                                                 ${tariffOption.name}
+                                                    <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                                        ${optionAdd.name} </c:forEach></small>
+                                                    <div class="small">Price: ${tariffOption.price} EUR</div>
                                         </label>
-                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                            ${optionAdd.name} </c:forEach></small>
                                     </div>
                                 </c:if>
                                 <c:if test="${(client.contract.contractOptions
@@ -187,9 +198,10 @@
                                         <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
                                         <label class="form-check-label" for="option_${tariffOption.idOption}">
                                                 ${tariffOption.name}
+                                                    <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                                        ${optionAdd.name} </c:forEach></small>
+                                                    <div class="small">Price: ${tariffOption.price} EUR</div>
                                         </label>
-                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                            ${optionAdd.name} </c:forEach></small>
                                     </div>
                                 </c:if>
                             </c:forEach>

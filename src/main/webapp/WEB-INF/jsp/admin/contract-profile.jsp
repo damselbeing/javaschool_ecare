@@ -7,87 +7,217 @@
     <jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>
-    <header>
-        <jsp:include page="header.jsp"></jsp:include>
-    </header>
+<header>
+    <jsp:include page="header.jsp"></jsp:include>
+</header>
     <div class="container">
         <h1>Contract profile</h1>
         <br>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-5">
-                <div class="h5">Contract number: ${contract.number}</div>
+            <div class="col-4">
+                <div class="h4">Personal information:</div>
+                <div>
+                    <span class="h6">Name: </span><span>${client.name} ${client.lastName}</span>
+                </div>
+                <div>
+                    <span class="h6">Passport: </span><span>${client.passport}</span>
+                </div>
+                <div>
+                    <span class="h6">Address: </span><span>${client.address}</span>
+                </div>
+                <div>
+                    <span class="h6">Email: </span><span>${client.email}</span>
+                </div>
+                <div>
+                    <span class="h6">Contract: </span><span>${client.contract.number}</span>
+                </div>
+                <br>
                 <form:form>
-                    <c:if test="${contract.blockedByClient == false && contract.blockedByAdmin == false}">
-                        <button class="btn btn-outline-primary"
-                                formaction="/admin/blockContract/${contract.idContract}"
-                                type="submit">
-                            Block contract
-                        </button>
+                    <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
+                    <button class="btn btn-primary btn-sm"
+                            formaction="/admin/blockContract/${client.idClient}/${client.contract.idContract}"
+                            type="submit">
+                        Block contract
+                    </button>
                     </c:if>
-                    <c:if test="${contract.blockedByClient == true || contract.blockedByAdmin == true}">
-                        <button class="btn btn-outline-primary"
-                                formaction="/admin/unblockContract/${contract.idContract}"
+                    <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
+                        <button class="btn btn-primary btn-sm"
+                                formaction="/admin/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
                         </button>
                     </c:if>
                 </form:form>
-                <div class="h5">Tariff name: ${contract.tariff.name}</div>
+            </div>
+
+
+
+
+            <div class="col-3">
+                <div class="h4">Actual tariffs:</div>
                 <form:form>
-                    <button class="btn btn-outline-primary"
-                            formaction="/admin/changeTariff/${contract.idContract}"
+                    <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
+                <fieldset disabled>
+                <c:forEach items="${tariffs}" var="tariff">
+                    <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
+                            <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                <div class="small">Price: ${tariff.price} EUR</div>
+                            </label>
+                        </div>
+                    </c:if>
+                    <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
+                            <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                <div class="small">Price: ${tariff.price} EUR</div>
+                            </label>
+                        </div>
+                    </c:if>
+                </c:forEach>
+                    <br>
+                    <button class="btn btn-primary btn-sm"
+                            formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
                             type="submit">
-                        Change tariff
+                        Update tariff
                     </button>
+                    </fieldset>
+                    </c:if>
+                    <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
+
+                            <c:forEach items="${tariffs}" var="tariff">
+                                <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
+                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                            <div class="small">Price: ${tariff.price} EUR</div>
+                                        </label>
+                                    </div>
+                                </c:if>
+                                <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
+                                        <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                            <div class="small">Price: ${tariff.price} EUR</div>
+                                        </label>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                            <br>
+                            <button class="btn btn-primary btn-sm"
+                                    formaction="/admin/updateTariff/${client.idClient}/${client.contract.idContract}"
+                                    type="submit">
+                                Update tariff
+                            </button>
+
+                    </c:if>
                 </form:form>
             </div>
 
-            <div class="col-7">
-                <div class="h5">Available options for tariff: ${contract.tariff.name}</div>
-                <form:form>
-                    <c:forEach items="${contract.tariff.options}" var="tariffOption">
 
-                        <c:if test="${(contract.contractOptions
+
+            <div class="col-5">
+                <div class="h4">Available options:</div>
+                <c:if test="${(client.contract.tariff.options.size() == 0)}">
+                    <div class="h6">No option(s) found</div>
+                </c:if>
+                <form:form>
+                <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
+                <fieldset disabled>
+                <c:forEach items="${client.contract.tariff.options}" var="tariffOption">
+                    <c:if test="${(client.contract.contractOptions
                                                     .stream()
                                                     .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
                                                     .count() > 0)}">
-                            <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
-                                <label class="form-check-label" for="option_${tariffOption.idOption}">
-                                        ${tariffOption.name}
-                                </label>
-                                <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                    ${optionAdd.name} </c:forEach></small>
-                            </div>
-                        </c:if>
-
-                        <c:if test="${(contract.contractOptions
+                        <div class="form-check">
+                            <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
+                            <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                    ${tariffOption.name}
+                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                            ${optionAdd.name} </c:forEach></small>
+                                        <div class="small">Price: ${tariffOption.price} EUR</div>
+                            </label>
+                        </div>
+                    </c:if>
+                    <c:if test="${(client.contract.contractOptions
                                                     .stream()
                                                     .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
                                                     .count() == 0)}">
-                            <div class="form-check">
-                                <input name="options" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
-                                <label class="form-check-label" for="option_${tariffOption.idOption}">
-                                        ${tariffOption.name}
-                                </label>
-                                <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
-                                    ${optionAdd.name} </c:forEach></small>
-                            </div>
-                        </c:if>
-
-                    </c:forEach>
-                    <c:if test="${error != null}">
-                        <div class="row alert alert-danger hidden">${error}</div>
+                        <div class="form-check">
+                            <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
+                            <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                    ${tariffOption.name}
+                                        <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                            ${optionAdd.name} </c:forEach></small>
+                                        <div class="small">Price: ${tariffOption.price} EUR</div>
+                            </label>
+                        </div>
                     </c:if>
-                    <button class="btn btn-outline-primary"
-                            formaction="/admin/updateContract/${contract.idContract}"
-                            type="submit">
-                        Save
-                    </button>
+                </c:forEach>
+                <c:if test="${error != null}">
+                    <div class="row alert alert-danger hidden">${error}</div>
+                </c:if>
+                <br>
+
+                <button class="btn btn-primary btn-sm"
+                        formaction="/admin/updateOptions/${client.idClient}/${client.contract.idContract}"
+                        type="submit">
+                    Save options
+                </button>
+                </fieldset>
+                </c:if>
+                    <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
+
+                            <c:forEach items="${client.contract.tariff.options}" var="tariffOption">
+                                <c:if test="${(client.contract.contractOptions
+                                                    .stream()
+                                                    .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                                    .count() > 0)}">
+                                    <div class="form-check">
+                                        <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}" checked>
+                                        <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                                ${tariffOption.name}
+                                                    <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                                        ${optionAdd.name} </c:forEach></small>
+                                                    <div class="small">Price: ${tariffOption.price} EUR</div>
+                                        </label>
+                                    </div>
+                                </c:if>
+                                <c:if test="${(client.contract.contractOptions
+                                                    .stream()
+                                                    .filter(contractOption -> contractOption.idOption == tariffOption.idOption)
+                                                    .count() == 0)}">
+                                    <div class="form-check">
+                                        <input name="optionsUpdated" class="form-check-input" type="checkbox" value="${tariffOption.idOption}" id="option_${tariffOption.idOption}">
+                                        <label class="form-check-label" for="option_${tariffOption.idOption}">
+                                                ${tariffOption.name}
+                                                    <small class="text-muted">Additional options: <c:forEach items="${tariffOption.additionalOptions}" var="optionAdd">
+                                                        ${optionAdd.name} </c:forEach></small>
+                                                    <div class="small">Price: ${tariffOption.price} EUR</div>
+                                        </label>
+                                    </div>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${error != null}">
+                                <div class="row alert alert-danger hidden">${error}</div>
+                            </c:if>
+                            <br>
+
+                            <button class="btn btn-primary btn-sm"
+                                    formaction="/admin/updateOptions/${client.idClient}/${client.contract.idContract}"
+                                    type="submit">
+                                Save options
+                            </button>
+                    </c:if>
                 </form:form>
             </div>
+
+
+
+
         </div>
     </div>
 </body>

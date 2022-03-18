@@ -74,7 +74,7 @@ public class ClientController {
     }
 
     @PostMapping("updateTariff/{idClient}/{idContract}")
-    public String unblockContract(@PathVariable(value = "idClient") Long idClient,
+    public String updateTariff(@PathVariable(value = "idClient") Long idClient,
                                   @PathVariable(value = "idContract") Long idContract,
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ClientNotFoundException, TariffNotFoundException {
