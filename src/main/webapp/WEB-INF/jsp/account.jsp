@@ -27,8 +27,17 @@
                 <div>
                     <span class="h6">Email: </span><span>${client.email}</span>
                 </div>
+                <br>
                 <div>
                     <span class="h6">Contract: </span><span>${client.contract.number}</span>
+                </div>
+                <div>
+                    <span class="h6">Tariff: </span><span>${client.contract.tariff.name}</span>
+                    <c:if test="${client.contract.tariff.archived == true}">
+                        <div>
+                            <small class="text-muted">Your tariff is archived</small>
+                        </div>
+                    </c:if>
                 </div>
                 <br>
                 <form:form>
@@ -65,7 +74,7 @@
                     <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
                 <fieldset disabled>
                 <c:forEach items="${tariffs}" var="tariff">
-                    <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
+                    <c:if test="${tariff.archived == false && client.contract.tariff.idTariff == tariff.idTariff}">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
                         <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
@@ -73,7 +82,7 @@
                         </label>
                     </div>
                     </c:if>
-                    <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
+                    <c:if test="${tariff.archived == false && client.contract.tariff.idTariff != tariff.idTariff}">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
                             <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
@@ -93,7 +102,7 @@
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
 
                             <c:forEach items="${tariffs}" var="tariff">
-                                <c:if test="${client.contract.tariff.idTariff == tariff.idTariff}">
+                                <c:if test="${tariff.archived == false && client.contract.tariff.idTariff == tariff.idTariff}">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
                                         <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
@@ -101,7 +110,7 @@
                                         </label>
                                     </div>
                                 </c:if>
-                                <c:if test="${client.contract.tariff.idTariff != tariff.idTariff}">
+                                <c:if test="${tariff.archived == false && client.contract.tariff.idTariff != tariff.idTariff}">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="tariffUpdated" value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
                                         <label class="form-check-label" for="tariffUpdated_${tariff.idTariff}">${tariff.name}
@@ -124,7 +133,7 @@
 
 
             <div class="col-5">
-                <div class="h4">Available options:</div>
+                <div class="h4">Your tariff options:</div>
                 <c:if test="${(client.contract.tariff.options.size() == 0)}">
                     <div class="h6">No option(s) found</div>
                 </c:if>
@@ -218,9 +227,6 @@
                     </c:if>
                 </form:form>
             </div>
-
-
-
 
         </div>
     </div>
