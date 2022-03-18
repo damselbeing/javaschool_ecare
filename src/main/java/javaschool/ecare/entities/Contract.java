@@ -16,7 +16,7 @@ public class Contract {
     @Column(nullable = false, name = "contract_id")
     private Long idContract;
 
-    @Column(nullable = false, name = "number")
+    @Column(name = "number")
     private String number;
 
     @Column(nullable = false, name = "blocked_by_client")

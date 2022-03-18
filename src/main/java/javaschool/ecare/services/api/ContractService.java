@@ -1,10 +1,7 @@
 package javaschool.ecare.services.api;
 
 import javaschool.ecare.dto.ContractDto;
-import javaschool.ecare.exceptions.ClientNotFoundException;
-import javaschool.ecare.exceptions.NotValidOptionsException;
-import javaschool.ecare.exceptions.OptionNotFoundException;
-import javaschool.ecare.exceptions.TariffNotFoundException;
+import javaschool.ecare.exceptions.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -29,4 +26,6 @@ public interface ContractService {
     Set<String> getGeneratedNumbers();
 
     void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
+
+    void addNewContract(ContractDto dto, Long idClient) throws ClientNotFoundException, ContractNotFoundException;
 }

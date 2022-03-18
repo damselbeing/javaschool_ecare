@@ -1,13 +1,12 @@
 package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.ContractDto;
+import javaschool.ecare.entities.Client;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.entities.Option;
 import javaschool.ecare.entities.Tariff;
-import javaschool.ecare.exceptions.ClientNotFoundException;
-import javaschool.ecare.exceptions.NotValidOptionsException;
-import javaschool.ecare.exceptions.OptionNotFoundException;
-import javaschool.ecare.exceptions.TariffNotFoundException;
+import javaschool.ecare.exceptions.*;
+import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
@@ -32,6 +31,7 @@ public class ContractServiceImpl implements ContractService {
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
+    private final ClientRepository clientRepository;
     private final TariffRepository tariffRepository;
     private final TariffService tariffService;
     private final ModelMapper mapper;
@@ -41,10 +41,12 @@ public class ContractServiceImpl implements ContractService {
                                OptionRepository optionRepository,
                                TariffRepository tariffRepository,
                                TariffServiceImpl tariffService,
+                               ClientRepository clientRepository,
                                ModelMapper mapper) {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
         this.tariffRepository = tariffRepository;
+        this.clientRepository = clientRepository;
         this.tariffService = tariffService;
         this.mapper = mapper;
     }
@@ -131,6 +133,15 @@ public class ContractServiceImpl implements ContractService {
         else
             result = BASE_NUMBER + suffix;
         return result;
+    }
+
+    @Transactional
+    @Override
+    public void addNewContract(ContractDto dto, Long idClient) throws ClientNotFoundException, ContractNotFoundException {
+        contractRepository.save(mapper.map(dto, Contract.class));
+        Client client = clientRepository.findClientByIdClient(idClient).orElseThrow(ClientNotFoundException::new);
+        Contract contract = contractRepository.findContractByNumber(dto.getNumber()).orElseThrow(ContractNotFoundException::new);
+        client.setContract(contract);
     }
 
     @Transactional

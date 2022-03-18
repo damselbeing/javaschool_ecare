@@ -1,11 +1,9 @@
 package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
+import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.dto.TariffDto;
-import javaschool.ecare.exceptions.ClientNotFoundException;
-import javaschool.ecare.exceptions.NotValidOptionsException;
-import javaschool.ecare.exceptions.OptionNotFoundException;
-import javaschool.ecare.exceptions.TariffNotFoundException;
+import javaschool.ecare.exceptions.*;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.OptionService;
@@ -38,7 +36,10 @@ public class AdminController {
     }
 
     @GetMapping("clients")
-    public String viewClients(@RequestParam(required = false, name = "contractNumber") String contractNumber, Model model) throws ClientNotFoundException {
+    public String viewClients(
+            @RequestParam(required = false, name = "contractNumber") String contractNumber,
+            Model model
+    ) throws ClientNotFoundException, ContractNotFoundException {
         if(contractNumber == null) {
             model.addAttribute("clients", clientService.getClients());
         } else {
@@ -188,9 +189,21 @@ public class AdminController {
     @GetMapping("addContract/{idClient}")
     public String addNewContract(@PathVariable(value = "idClient") Long idClient, Model model) throws ClientNotFoundException {
         model.addAttribute("client", clientService.findClientByIdClient(idClient));
-        model.addAttribute("numbers", contractService.getGeneratedNumbers());
+        model.addAttribute("telnumbers", contractService.getGeneratedNumbers());
+        ContractDto dto = new ContractDto();
+        model.addAttribute("number", dto);
         return "admin/view-numbers";
     }
+
+    @PostMapping("saveContract/{idClient}")
+    public String saveNewContract(
+            @PathVariable(value = "idClient") Long idClient,
+            @ModelAttribute("number") ContractDto dto
+    ) throws ClientNotFoundException, ContractNotFoundException {
+        contractService.addNewContract(dto, idClient);
+        return "redirect:/admin/contractProfile/{idClient}";
+    }
+
 
 
 }

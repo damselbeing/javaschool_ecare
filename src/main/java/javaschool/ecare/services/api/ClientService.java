@@ -3,6 +3,7 @@ package javaschool.ecare.services.api;
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.ContractNotFoundException;
 import org.springframework.expression.spel.ast.OpAnd;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,6 @@ public interface ClientService {
 
     void addNewClient(ClientDto dto);
 
-    ClientDto findClientByContract(String number) throws ClientNotFoundException;
+    ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException;
 
 }

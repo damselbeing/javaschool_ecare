@@ -4,6 +4,7 @@ import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
 import javaschool.ecare.entities.Contract;
 import javaschool.ecare.exceptions.ClientNotFoundException;
+import javaschool.ecare.exceptions.ContractNotFoundException;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ClientService;
@@ -53,8 +54,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public ClientDto findClientByContract(String number) throws ClientNotFoundException {
-        Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ClientNotFoundException::new);
+    public ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException {
+        Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ContractNotFoundException::new);
         return clientRepository.findClientByContract(contract)
                 .map(client -> mapper.map(client, ClientDto.class))
                 .orElseThrow(ClientNotFoundException::new);
