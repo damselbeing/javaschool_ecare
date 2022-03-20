@@ -102,6 +102,7 @@ public class ContractServiceImpl implements ContractService {
         Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
         contract.setTariff(tariff);
+        contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
     }
 
     @Override
