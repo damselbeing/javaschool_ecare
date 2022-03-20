@@ -8,13 +8,15 @@
 </head>
 <body>
     <div class="container">
-        <h1>Registration</h1>
+        <h4 class="display-4">Registration</h4>
         <br>
     </div>
     <div class="container">
 <div class="container">
     <div class="row">
-        <div class="col-6">
+
+
+        <div class="col-5">
             <form:form method="post" modelAttribute="client" action="/registration">
                 <div class="form-group">
                     <form:label path="name">Name</form:label>
@@ -28,7 +30,7 @@
                 </div>
                 <div class="form-group">
                     <form:label path="birthDate">Birth Date</form:label>
-                    <form:input type="date" required="date" class="form-control" path="birthDate"/>
+                    <form:input type="date" required="date" min="1900-01-01" class="form-control" path="birthDate"/>
 <%--                    <form:errors path="birthDate" cssClass="error"/>--%>
                 </div>
                 <div class="form-group">
@@ -43,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <form:label path="email">Email</form:label>
-                    <form:input type="text" required="email" class="form-control" path="email"/>
+                    <form:input type="email" required="email" class="form-control" path="email"/>
 <%--                    <form:errors path="email" cssClass="error"/>--%>
                 </div>
                 <div class="form-group">
@@ -71,6 +73,11 @@
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form:form>
         </div>
+
+        <div class="col-7">
+            <img src="/res/images/login.jpg" alt="img">
+        </div>
+
     </div>
 </div>
 </body>

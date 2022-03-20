@@ -45,6 +45,7 @@
             </thead>
             <tbody>
             <c:forEach items="${clients}" var="client">
+                <c:if test="${client.role != 'ADMIN'}">
                 <tr>
                     <td>${client.name} ${client.lastName}</td>
                     <td>${client.birthDate}</td>
@@ -62,6 +63,7 @@
                         </c:if>
                     </td>
                 </tr>
+                </c:if>
             </c:forEach>
             </tbody>
         </table>

@@ -17,5 +17,6 @@ public class ClientDto {
     private String email;
     private String password;
     private String passwordConfirm;
+    private String role;
     private Contract contract;
 }

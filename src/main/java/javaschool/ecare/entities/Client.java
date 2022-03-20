@@ -43,6 +43,9 @@ public class Client {
     @Transient
     private String passwordConfirm;
 
+    @Column(name = "role")
+    private String role = "ADMIN";
+
     @OneToOne
     @JoinColumn(name = "contract_id")
     @ToString.Exclude

@@ -21,12 +21,12 @@ public class RegistrationController {
 
     }
 
-    @GetMapping("welcome")
-    public String showWelcome() {
-        return "welcome";
-    }
+//    @GetMapping("welcome")
+//    public String showMainPage() {
+//        return "welcome";
+//    }
 
-        @GetMapping("registration")
+    @GetMapping("registration")
     public String showRegistrationForm(Model model) {
         ClientDto dto = new ClientDto();
         model.addAttribute("client", dto);
@@ -47,7 +47,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        return "redirect:/welcome";
+        return "redirect:/login";
 
 
     }

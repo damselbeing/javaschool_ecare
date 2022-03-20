@@ -10,6 +10,7 @@ import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,16 +20,21 @@ import java.util.stream.Collectors;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepository clientRepository;
-    private final ContractRepository contractRepository;
-    private final ModelMapper mapper;
-
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper, ContractRepository contractRepository) {
-        this.clientRepository = clientRepository;
-        this.mapper = mapper;
-        this.contractRepository = contractRepository;
-    }
+    ClientRepository clientRepository;
+    @Autowired
+    ContractRepository contractRepository;
+    @Autowired
+    ModelMapper mapper;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+//    @Autowired
+//    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper, ContractRepository contractRepository) {
+//        this.clientRepository = clientRepository;
+//        this.mapper = mapper;
+//        this.contractRepository = contractRepository;
+//    }
 
     @Transactional
     @Override
@@ -60,7 +66,8 @@ public class ClientServiceImpl implements ClientService {
             return false;
         };
 
-//        client.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        client.setRole("USER");
+        client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
         return true;
     }
