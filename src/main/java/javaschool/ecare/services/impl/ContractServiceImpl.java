@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class ContractServiceImpl implements ContractService {
 
 
-    private static final String BASE_NUMBER = "8909001";
+    private static final String BASE_NUMBER = "4909001";
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
