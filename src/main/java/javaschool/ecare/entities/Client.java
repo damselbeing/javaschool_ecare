@@ -4,8 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Entity
@@ -37,14 +40,29 @@ public class Client {
     @Column(nullable = false, name = "password")
     private String password;
 
+    @Transient
+    private String passwordConfirm;
+
     @OneToOne
     @JoinColumn(name = "contract_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Contract contract;
 
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "roles_clients",
+//            joinColumns = {@JoinColumn(name = "client_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+//    )
+//    @ToString.Exclude
+//    @EqualsAndHashCode.Exclude
+//    private Set<Role> roles;
+
     public Client() {
 
     }
+
 
 }

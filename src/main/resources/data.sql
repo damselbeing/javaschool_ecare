@@ -1,3 +1,7 @@
+-- INSERT INTO roles
+-- (id, name) VALUES
+--      (1, 'ROLE_USER'),
+--      (2, 'ROLE_ADMIN');
 
 INSERT INTO options
 (option_id, name, price, connection_cost) VALUES
@@ -21,20 +25,21 @@ INSERT INTO tariffs
 
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES
-    (2, false, false, 123456789, 3),
-    (3, false, false, 987654321, null);
+    (10, false, false, 123456789, 3),
+    (11, false, false, 987654321, null);
 
 INSERT INTO clients
 (client_id, name, last_name, birth_date, passport, address, e_mail, password, contract_id) VALUES
-    (3, 'anna', 'winter', '2001-01-01', '0000111111', 'moscow', 'anna@mail', 'mypass1', 2),
-    (4, 'mike', 'summer', '2002-02-02', '0000222222', 'perm', 'mike@mail', 'mypass2', 3),
-    (5, 'lena', 'smith', '2003-03-03', '0000333333', 'kiev', 'lena@mail', 'mypass3', null);
+    (3, 'anna', 'winter', '2001-01-01', '0000111111', 'moscow', 'anna@mail', 'mypass1', 10),
+    (4, 'mike', 'summer', '2002-02-02', '0000222222', 'perm', 'mike@mail', 'mypass2', 11),
+    (5, 'lena', 'smith', '2003-03-03', '0000333333', 'kiev', 'lena@mail', 'mypass3', null),
+    (6, 'admin', 'admin', '2002-02-02', '0000222222', 'perm', 'admin@mail', '1qaZ2wsX', null);
 
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES
-    (2, 2),
-    (5, 3),
-    (6, 3);
+    (2, 10),
+    (5, 11),
+    (6, 11);
 
 INSERT INTO options_tariffs
 (option_id, tariff_id) VALUES
@@ -43,6 +48,11 @@ INSERT INTO options_tariffs
     (4, 3),
     (5, 3),
     (6, 3);
+
+-- INSERT INTO roles_clients
+-- (client_id, role_id) VALUES
+--       (3, 1),
+--       (6, 2);
 
 INSERT INTO additional_options
 (option_id, additional_option_id) VALUES

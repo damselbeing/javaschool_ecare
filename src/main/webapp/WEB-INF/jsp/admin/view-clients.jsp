@@ -11,20 +11,27 @@
     </header>
     <div class="container">
         <h1>Clients' list</h1>
-        <form class="form-inline" method="get" action="/admin/clients">
-            <label>
-                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
-            </label>
-            <button type="submit" class="btn btn-primary">Search client</button>
-        </form>
+
     </div>
     <div class="container">
     <c:if test="${clients.size() == 0}">
+        <br>
         <h3>Found no client(s)</h3>
     </c:if>
     </div>
     <div class="container">
     <c:if test="${clients.size() > 0}">
+        <form class="form-inline" method="get" action="/admin/clients">
+            <label>
+                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
+            </label>
+            <button type="submit" class="btn btn-primary">Search client</button>
+            <c:if test="${error != null}">
+                <div class="container">
+                <div class="row alert alert-danger hidden">${error}</div>
+                </div>
+            </c:if>
+        </form>
         <table class="table">
             <thead>
             <tr>

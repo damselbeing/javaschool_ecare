@@ -39,16 +39,26 @@ public class AdminController {
     public String viewClients(
             @RequestParam(required = false, name = "contractNumber") String contractNumber,
             Model model
-    ) throws ClientNotFoundException, ContractNotFoundException {
+    ) throws ClientNotFoundException {
         if(contractNumber == null) {
             model.addAttribute("clients", clientService.getClients());
         } else {
-            List<ClientDto> listOfOne = new ArrayList<>();
-            listOfOne.add(clientService.findClientByContract(contractNumber));
-            model.addAttribute("clients", listOfOne);
+            try{
+                List<ClientDto> listOfOne = new ArrayList<>();
+                listOfOne.add(clientService.findClientByContract(contractNumber));
+                model.addAttribute("clients", listOfOne);
+            } catch (ContractNotFoundException e) {
+                model.addAttribute("clients", clientService.getClients());
+                model.addAttribute("error", e.getMessage());
+            }
+
         }
         return "admin/view-clients";
     }
+
+
+
+
 
     @GetMapping("contractProfile/{idClient}")
     public String showContractProfile(
@@ -158,7 +168,6 @@ public class AdminController {
 
     }
 
-    //    bug
     @PostMapping("updateOptions/{idClient}/{idContract}")
     public String updateContractOptions(
             @PathVariable(value = "idClient") Long idClient,

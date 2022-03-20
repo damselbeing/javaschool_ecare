@@ -46,11 +46,25 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
+//    @Transactional
+//    @Override
+//    public void addNewClient(ClientDto dto) {
+//        clientRepository.save(mapper.map(dto, Client.class));
+//    }
+
     @Transactional
     @Override
-    public void addNewClient(ClientDto dto) {
-        clientRepository.save(mapper.map(dto, Client.class));
+    public boolean saveClient(ClientDto dto) {
+        Client client = mapper.map(dto, Client.class);
+        if(clientRepository.findClientByEmail(client.getEmail()).isPresent()) {
+            return false;
+        };
+
+//        client.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        clientRepository.save(client);
+        return true;
     }
+
 
     @Transactional
     @Override

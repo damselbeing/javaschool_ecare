@@ -17,6 +17,31 @@
     <div class="container">
     <c:if test="${options.size() == 0}">
         <h3>Found no option(s)</h3>
+        <br>
+        <div class="container">
+            <div class="row row-cols-3">
+                <div class="col">
+                    <div>Here can be a new option...</div>
+
+                    <div class="col-6">
+                        <form:form method="post" modelAttribute="newOption" action="/admin/addOption">
+
+                            <div class="form-group">
+                                <input name="name" class="form-control form-control-sm" type="text" placeholder="Option name" id="formID1">
+                                <label class="form-label" for="formID1"></label>
+                            </div>
+                            <div class="form-group">
+                                <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Option price" id="formID2">
+                                <label class="form-label" for="formID2"></label>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-sm" type="submit">Add option</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </c:if>
     </div>
 
@@ -65,7 +90,7 @@
                                     <label class="form-label" for="formID1"></label>
                                 </div>
                                 <div class="form-group">
-                                    <input name="price" class="form-control form-control-sm" type="text" placeholder="Option price" id="formID2">
+                                    <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Option price" id="formID2">
                                     <label class="form-label" for="formID2"></label>
                                 </div>
                                 <div class="form-group">

@@ -17,7 +17,9 @@ public interface ClientService {
 
     List<ClientDto> getClients();
 
-    void addNewClient(ClientDto dto);
+//    void addNewClient(ClientDto dto);
+
+    boolean saveClient(ClientDto dto);
 
     ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException;
 

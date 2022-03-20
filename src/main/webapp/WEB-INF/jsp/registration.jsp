@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Registration</title>
@@ -53,7 +54,20 @@
                                 one uppercase letter and password length must be not less than 8 symbols"/>
 <%--                    <form:errors path="password" cssClass="error"/>--%>
                 </div>
+                <div class="form-group">
+                    <form:label path="name">Confirm password</form:label>
+                    <form:input type="password" required="confirm" class="form-control" path="passwordConfirm"/>
+<%--                    <form:errors path="passwordConfirm" cssClass="error"/>--%>
+                </div>
                 <br>
+                <div class="container">
+                <c:if test="${passwordError != null}">
+                    <div class="row alert alert-danger hidden">${passwordError}</div>
+                </c:if>
+                <c:if test="${usernameError != null}">
+                    <div class="row alert alert-danger hidden">${usernameError}</div>
+                </c:if>
+                </div>
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form:form>
         </div>

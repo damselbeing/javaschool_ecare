@@ -4,9 +4,10 @@
 <html>
 <head>
     <title>Account</title>
-    <jsp:include page="head.jsp"></jsp:include>
+    <jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>
+
     <div class="container">
         <h1>My account</h1>
         <br>
@@ -53,21 +54,21 @@
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
                     <button class="btn btn-outline-primary"
-                            formaction="/blockContract/${client.idClient}/${client.contract.idContract}"
+                            formaction="/client/blockContract/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Block contract
                     </button>
                     </c:if>
                     <c:if test="${client.contract.blockedByClient == true && client.contract.blockedByAdmin == false}">
                         <button class="btn btn-outline-primary"
-                                formaction="/unblockContract/${client.idClient}/${client.contract.idContract}"
+                                formaction="/client/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
                         </button>
                     </c:if>
                     <c:if test="${client.contract.blockedByAdmin == true}">
                         <button class="btn btn-outline-primary disabled"
-                                formaction="/unblockContract/${client.idClient}/${client.contract.idContract}"
+                                formaction="/client/unblockContract/${client.idClient}/${client.contract.idContract}"
                                 type="submit">
                             Unblock contract
                         </button>
@@ -80,10 +81,10 @@
 
             <div class="col-3">
                 <div class="h4">Actual tariffs:</div>
-                <c:if test="${(client.contract == null)}">
-                    <div class="container">
+                <c:if test="${(client.contract == null || tariffs.isEmpty())}">
+<%--                    <div class="container">--%>
                         <div class="h6">No tariff(s) found</div>
-                    </div>
+<%--                    </div>--%>
                 </c:if>
                 <form:form>
                     <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
@@ -108,7 +109,7 @@
                 </c:forEach>
 
                     <button class="btn btn-outline-primary"
-                            formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
+                            formaction="/client/updateTariff/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Update tariff
                     </button>
@@ -136,7 +137,7 @@
                             </c:forEach>
 
                             <button class="btn btn-outline-primary"
-                                    formaction="/updateTariff/${client.idClient}/${client.contract.idContract}"
+                                    formaction="/client/updateTariff/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Update tariff
                             </button>
@@ -150,9 +151,9 @@
             <div class="col-5">
                 <div class="h4">Your tariff options:</div>
                 <c:if test="${(client.contract.tariff.options.size() == 0 || client.contract.tariff.options == null)}">
-                    <div class="container">
+<%--                    <div class="container">--%>
                         <div class="h6">No option(s) found</div>
-                    </div>
+<%--                    </div>--%>
                 </c:if>
                 <form:form>
                 <c:if test="${client.contract.blockedByClient == true || client.contract.blockedByAdmin == true}">
@@ -193,7 +194,7 @@
 
 
                 <button class="btn btn-outline-primary"
-                        formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
+                        formaction="/client/updateOptions/${client.idClient}/${client.contract.idContract}"
                         type="submit">
                     Save options
                 </button>
@@ -237,7 +238,7 @@
 
 
                             <button class="btn btn-outline-primary"
-                                    formaction="/updateOptions/${client.idClient}/${client.contract.idContract}"
+                                    formaction="/client/updateOptions/${client.idClient}/${client.contract.idContract}"
                                     type="submit">
                                 Save options
                             </button>

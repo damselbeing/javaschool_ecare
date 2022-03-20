@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class ClientDto implements Serializable {
+public class ClientDto {
     private Long idClient;
     private String name;
     private String lastName;
@@ -16,5 +16,6 @@ public class ClientDto implements Serializable {
     private String address;
     private String email;
     private String password;
+    private String passwordConfirm;
     private Contract contract;
 }

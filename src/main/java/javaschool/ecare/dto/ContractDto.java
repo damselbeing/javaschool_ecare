@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
-public class ContractDto implements Serializable {
+public class ContractDto {
     private Long idContract;
     private String number;
     private boolean blockedByClient;

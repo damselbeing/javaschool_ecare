@@ -18,6 +18,9 @@
     <c:if test="${tariffs.size() == 0}">
         <h3>Found no tariff(s)</h3>
         <br>
+        <div class="container">
+
+            <div class="row row-cols-3">
         <div class="col">
             <div>Here can be a new tariff...</div>
 
@@ -29,7 +32,7 @@
                     <label class="form-label" for="formID1"></label>
                 </div>
                 <div class="form-group">
-                    <input name="price" class="form-control form-control-sm" type="text" placeholder="Tariff price" id="formID2">
+                    <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2">
                     <label class="form-label" for="formID2"></label>
                 </div>
                 <div class="form-group">
@@ -39,6 +42,8 @@
             </div>
 
             </form:form>
+        </div>
+            </div>
         </div>
 
     </c:if>
@@ -101,7 +106,7 @@
                                 <label class="form-label" for="formID1"></label>
                             </div>
                             <div class="form-group">
-                                <input name="price" class="form-control form-control-sm" type="text" placeholder="Tariff price" id="formID2">
+                                <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2">
                                 <label class="form-label" for="formID2"></label>
                             </div>
                             <div class="form-group">

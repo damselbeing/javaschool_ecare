@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path = "/")
+@RequestMapping(path = "/client/")
 public class ClientController {
 
     private final ClientService clientService;
@@ -29,24 +29,6 @@ public class ClientController {
         this.tariffService = tariffService;
     }
 
-    @GetMapping("welcome")
-    public String showWelcomePage() {
-        return "welcome";
-    }
-
-    @GetMapping("registration")
-    public String showRegistrationForm(Model model) {
-        ClientDto dto = new ClientDto();
-        model.addAttribute("client", dto);
-        return "registration";
-    }
-
-    @PostMapping("registration")
-    public String registerNewClient(@ModelAttribute("client") ClientDto dto) {
-        clientService.addNewClient(dto);
-        return "success";
-    }
-
     @GetMapping("account/{id}")
     public String showPersonalAccount(
             @PathVariable(value = "id") Long id,
@@ -54,7 +36,7 @@ public class ClientController {
     ) throws ClientNotFoundException {
         model.addAttribute("client", clientService.findClientByIdClient(id));
         model.addAttribute("tariffs", tariffService.getTariffs());
-        return "account";
+        return "client/account";
     }
 
     @PostMapping("blockContract/{idClient}/{idContract}")
@@ -62,7 +44,7 @@ public class ClientController {
                                 @PathVariable(value = "idContract") Long idContract)
             throws ClientNotFoundException {
         contractService.blockByClient(idContract);
-        return "redirect:/account/{idClient}";
+        return "redirect:/client/account/{idClient}";
     }
 
     @PostMapping("unblockContract/{idClient}/{idContract}")
@@ -70,7 +52,7 @@ public class ClientController {
                                 @PathVariable(value = "idContract") Long idContract)
             throws ClientNotFoundException {
         contractService.unblockByClient(idContract);
-        return "redirect:/account/{idClient}";
+        return "redirect:/client/account/{idClient}";
     }
 
     @PostMapping("updateTariff/{idClient}/{idContract}")
@@ -79,7 +61,7 @@ public class ClientController {
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ClientNotFoundException, TariffNotFoundException {
         contractService.updateTariff(idContract, idTariff);
-        return "redirect:/account/{idClient}";
+        return "redirect:/client/account/{idClient}";
     }
 
     @PostMapping("updateOptions/{idClient}/{idContract}")
@@ -91,12 +73,12 @@ public class ClientController {
             throws ClientNotFoundException, OptionNotFoundException {
         try {
             contractService.updateContract(idContract, options);
-            return "redirect:/account/{idClient}";
+            return "redirect:/client/account/{idClient}";
         } catch (NotValidOptionsException e) {
             model.addAttribute("client", clientService.findClientByIdClient(idClient));
             model.addAttribute("tariffs", tariffService.getTariffs());
             model.addAttribute("error", e.getMessage());
-            return "account";
+            return "client/account";
         }
 
     }
