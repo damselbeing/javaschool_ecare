@@ -69,7 +69,7 @@
                     </button>
                 </c:if>
                 <c:if test="${client.contract.blockedByAdmin == true}">
-                    <button class="btn btn-outline-primary disabled"
+                    <button class="btn btn-outline-danger disabled"
                             formaction="/client/unblockContract/${client.idClient}/${client.contract.idContract}"
                             type="submit">
                         Blocked by admin

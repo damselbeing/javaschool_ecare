@@ -21,7 +21,7 @@
                 <form:form>
                     <button class="btn btn-outline-primary"
                             formaction="/admin/changeName/${tariff.idTariff}"
-                            type="submit">
+                            type="submit" disabled>
                         Change name
                     </button>
                 </form:form>
@@ -29,7 +29,7 @@
                 <form:form>
                     <button class="btn btn-outline-primary"
                             formaction="/admin/changePrice/${tariff.idTariff}"
-                            type="submit">
+                            type="submit" disabled>
                         Change price
                     </button>
                 </form:form>

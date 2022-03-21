@@ -72,7 +72,7 @@
                                 Archive tariff
                             </button>
                                     <c:if test="${tariff.markedForUpdate == true}">
-                                        <a class="btn btn-danger"
+                                        <a class="btn btn-outline-danger"
                                                 href="/admin/tariffProfile/${tariff.idTariff}">
                                             Must be edited!
                                         </a>
@@ -80,7 +80,7 @@
                                     <c:if test="${tariff.markedForUpdate == false}">
                                         <a class="btn btn-outline-primary"
                                            href="/admin/tariffProfile/${tariff.idTariff}">
-                                            Edit tariff!
+                                            Edit tariff
                                         </a>
                                     </c:if>
                                 </form:form>

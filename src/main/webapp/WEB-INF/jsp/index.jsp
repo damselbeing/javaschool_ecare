@@ -15,11 +15,12 @@
         <div class="col-4">
 
             <sec:authorize access="!isAuthenticated()">
-                <h1 class="display-1"><a href="/login">Welcome to eCare!</a></h1>
+                <h1 class="display-1">Welcome</h1>
+                <h1 class="display-1">to <a href="/login">eCare!</a></h1>
             </sec:authorize>
 
             <sec:authorize access="hasRole('ADMIN')">
-                <h1 class="display-1">Hello!</h1>
+                <h4 class="display-4">Hello, Admin!</h4>
                 <div>
                     <h4><a href="/logout">Log out</a></h4>
                     <br>
@@ -30,11 +31,13 @@
             </sec:authorize>
 
             <sec:authorize access="hasRole('USER')">
-                <h1 class="display-1">Hello!</h1>
+                <h4 class="display-4">Hello, Client!</h4>
                 <div>
                     <h4><a href="/logout">Log out</a></h4>
                     <br>
                     <h4><a href="/client/account">View account</a></h4>
+                    <h4><a href="">View tariffs</a></h4>
+                    <h4><a href="">View options</a></h4>
                 </div>
             </sec:authorize>
 

@@ -18,7 +18,7 @@
             <h1 class="display-1">eCare</h1>
 
             <form method="POST" action="/login">
-                <h6 class="display-6"><small>Log in below, or Sign up <a href="/registration">here</a></small></h6>
+                <h6 class="display-6"><small>LogIn below, or SignUp <a href="/registration">here</a></small></h6>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label"></label>
                     <input name="username" type="email" class="form-control" id="exampleInputEmail1"

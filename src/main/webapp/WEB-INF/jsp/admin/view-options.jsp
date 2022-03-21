@@ -35,7 +35,7 @@
                                 <label class="form-label" for="formID2"></label>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-sm" type="submit">Add option</button>
+                                <button class="btn btn-primary btn-sm" type="submit" disabled>Add option</button>
                             </div>
                         </form:form>
                     </div>
@@ -100,7 +100,7 @@
                                     <label class="form-label" for="formID2"></label>
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-sm" type="submit">Add option</button>
+                                    <button class="btn btn-primary btn-sm" type="submit" disabled>Add option</button>
                                 </div>
                             </form:form>
                         </div>
