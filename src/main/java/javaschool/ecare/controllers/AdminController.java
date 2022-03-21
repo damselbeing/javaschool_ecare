@@ -138,6 +138,7 @@ public class AdminController {
     @GetMapping("options")
     public String viewOptions(Model model) {
         model.addAttribute("options", optionService.getOptions());
+        model.addAttribute("contracts", contractService.getContracts());
         return "admin/view-options";
     }
 

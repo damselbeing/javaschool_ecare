@@ -64,13 +64,19 @@
                             <div>Conflicting options: <c:forEach items="${option.conflictingOptions}" var="optionConf">
                                 ${optionConf.name} </c:forEach>
                             </div>
-                                    <form:form>
-
+                            <form:form>
+                                <c:if test="${(option.contracts.size() == 0)}">
                                 <a class="btn btn-outline-primary"
                                         href="/admin/optionProfile/${option.idOption}">
                                     Edit option
                                 </a>
-                                    </form:form>
+                                </c:if>
+                                <c:if test="${(option.contracts.size() > 0)}">
+                                    <div class="btn btn-outline-danger">
+                                        No editing!
+                                    </div>
+                                </c:if>
+                            </form:form>
 
                             <br>
                         </div>

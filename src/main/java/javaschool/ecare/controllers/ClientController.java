@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping(path = "/client/")
 public class ClientController {
@@ -28,6 +30,19 @@ public class ClientController {
         this.contractService = contractService;
         this.tariffService = tariffService;
     }
+
+//    @Controller
+//    public class SecurityController {
+//
+//        @RequestMapping(value = "/client", method = RequestMethod.GET)
+//        @ResponseBody
+//        public String currentUserName(Principal principal) {
+//
+//            System.out.println(principal.getName());
+//            String email = principal.getName();
+//            return "redirect:/client/account/{email}";
+//        }
+//    }
 
     @GetMapping("account/{id}")
     public String showPersonalAccount(

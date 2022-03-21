@@ -26,7 +26,7 @@ INSERT INTO tariffs
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES
     (10, false, false, 49091238754, 11),
-    (11, false, false, 49092653309, null);
+    (11, false, false, 49092653309, 12);
 
 INSERT INTO clients
 (client_id, name, last_name, birth_date, passport, address, e_mail, password, role, contract_id) VALUES
@@ -39,6 +39,7 @@ INSERT INTO clients
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES
     (10, 10),
+    (11, 10),
     (13, 11),
     (14, 11);
 
@@ -46,9 +47,11 @@ INSERT INTO options_tariffs
 (option_id, tariff_id) VALUES
     (10, 10),
     (11, 10),
-    (12, 11),
-    (13, 11),
-    (14, 11);
+    (10, 11),
+    (11, 11),
+    (14, 11),
+    (13, 12),
+    (14, 12);
 
 -- INSERT INTO roles_clients
 -- (client_id, role_id) VALUES
