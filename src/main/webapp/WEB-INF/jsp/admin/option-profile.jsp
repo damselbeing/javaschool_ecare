@@ -126,6 +126,9 @@
                 <c:if test="${error != null}">
                 <div class="row alert alert-danger hidden">${error}</div>
                 </c:if>
+
+                <div class="row alert alert-secondary">Please note that after any option changes some tariffs may need editing as well! Check tariffs list in the end!</div>
+
 <%--                <c:if test="${error == null}">--%>
 <%--                    <div class="row alert alert-secondary">Please note that in case of any option changes--%>
 <%--                        some tariffs must be edited as well!</div>--%>

@@ -1,12 +1,9 @@
 package javaschool.ecare.controllers;
 
-import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
-import javaschool.ecare.repositories.ClientRepository;
-import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.TariffService;
@@ -23,40 +20,14 @@ public class ClientController {
 
     private final ClientService clientService;
     private final ContractService contractService;
-    private final ClientRepository clientRepository;
     private final TariffService tariffService;
 
     @Autowired
-    public ClientController(ClientService clientService, ContractService contractService, ClientRepository clientRepository, TariffService tariffService) {
+    public ClientController(ClientService clientService, ContractService contractService, TariffService tariffService) {
         this.clientService = clientService;
         this.contractService = contractService;
         this.tariffService = tariffService;
-        this.clientRepository = clientRepository;
     }
-
-//    @Controller
-//    public class SecurityController {
-//
-//        @RequestMapping(value = "/client", method = RequestMethod.GET)
-//        @ResponseBody
-//        public String currentUserName(Principal principal) {
-//
-//            System.out.println(principal.getName());
-//            String email = principal.getName();
-//            return email;
-//        }
-//    }
-
-//    @GetMapping("account/{id}")
-//    public String showPersonalAccount(
-//            @PathVariable(value = "id") Long id,
-//            Model model
-//    ) throws ClientNotFoundException {
-//        model.addAttribute("client", clientService.findClientByIdClient(id));
-//        model.addAttribute("tariffs", tariffService.getTariffs());
-//        return "client/account";
-//    }
-
 
 
     @GetMapping("account")
@@ -65,16 +36,11 @@ public class ClientController {
             Model model
     ) throws ClientNotFoundException {
         String email = principal.getName();
-        model.addAttribute("client", clientRepository.findClientByEmail(email).orElseThrow(ClientNotFoundException::new));
+        model.addAttribute("client", clientService.findClientByEmail(email));
         model.addAttribute("tariffs", tariffService.getTariffs());
         return "client/account";
     }
 
-//    @GetMapping("account")
-//    public String showPersonalAccount(){
-//
-//        return "client/account";
-//    }
 
     @PostMapping("blockContract/{idClient}/{idContract}")
     public String blockContract(@PathVariable(value = "idClient") Long idClient,
@@ -97,7 +63,7 @@ public class ClientController {
                                   @PathVariable(value = "idContract") Long idContract,
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ClientNotFoundException, TariffNotFoundException {
-        contractService.updateTariff(idContract, idTariff);
+        contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/client/account/";
     }
 
@@ -109,7 +75,7 @@ public class ClientController {
             @RequestParam(value = "optionsUpdated", required = false) String[] options)
             throws ClientNotFoundException, OptionNotFoundException {
         try {
-            contractService.updateContract(idContract, options);
+            contractService.updateContractOptions(idContract, options);
             return "redirect:/client/account/";
         } catch (NotValidOptionsException e) {
             model.addAttribute("client", clientService.findClientByIdClient(idClient));

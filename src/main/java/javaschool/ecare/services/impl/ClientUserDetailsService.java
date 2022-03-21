@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientUserDetailsService implements UserDetailsService {
 
+
     @Autowired
     ClientRepository clientRepository;
 
@@ -20,7 +21,7 @@ public class ClientUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Client clientFromDB= clientRepository.getClientByEmail(email);
         if (clientFromDB == null) {
-            throw new UsernameNotFoundException("Unknown user: "+email);
+            throw new UsernameNotFoundException("Unknown user with email: "+email);
         }
         UserDetails user = User.builder()
                 .username(clientFromDB.getEmail())

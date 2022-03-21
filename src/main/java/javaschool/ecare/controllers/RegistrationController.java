@@ -5,7 +5,6 @@ import javaschool.ecare.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -21,10 +20,6 @@ public class RegistrationController {
 
     }
 
-//    @GetMapping("welcome")
-//    public String showMainPage() {
-//        return "welcome";
-//    }
 
     @GetMapping("registration")
     public String showRegistrationForm(Model model) {
@@ -42,7 +37,7 @@ public class RegistrationController {
             model.addAttribute("passwordError", "Password confirmation failed!");
             return "registration";
         }
-        if (!clientService.saveClient(dto)){
+        if (!clientService.registerNewClient(dto)){
             model.addAttribute("usernameError", "User with this email already exists!");
             return "registration";
         }

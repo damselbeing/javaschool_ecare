@@ -41,15 +41,15 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void archiveTariff(Long id) throws TariffNotFoundException {
-        Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
+    public void archiveTariff(Long idTariff) throws TariffNotFoundException {
+        Tariff tariff = tariffRepository.findTariffByIdTariff(idTariff).orElseThrow(TariffNotFoundException::new);
         tariff.setArchived(true);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public TariffDto findTariffByIdTariff(Long id) throws TariffNotFoundException {
-        return tariffRepository.findTariffByIdTariff(id)
+    public TariffDto findTariffByIdTariff(Long idTariff) throws TariffNotFoundException {
+        return tariffRepository.findTariffByIdTariff(idTariff)
                 .map(tariff -> mapper.map(tariff, TariffDto.class))
                 .orElseThrow(TariffNotFoundException::new);
     }
@@ -63,7 +63,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public Set<Option> changeTariffOptions(String[] options) throws NotValidOptionsException, OptionNotFoundException {
+    public Set<Option> prepareTariffOptionsForUpdate(String[] options) throws NotValidOptionsException, OptionNotFoundException {
         Set<Option> optionsUpdated = new HashSet<>();
 
         if(options != null) {
@@ -94,9 +94,9 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
-        Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
-        Set<Option> optionsUpdated = changeTariffOptions(options);
+    public void updateTariffOptions(Long idTariff, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
+        Tariff tariff = tariffRepository.findTariffByIdTariff(idTariff).orElseThrow(TariffNotFoundException::new);
+        Set<Option> optionsUpdated = prepareTariffOptionsForUpdate(options);
         tariff.setOptions(optionsUpdated);
         if(tariff.isMarkedForUpdate() == true) {
             tariff.setMarkedForUpdate(false);

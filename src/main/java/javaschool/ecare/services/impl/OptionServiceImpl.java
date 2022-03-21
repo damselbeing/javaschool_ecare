@@ -38,15 +38,14 @@ public class OptionServiceImpl implements OptionService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public OptionDto findOptionByIdOption(Long id) throws OptionNotFoundException {
-        return optionRepository.findOptionByIdOption(id)
+    public OptionDto findOptionByIdOption(Long idOption) throws OptionNotFoundException {
+        return optionRepository.findOptionByIdOption(idOption)
                 .map(option -> mapper.map(option, OptionDto.class))
                 .orElseThrow(OptionNotFoundException::new);
     }
 
-    @Transactional
     @Override
     public void validateOptions(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
         for (int i = 0; i < optionsConflicting.length; i++) {
@@ -58,12 +57,12 @@ public class OptionServiceImpl implements OptionService {
 
     @Transactional
     @Override
-    public void updateOption(Long id, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
+    public void updateOption(Long idOption, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
         if(optionsAdditional != null && optionsConflicting != null) {
             validateOptions(optionsAdditional, optionsConflicting);
         }
 
-        Option optionMain = optionRepository.findOptionByIdOption(id).orElseThrow(OptionNotFoundException::new);
+        Option optionMain = optionRepository.findOptionByIdOption(idOption).orElseThrow(OptionNotFoundException::new);
         Set<Option> optionsAdditionalUpdated = new HashSet<>();
         Set<Option> optionsConflictingUpdated = new HashSet<>();
 

@@ -53,15 +53,6 @@ public class Client {
     private Contract contract;
 
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "roles_clients",
-//            joinColumns = {@JoinColumn(name = "client_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-//    )
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    private Set<Role> roles;
 
     public Client() {
 

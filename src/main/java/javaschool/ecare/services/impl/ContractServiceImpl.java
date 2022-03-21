@@ -59,52 +59,56 @@ public class ContractServiceImpl implements ContractService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public ContractDto findContractByIdContract(Long id) throws ClientNotFoundException {
-        return contractRepository.findContractByIdContract(id)
+    public ContractDto findContractByIdContract(Long idContract) throws ClientNotFoundException {
+        return contractRepository.findContractByIdContract(idContract)
                 .map(contract -> mapper.map(contract, ContractDto.class))
                 .orElseThrow(ClientNotFoundException::new);
     }
 
     @Transactional
     @Override
-    public void blockByAdmin(Long id) throws ClientNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+    public void blockByAdmin(Long idContract) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByAdmin(true);
     }
 
     @Transactional
     @Override
-    public void blockByClient(Long id) throws ClientNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+    public void blockByClient(Long idContract) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByClient(true);
     }
 
     @Transactional
     @Override
-    public void unblockByAdmin(Long id) throws ClientNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+    public void unblockByAdmin(Long idContract) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByAdmin(false);
         contract.setBlockedByClient(false);
     }
 
     @Transactional
     @Override
-    public void unblockByClient(Long id) throws ClientNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
+    public void unblockByClient(Long idContract) throws ClientNotFoundException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
         contract.setBlockedByClient(false);
     }
 
     @Transactional
     @Override
-    public void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
-        Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
-        contract.setTariff(tariff);
-        contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+    public void updateContractTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException {
+        if(idTariff != null) {
+            Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
+            Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
+            contract.setTariff(tariff);
+            contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+        }
+
     }
 
+    @Transactional
     @Override
     public Set<String> getGeneratedNumbers() {
         Set<String> numbers = new HashSet<>();
@@ -147,9 +151,9 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional
     @Override
-    public void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
-        Contract contract = contractRepository.findContractByIdContract(id).orElseThrow(ClientNotFoundException::new);
-        Set<Option> optionsUpdated = tariffService.changeTariffOptions(options);
+    public void updateContractOptions(Long idContract, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException {
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ClientNotFoundException::new);
+        Set<Option> optionsUpdated = tariffService.prepareTariffOptionsForUpdate(options);
 
         contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
 

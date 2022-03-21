@@ -30,10 +30,15 @@ public class ClientServiceImpl implements ClientService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 //    @Autowired
-//    public ClientServiceImpl(ClientRepository clientRepository, ModelMapper mapper, ContractRepository contractRepository) {
+//    public ClientServiceImpl(
+//            ClientRepository clientRepository,
+//            ModelMapper mapper,
+//            ContractRepository contractRepository,
+//            BCryptPasswordEncoder bCryptPasswordEncoder) {
 //        this.clientRepository = clientRepository;
 //        this.mapper = mapper;
 //        this.contractRepository = contractRepository;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 //    }
 
     @Transactional
@@ -52,15 +57,10 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
-//    @Transactional
-//    @Override
-//    public void addNewClient(ClientDto dto) {
-//        clientRepository.save(mapper.map(dto, Client.class));
-//    }
 
     @Transactional
     @Override
-    public boolean saveClient(ClientDto dto) {
+    public boolean registerNewClient(ClientDto dto) {
         Client client = mapper.map(dto, Client.class);
         if(clientRepository.findClientByEmail(client.getEmail()).isPresent()) {
             return false;
@@ -78,6 +78,14 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException {
         Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ContractNotFoundException::new);
         return clientRepository.findClientByContract(contract)
+                .map(client -> mapper.map(client, ClientDto.class))
+                .orElseThrow(ClientNotFoundException::new);
+    }
+
+    @Transactional
+    @Override
+    public ClientDto findClientByEmail(String email) throws ClientNotFoundException {
+        return clientRepository.findClientByEmail(email)
                 .map(client -> mapper.map(client, ClientDto.class))
                 .orElseThrow(ClientNotFoundException::new);
     }

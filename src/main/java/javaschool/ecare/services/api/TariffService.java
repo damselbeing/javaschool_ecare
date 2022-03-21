@@ -14,8 +14,7 @@ public interface TariffService {
     List<TariffDto> getTariffs();
     void archiveTariff(Long id) throws TariffNotFoundException;
     TariffDto findTariffByIdTariff(Long id) throws TariffNotFoundException;
-    Set<Option> changeTariffOptions(String[] options) throws NotValidOptionsException, OptionNotFoundException;
-    void updateTariff(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException;
-
+    Set<Option> prepareTariffOptionsForUpdate(String[] options) throws NotValidOptionsException, OptionNotFoundException;
+    void updateTariffOptions(Long id, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException;
     void addNewTariff(TariffDto dto);
 }

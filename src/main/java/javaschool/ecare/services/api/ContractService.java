@@ -2,7 +2,6 @@ package javaschool.ecare.services.api;
 
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.exceptions.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,7 @@ public interface ContractService {
 
     void unblockByAdmin(Long id) throws ClientNotFoundException;
 
-    void updateContract(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException;
+    void updateContractOptions(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException;
 
     void blockByClient(Long id) throws ClientNotFoundException;
 
@@ -25,7 +24,7 @@ public interface ContractService {
 
     Set<String> getGeneratedNumbers();
 
-    void updateTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
+    void updateContractTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
 
-    void addNewContract(ContractDto dto, Long idClient) throws ClientNotFoundException, ContractNotFoundException;
+    void addNewContract(ContractDto dto, Long id) throws ClientNotFoundException, ContractNotFoundException;
 }

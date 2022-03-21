@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -124,7 +123,7 @@ public class AdminController {
             @RequestParam(value = "options", required = false) String[] options
     ) throws TariffNotFoundException, OptionNotFoundException {
         try {
-            tariffService.updateTariff(id, options);
+            tariffService.updateTariffOptions(id, options);
             return "redirect:/admin/tariffProfile/{id}";
         } catch (NotValidOptionsException e) {
             model.addAttribute("tariff", tariffService.findTariffByIdTariff(id));
@@ -177,7 +176,7 @@ public class AdminController {
             @RequestParam(value = "optionsUpdated", required = false) String[] options)
             throws ClientNotFoundException, OptionNotFoundException {
         try {
-            contractService.updateContract(idContract, options);
+            contractService.updateContractOptions(idContract, options);
             return "redirect:/admin/contractProfile/{idClient}";
         } catch (NotValidOptionsException e) {
             model.addAttribute("client", clientService.findClientByIdClient(idClient));
@@ -193,13 +192,16 @@ public class AdminController {
                                @PathVariable(value = "idContract") Long idContract,
                                @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ClientNotFoundException, TariffNotFoundException {
-        contractService.updateTariff(idContract, idTariff);
+        contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/admin/contractProfile/{idClient}";
     }
 
 
     @GetMapping("addContract/{idClient}")
-    public String addNewContract(@PathVariable(value = "idClient") Long idClient, Model model) throws ClientNotFoundException {
+    public String draftNewContract(
+            @PathVariable(value = "idClient") Long idClient,
+            Model model
+    ) throws ClientNotFoundException {
         model.addAttribute("client", clientService.findClientByIdClient(idClient));
         model.addAttribute("telnumbers", contractService.getGeneratedNumbers());
         ContractDto dto = new ContractDto();
@@ -208,7 +210,7 @@ public class AdminController {
     }
 
     @PostMapping("saveContract/{idClient}")
-    public String saveNewContract(
+    public String addNewContract(
             @PathVariable(value = "idClient") Long idClient,
             @ModelAttribute("number") ContractDto dto
     ) throws ClientNotFoundException, ContractNotFoundException {

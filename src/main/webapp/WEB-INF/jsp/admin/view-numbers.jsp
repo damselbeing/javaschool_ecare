@@ -41,7 +41,7 @@
                     <c:forEach items="${telnumbers}" var="telnumber">
 
                         <div style="display: inline-block; width: 150px" class="form-check">
-                            <input class="form-check-input" type="radio" name="number" value="${telnumber}" id="number_${telnumber}">
+                            <input class="form-check-input" type="radio" name="number" value="${telnumber}" id="number_${telnumber}" required>
                             <label class="form-check-label" for="number_${telnumber}">
                                     ${telnumber}
                             </label>
