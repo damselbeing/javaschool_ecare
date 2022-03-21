@@ -26,6 +26,9 @@ public class Tariff {
     @Column(nullable = false, name = "archived")
     private boolean archived = false;
 
+    @Column(nullable = false, name = "marked")
+    private boolean markedForUpdate = false;
+
     @ManyToMany
     @JoinTable(
             name = "options_tariffs",

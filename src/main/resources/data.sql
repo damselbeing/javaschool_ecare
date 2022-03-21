@@ -16,12 +16,12 @@ INSERT INTO options
     (17, 'NoSpam', 90.00, 150.00);
 
 INSERT INTO tariffs
-(tariff_id, name, price, archived) VALUES
+(tariff_id, name, price, archived, marked) VALUES
 --     (1, 'tariff100', 100.00, false),
-    (10, 'BigFamily', 200.00, false),
-    (11, 'KidsOnly', 300.00, false),
-    (12, 'Business', 400.00, false),
-    (13, 'Travel', 500.00, false);
+    (10, 'BigFamily', 200.00, false, false),
+    (11, 'KidsOnly', 300.00, false, false),
+    (12, 'Business', 400.00, false, false),
+    (13, 'Travel', 500.00, false, false);
 
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES

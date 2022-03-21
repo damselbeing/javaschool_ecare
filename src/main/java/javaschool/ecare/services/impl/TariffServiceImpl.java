@@ -98,6 +98,9 @@ public class TariffServiceImpl implements TariffService {
         Tariff tariff = tariffRepository.findTariffByIdTariff(id).orElseThrow(TariffNotFoundException::new);
         Set<Option> optionsUpdated = changeTariffOptions(options);
         tariff.setOptions(optionsUpdated);
+        if(tariff.isMarkedForUpdate() == true) {
+            tariff.setMarkedForUpdate(false);
+        }
     }
 
 }

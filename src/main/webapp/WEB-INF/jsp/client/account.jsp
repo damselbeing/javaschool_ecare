@@ -7,7 +7,9 @@
     <jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>
-
+<header>
+    <jsp:include page="header.jsp"></jsp:include>
+</header>
 <div class="container">
     <h1>My account</h1>
     <br>
@@ -129,28 +131,95 @@
                         </c:if>
                         <c:if test="${client.contract.blockedByClient == false && client.contract.blockedByAdmin == false}">
 
+<%--                            <c:forEach items="${tariffs}" var="tariff">--%>
+<%--                                <c:if test="${tariff.archived == false && client.contract.tariff.idTariff == tariff.idTariff}">--%>
+<%--                                    <div class="form-check">--%>
+<%--                                        <input class="form-check-input" type="radio" name="tariffUpdated"--%>
+<%--                                               value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>--%>
+<%--                                        <label class="form-check-label"--%>
+<%--                                               for="tariffUpdated_${tariff.idTariff}">${tariff.name}--%>
+<%--                                            <div class="small">Price: ${tariff.price} EUR</div>--%>
+<%--                                        </label>--%>
+<%--                                    </div>--%>
+<%--                                </c:if>--%>
+<%--                                <c:if test="${tariff.archived == false && client.contract.tariff.idTariff != tariff.idTariff}">--%>
+<%--                                    <div class="form-check">--%>
+<%--                                        <input class="form-check-input" type="radio" name="tariffUpdated"--%>
+<%--                                               value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">--%>
+<%--                                        <label class="form-check-label"--%>
+<%--                                               for="tariffUpdated_${tariff.idTariff}">${tariff.name}--%>
+<%--                                            <div class="small">Price: ${tariff.price} EUR</div>--%>
+<%--                                        </label>--%>
+<%--                                    </div>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+
+
+
+
+
+
+
+
+
                             <c:forEach items="${tariffs}" var="tariff">
+
                                 <c:if test="${tariff.archived == false && client.contract.tariff.idTariff == tariff.idTariff}">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tariffUpdated"
-                                               value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
-                                        <label class="form-check-label"
-                                               for="tariffUpdated_${tariff.idTariff}">${tariff.name}
-                                            <div class="small">Price: ${tariff.price} EUR</div>
-                                        </label>
-                                    </div>
+                                    <c:if test="${tariff.markedForUpdate == true}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="tariffUpdated"
+                                                   value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked disabled>
+                                            <label class="form-check-label"
+                                                   for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                                <div class="small">Price: ${tariff.price} EUR</div>
+                                                <div class="small">Tariff must be edited!</div>
+                                            </label>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${tariff.markedForUpdate == false}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="tariffUpdated"
+                                                   value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" checked>
+                                            <label class="form-check-label"
+                                                   for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                                <div class="small">Price: ${tariff.price} EUR</div>
+                                            </label>
+                                        </div>
+                                    </c:if>
                                 </c:if>
                                 <c:if test="${tariff.archived == false && client.contract.tariff.idTariff != tariff.idTariff}">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tariffUpdated"
-                                               value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
-                                        <label class="form-check-label"
-                                               for="tariffUpdated_${tariff.idTariff}">${tariff.name}
-                                            <div class="small">Price: ${tariff.price} EUR</div>
-                                        </label>
-                                    </div>
+                                    <c:if test="${tariff.markedForUpdate == true}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="tariffUpdated"
+                                                   value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}" disabled>
+                                            <label class="form-check-label"
+                                                   for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                                <div class="small">Price: ${tariff.price} EUR</div>
+                                                <div class="small">Tariff must be edited!</div>
+                                            </label>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${tariff.markedForUpdate == false}">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="tariffUpdated"
+                                                   value="${tariff.idTariff}" id="tariffUpdated_${tariff.idTariff}">
+                                            <label class="form-check-label"
+                                                   for="tariffUpdated_${tariff.idTariff}">${tariff.name}
+                                                <div class="small">Price: ${tariff.price} EUR</div>
+                                            </label>
+                                        </div>
+                                    </c:if>
                                 </c:if>
                             </c:forEach>
+
+
+
+
+
+
+
+
+
 
                             <button class="btn btn-outline-primary"
                                     formaction="/client/updateTariff/${client.idClient}/${client.contract.idContract}"
@@ -171,6 +240,7 @@
                 <c:when test="${(
             client.contract.tariff.options.size() == 0 ||
             client.contract.tariff.options == null ||
+            client.contract.tariff.markedForUpdate == true ||
             client.contract.tariff.archived == true ||
             (tariffs.size() == tariffs
                             .stream()

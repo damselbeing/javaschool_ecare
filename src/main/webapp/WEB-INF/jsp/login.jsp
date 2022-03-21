@@ -12,7 +12,7 @@
     <% response.sendRedirect("/"); %>
 </sec:authorize>
 
-<div class="container" style="height: 100vh;">
+<div class="container" style="height: 90vh;">
     <div class="row align-items-center" style="height: 100%">
         <div class="col-4">
             <h1 class="display-1">eCare</h1>

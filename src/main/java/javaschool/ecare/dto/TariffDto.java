@@ -15,6 +15,7 @@ public class TariffDto {
     private String name;
     private double price;
     private boolean archived;
+    private boolean markedForUpdate;
     private Set<Option> options;
     private Set<Contract> contracts;
 }

@@ -2,6 +2,7 @@ package javaschool.ecare.services.impl;
 
 import javaschool.ecare.dto.OptionDto;
 import javaschool.ecare.entities.Option;
+import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
@@ -84,7 +85,15 @@ public class OptionServiceImpl implements OptionService {
 
         optionMain.setConflictingOptions(optionsConflictingUpdated);
         optionMain.setAdditionalOptions(optionsAdditionalUpdated);
+
+        Set<Tariff> tariffsToBeUpdated = new HashSet<>();
+        tariffsToBeUpdated = optionMain.getTariffs();
+        if (tariffsToBeUpdated != null) {
+            tariffsToBeUpdated.forEach(tUp-> tUp.setMarkedForUpdate(true));
+        }
+
     }
+
 
 
 

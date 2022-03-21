@@ -9,13 +9,17 @@
 </head>
 <body>
 
-<div class="container" style="height: 100vh;">
+<div class="container" style="height: 90vh;">
     <div class="row align-items-center" style="height: 100%">
+        <div class="col-1"></div>
         <div class="col-4">
 
+            <sec:authorize access="!isAuthenticated()">
+                <h1 class="display-1"><a href="/login">Welcome to eCare!</a></h1>
+            </sec:authorize>
 
             <sec:authorize access="hasRole('ADMIN')">
-                <h1 class="display-6">Hello, Admin!</h1>
+                <h1 class="display-1">Hello!</h1>
                 <div>
                     <h4><a href="/logout">Log out</a></h4>
                     <br>
@@ -25,13 +29,21 @@
                 </div>
             </sec:authorize>
 
+            <sec:authorize access="hasRole('USER')">
+                <h1 class="display-1">Hello!</h1>
+                <div>
+                    <h4><a href="/logout">Log out</a></h4>
+                    <br>
+                    <h4><a href="/client/account">View account</a></h4>
+                </div>
+            </sec:authorize>
+
 
 
         </div>
 
 
-        <div class="col-1">
-        </div>
+
         <div class="col-7">
             <img src="/res/images/login.jpg" alt="img">
         </div>

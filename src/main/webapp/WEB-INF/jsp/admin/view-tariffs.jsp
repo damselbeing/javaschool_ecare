@@ -71,11 +71,18 @@
                                     type="submit">
                                 Archive tariff
                             </button>
-
-                            <a class="btn btn-outline-primary"
-                                    href="/admin/tariffProfile/${tariff.idTariff}">
-                                Edit tariff
-                            </a>
+                                    <c:if test="${tariff.markedForUpdate == true}">
+                                        <a class="btn btn-danger"
+                                                href="/admin/tariffProfile/${tariff.idTariff}">
+                                            Must be edited!
+                                        </a>
+                                    </c:if>
+                                    <c:if test="${tariff.markedForUpdate == false}">
+                                        <a class="btn btn-outline-primary"
+                                           href="/admin/tariffProfile/${tariff.idTariff}">
+                                            Edit tariff!
+                                        </a>
+                                    </c:if>
                                 </form:form>
                             </c:if>
                             <c:if test="${tariff.archived == true}">
