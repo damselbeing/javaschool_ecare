@@ -41,7 +41,7 @@ public class ClientServiceImpl implements ClientService {
 //        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 //    }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public ClientDto findClientByIdClient(Long id) throws ClientNotFoundException {
         return clientRepository.findClientByIdClient(id)
@@ -82,7 +82,7 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(ClientNotFoundException::new);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public ClientDto findClientByEmail(String email) throws ClientNotFoundException {
         return clientRepository.findClientByEmail(email)
