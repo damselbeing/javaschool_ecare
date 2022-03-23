@@ -1,6 +1,9 @@
 package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
+import javaschool.ecare.exceptions.ClientAlreadyExistsException;
+import javaschool.ecare.exceptions.NotValidOptionsException;
+import javaschool.ecare.exceptions.PasswordConfirmationFailedException;
 import javaschool.ecare.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,18 +36,13 @@ public class RegistrationController {
             @ModelAttribute("client") ClientDto dto,
             Model model) {
 
-        if (!dto.getPassword().equals(dto.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Password confirmation failed!");
+        try {
+            clientService.registerNewClient(dto);
+            return "redirect:/login";
+        } catch (ClientAlreadyExistsException | PasswordConfirmationFailedException e) {
+            model.addAttribute("error", e.getMessage());
             return "registration";
         }
-        if (!clientService.registerNewClient(dto)){
-            model.addAttribute("usernameError", "User with this email already exists!");
-            return "registration";
-        }
-
-        return "redirect:/login";
-
-
     }
 
 

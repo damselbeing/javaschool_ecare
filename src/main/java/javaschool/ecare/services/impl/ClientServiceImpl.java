@@ -3,8 +3,10 @@ package javaschool.ecare.services.impl;
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.entities.Client;
 import javaschool.ecare.entities.Contract;
+import javaschool.ecare.exceptions.ClientAlreadyExistsException;
 import javaschool.ecare.exceptions.ClientNotFoundException;
 import javaschool.ecare.exceptions.ContractNotFoundException;
+import javaschool.ecare.exceptions.PasswordConfirmationFailedException;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ClientService;
@@ -60,16 +62,23 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public boolean registerNewClient(ClientDto dto) {
+    public void registerNewClient(ClientDto dto) throws ClientAlreadyExistsException, PasswordConfirmationFailedException {
         Client client = mapper.map(dto, Client.class);
-        if(clientRepository.findClientByEmail(client.getEmail()).isPresent()) {
-            return false;
+        if(
+                clientRepository.findClientByEmail(client.getEmail()).isPresent() ||
+                        clientRepository.findClientByPassport(client.getPassport()).isPresent()
+        ) {
+            throw new ClientAlreadyExistsException();
         };
+
+        if (!dto.getPassword().equals(dto.getPasswordConfirm())){
+           throw new PasswordConfirmationFailedException();
+        }
 
         client.setRole("USER");
         client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
-        return true;
+
     }
 
 

@@ -44,7 +44,7 @@ public class Client {
     private String passwordConfirm;
 
     @Column(name = "role")
-    private String role = "ADMIN";
+    private String role;
 
     @OneToOne
     @JoinColumn(name = "contract_id")

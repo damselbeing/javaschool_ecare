@@ -45,7 +45,9 @@
                 </div>
                 <div class="form-group">
                     <form:label path="email">Email</form:label>
-                    <form:input type="email" required="email" class="form-control" path="email"/>
+                    <form:input type="text" required="text" class="form-control" path="email"
+                    pattern="^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"
+                    title="username@domain.name"/>
 <%--                    <form:errors path="email" cssClass="error"/>--%>
                 </div>
                 <div class="form-group">
@@ -62,14 +64,10 @@
 <%--                    <form:errors path="passwordConfirm" cssClass="error"/>--%>
                 </div>
                 <br>
-                <div class="container">
-                <c:if test="${passwordError != null}">
-                    <div class="row alert alert-danger hidden">${passwordError}</div>
+                <c:if test="${error != null}">
+                    <div class="row alert alert-danger hidden">${error}</div>
                 </c:if>
-                <c:if test="${usernameError != null}">
-                    <div class="row alert alert-danger hidden">${usernameError}</div>
-                </c:if>
-                </div>
+
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </form:form>
         </div>
