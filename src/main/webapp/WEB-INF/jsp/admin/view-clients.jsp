@@ -23,7 +23,7 @@
     <c:if test="${clients.size() > 0}">
         <form class="form-inline" method="get" action="/admin/clients">
             <label>
-                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract">
+                <input type="text" name="contractNumber" class="form-control" placeholder="Enter client's contract" required>
             </label>
             <button type="submit" class="btn btn-primary">Search client</button>
             <c:if test="${error != null}">

@@ -5,6 +5,7 @@ import javaschool.ecare.entities.Option;
 import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
+import javaschool.ecare.exceptions.TariffAlreadyExistsException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
@@ -56,8 +57,17 @@ public class TariffServiceImpl implements TariffService {
 
     @Transactional
     @Override
-    public void addNewTariff(TariffDto dto) {
-        tariffRepository.save(mapper.map(dto, Tariff.class));
+    public void addNewTariff(TariffDto dto) throws TariffAlreadyExistsException {
+
+        if(dto.getName() != null && dto.getPrice() >= 0) {
+
+            if(tariffRepository.findTariffByName(dto.getName()).isPresent()) {
+                throw new TariffAlreadyExistsException();
+            }
+
+            tariffRepository.save(mapper.map(dto, Tariff.class));
+
+        }
 
     }
 
@@ -70,9 +80,11 @@ public class TariffServiceImpl implements TariffService {
             for(int i = 0; i < options.length; i++) {
                 Long optionId = Long.valueOf(options[i]);
                 Option optionSelected = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+
                 List<String> addOpts = new ArrayList<>();
                 optionSelected.getAdditionalOptions().stream()
                         .forEach(opt -> addOpts.add(String.valueOf(opt.getIdOption())));
+
                 List<String> conflOpts = new ArrayList<>();
                 optionSelected.getConflictingOptions().stream()
                         .forEach(opt -> conflOpts.add(String.valueOf(opt.getIdOption())));

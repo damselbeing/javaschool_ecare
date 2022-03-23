@@ -103,11 +103,15 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     @Override
     public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException {
-        if(idTariff != null) {
-            Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+
+        if(idTariff != null && contract.isBlockedByAdmin() == false && contract.isBlockedByClient() == false) {
             Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
-            contract.setTariff(tariff);
-            contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+
+            if(tariff.isArchived() == false) {
+                contract.setTariff(tariff);
+                contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+            }
         }
 
     }
@@ -157,13 +161,14 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void updateContractOptions(Long idContract, String[] options) throws ContractNotFoundException, OptionNotFoundException, NotValidOptionsException {
         Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
-        Set<Option> optionsUpdated = tariffService.prepareTariffOptionsForUpdate(options);
 
-        contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+        if(contract.isBlockedByClient() == false && contract.isBlockedByAdmin() == false) {
+            Set<Option> optionsUpdated = tariffService.prepareTariffOptionsForUpdate(options);
+            contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+            contract.setContractOptions(optionsUpdated);
+            optionsUpdated.forEach(option -> option.getContracts().add(contract));
+        }
 
-        contract.setContractOptions(optionsUpdated);
-
-        optionsUpdated.forEach(option -> option.getContracts().add(contract));
 
 
     }

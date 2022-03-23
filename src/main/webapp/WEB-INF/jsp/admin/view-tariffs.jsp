@@ -28,13 +28,16 @@
                 <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
 
                 <div class="form-group">
-                    <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1">
+                    <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1" required>
                     <label class="form-label" for="formID1"></label>
                 </div>
                 <div class="form-group">
-                    <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2">
+                    <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2" required>
                     <label class="form-label" for="formID2"></label>
                 </div>
+                    <c:if test="${error != null}">
+                        <div class="row alert alert-danger hidden">${error}</div>
+                    </c:if>
                 <div class="form-group">
                     <button class="btn btn-primary btn-sm" type="submit">Add tariff</button>
                 </div>
@@ -109,13 +112,16 @@
                         <form:form method="post" modelAttribute="newTariff" action="/admin/addTariff">
 
                             <div class="form-group">
-                                <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1">
+                                <input name="name" class="form-control form-control-sm" type="text" placeholder="Tariff name" id="formID1" required>
                                 <label class="form-label" for="formID1"></label>
                             </div>
                             <div class="form-group">
-                                <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2">
+                                <input name="price" class="form-control form-control-sm" type="number" min="0" placeholder="Tariff price" id="formID2" required>
                                 <label class="form-label" for="formID2"></label>
                             </div>
+                            <c:if test="${error != null}">
+                                <div class="row alert alert-danger hidden">${error}</div>
+                            </c:if>
                             <div class="form-group">
                                 <button class="btn btn-primary btn-sm" type="submit">Add tariff</button>
                             </div>

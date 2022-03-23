@@ -98,9 +98,18 @@ public class AdminController {
     }
 
     @PostMapping("addTariff")
-    public String addNewTariff(@ModelAttribute("newTariff") TariffDto dto) {
-        tariffService.addNewTariff(dto);
-        return "redirect:/admin/tariffs";
+    public String addNewTariff(@ModelAttribute("newTariff") TariffDto dto, Model model) {
+        try{
+            tariffService.addNewTariff(dto);
+            return "redirect:/admin/tariffs";
+        } catch(TariffAlreadyExistsException e) {
+            model.addAttribute("tariffs", tariffService.getTariffs());
+            TariffDto dtoNew = new TariffDto();
+            model.addAttribute("newTariff", dtoNew);
+            model.addAttribute("error", e.getMessage());
+            return "admin/view-tariffs";
+        }
+
     }
 
 
