@@ -3,6 +3,7 @@ package javaschool.ecare.controllers;
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.dto.TariffDto;
+import javaschool.ecare.entities.Client;
 import javaschool.ecare.exceptions.*;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
@@ -74,7 +75,7 @@ public class AdminController {
     public String blockContract(
             @PathVariable(value = "idClient") Long idClient,
             @PathVariable(value = "idContract") Long idContract
-            ) throws ClientNotFoundException {
+            ) throws ContractNotFoundException {
         contractService.blockByAdmin(idContract);
         return "redirect:/admin/contractProfile/{idClient}";
     }
@@ -83,7 +84,7 @@ public class AdminController {
     public String unblockContract(
             @PathVariable(value = "idClient") Long idClient,
             @PathVariable(value = "idContract") Long idContract
-    ) throws ClientNotFoundException {
+    ) throws ContractNotFoundException {
         contractService.unblockByAdmin(idContract);
         return "redirect:/admin/contractProfile/{idClient}";
     }
@@ -174,7 +175,7 @@ public class AdminController {
             @PathVariable(value = "idContract") Long idContract,
             Model model,
             @RequestParam(value = "optionsUpdated", required = false) String[] options)
-            throws ClientNotFoundException, OptionNotFoundException {
+            throws ContractNotFoundException, OptionNotFoundException, ClientNotFoundException {
         try {
             contractService.updateContractOptions(idContract, options);
             return "redirect:/admin/contractProfile/{idClient}";
@@ -191,7 +192,7 @@ public class AdminController {
     public String updateContractTariff(@PathVariable(value = "idClient") Long idClient,
                                @PathVariable(value = "idContract") Long idContract,
                                @RequestParam(value = "tariffUpdated", required = false) String idTariff)
-            throws ClientNotFoundException, TariffNotFoundException {
+            throws ContractNotFoundException, TariffNotFoundException {
         contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/admin/contractProfile/{idClient}";
     }

@@ -1,9 +1,6 @@
 package javaschool.ecare.controllers;
 
-import javaschool.ecare.exceptions.ClientNotFoundException;
-import javaschool.ecare.exceptions.NotValidOptionsException;
-import javaschool.ecare.exceptions.OptionNotFoundException;
-import javaschool.ecare.exceptions.TariffNotFoundException;
+import javaschool.ecare.exceptions.*;
 import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.TariffService;
@@ -45,7 +42,7 @@ public class ClientController {
     @PostMapping("blockContract/{idClient}/{idContract}")
     public String blockContract(@PathVariable(value = "idClient") Long idClient,
                                 @PathVariable(value = "idContract") Long idContract)
-            throws ClientNotFoundException {
+            throws ContractNotFoundException {
         contractService.blockByClient(idContract);
         return "redirect:/client/account/";
     }
@@ -53,7 +50,7 @@ public class ClientController {
     @PostMapping("unblockContract/{idClient}/{idContract}")
     public String unblockContract(@PathVariable(value = "idClient") Long idClient,
                                 @PathVariable(value = "idContract") Long idContract)
-            throws ClientNotFoundException {
+            throws ContractNotFoundException {
         contractService.unblockByClient(idContract);
         return "redirect:/client/account/";
     }
@@ -62,7 +59,7 @@ public class ClientController {
     public String updateTariff(@PathVariable(value = "idClient") Long idClient,
                                   @PathVariable(value = "idContract") Long idContract,
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
-            throws ClientNotFoundException, TariffNotFoundException {
+            throws ContractNotFoundException, TariffNotFoundException {
         contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/client/account/";
     }
@@ -73,7 +70,7 @@ public class ClientController {
             @PathVariable(value = "idContract") Long idContract,
             Model model,
             @RequestParam(value = "optionsUpdated", required = false) String[] options)
-            throws ClientNotFoundException, OptionNotFoundException {
+            throws ClientNotFoundException, OptionNotFoundException, ContractNotFoundException {
         try {
             contractService.updateContractOptions(idContract, options);
             return "redirect:/client/account/";

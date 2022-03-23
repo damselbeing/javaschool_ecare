@@ -10,21 +10,21 @@ public interface ContractService {
 
     List<ContractDto> getContracts();
 
-    ContractDto findContractByIdContract(Long id) throws ClientNotFoundException;
+    ContractDto findContractByIdContract(Long id) throws ContractNotFoundException;
 
-    void blockByAdmin(Long id) throws ClientNotFoundException;
+    void blockByAdmin(Long id) throws ContractNotFoundException;
 
-    void unblockByAdmin(Long id) throws ClientNotFoundException;
+    void unblockByAdmin(Long id) throws ContractNotFoundException;
 
-    void updateContractOptions(Long id, String[] options) throws ClientNotFoundException, OptionNotFoundException, NotValidOptionsException;
+    void updateContractOptions(Long id, String[] options) throws ContractNotFoundException, OptionNotFoundException, NotValidOptionsException;
 
-    void blockByClient(Long id) throws ClientNotFoundException;
+    void blockByClient(Long id) throws ContractNotFoundException;
 
-    void unblockByClient(Long id) throws ClientNotFoundException;
+    void unblockByClient(Long id) throws ContractNotFoundException;
 
     Set<String> getGeneratedNumbers();
 
-    void updateContractTariff(Long idContract, String idTariff) throws ClientNotFoundException, TariffNotFoundException;
+    void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException;
 
     void addNewContract(ContractDto dto, Long id) throws ClientNotFoundException, ContractNotFoundException;
 }
