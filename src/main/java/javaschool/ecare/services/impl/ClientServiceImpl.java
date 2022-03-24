@@ -22,26 +22,22 @@ import java.util.stream.Collectors;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    @Autowired
-    ClientRepository clientRepository;
-    @Autowired
-    ContractRepository contractRepository;
-    @Autowired
-    ModelMapper mapper;
+    private final ClientRepository clientRepository;
+    private final ContractRepository contractRepository;
+    private final ModelMapper mapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-//    @Autowired
-//    public ClientServiceImpl(
-//            ClientRepository clientRepository,
-//            ModelMapper mapper,
-//            ContractRepository contractRepository,
-//            BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.clientRepository = clientRepository;
-//        this.mapper = mapper;
-//        this.contractRepository = contractRepository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//    }
+    @Autowired
+    public ClientServiceImpl(
+            ClientRepository clientRepository,
+            ModelMapper mapper,
+            ContractRepository contractRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.clientRepository = clientRepository;
+        this.mapper = mapper;
+        this.contractRepository = contractRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Transactional(readOnly = true)
     @Override

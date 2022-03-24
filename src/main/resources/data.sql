@@ -26,15 +26,21 @@ INSERT INTO tariffs
 INSERT INTO contracts
 (contract_id, blocked_by_admin, blocked_by_client, number, tariff_id) VALUES
     (10, false, false, 49091238754, 11),
-    (11, false, false, 49092653309, 12);
+    (11, false, false, 49091653309, 12),
+    (12, false, false, 49091983303, 13),
+    (13, false, false, 49091118817, 13),
+    (14, false, false, 49091109898, 13);
 
 INSERT INTO clients
 (client_id, name, last_name, birth_date, passport, address, e_mail, password, role, contract_id) VALUES
-    (10, 'Anna', 'Winter', '1983-12-01', '33JJ4789L', 'Bremen', 'anna@gmail.com', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 10),
-    (11, 'Mike', 'Summer', '2002-06-11', '87FR2986P', 'Stuttgart', 'mike@gmail.com', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 11),
-    (12, 'Lena', 'Spring', '1977-04-10', '12SW2177E', 'Chemnitz', 'lena@gmail.com', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', null),
-    (13, 'Kate', 'Autumn', '1999-05-05', '76VC8809Y', 'Hamburg', 'kate@gmail.com', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', null),
-    (14, 'Admin', 'Admin', '2000-01-01', 'no', 'no', 'admin@gmail.com', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'ADMIN', null);
+    (10, 'ANNA', 'SCHULZ', '1983-12-01', '33JJ4789L', 'Bremen', 'ANNA@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 10),
+    (11, 'MIKE', 'HOFFMANN', '2002-06-11', '87FR2986P', 'Stuttgart', 'MIKE@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 11),
+    (12, 'LENA', 'KING', '1977-04-10', '12SW2177E', 'Chemnitz', 'LENA@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', null),
+    (13, 'KATE', 'LUTZ', '1999-05-05', '76VC8809Y', 'Hamburg', 'KATE@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', null),
+    (14, 'ADMIN', 'ADMIN', '2000-01-01', 'no', 'no', 'ADMIN@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'ADMIN', null),
+    (15, 'NINA', 'RICHTER', '1999-05-05', '76VC8809Y', 'Hamburg', 'NINA@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 12),
+    (16, 'VERA', 'KNAPPMANN', '1999-05-05', '76VC8809Y', 'Hamburg', 'VERA@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 13),
+    (17, 'LOLA', 'SCHMIDT', '1999-05-05', '76VC8809Y', 'Hamburg', 'LOLA@GMAIL.COM', '$2a$10$O6RcZj8/S7mjYqVgOfpBguZk9JqBAT3TzlR0/YfMWuq6Voa.a8msW', 'USER', 14);
 
 INSERT INTO contracts_options
 (option_id, contract_id) VALUES
