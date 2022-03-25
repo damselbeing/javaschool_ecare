@@ -39,6 +39,7 @@ public class LoaderServiceImpl implements LoaderService {
                 }
         }
 
+        @Override
         public String findPopTariff() throws TariffAlreadyExistsException {
 
                 List<Tariff> tariffs = tariffRepository.findAll();

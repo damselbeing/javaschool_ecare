@@ -10,15 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class EcareApplication {
 
-    private ConnectionFactory factory = null;
-
     @Bean
-    public ConnectionFactory connectionFactory() {
-        if (this.factory == null) {
-            this.factory = new ConnectionFactory();
-        }
-        return this.factory;
-    }
+    public ConnectionFactory connectionFactory() { return new ConnectionFactory(); }
 
     @Bean
     public ModelMapper modelMapper() {

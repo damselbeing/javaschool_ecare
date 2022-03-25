@@ -9,5 +9,5 @@ import java.util.concurrent.TimeoutException;
 public interface LoaderService {
 
     void loadMessage() throws IOException, TimeoutException, TariffAlreadyExistsException;
-
+    String findPopTariff() throws TariffAlreadyExistsException;
 }
