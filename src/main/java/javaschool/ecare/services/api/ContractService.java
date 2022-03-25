@@ -24,6 +24,8 @@ public interface ContractService {
 
     Set<String> getGeneratedNumbers();
 
+    String generateNumber();
+
     void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException;
 
     void addNewContract(ContractDto dto, Long id) throws ClientNotFoundException, ContractNotFoundException;

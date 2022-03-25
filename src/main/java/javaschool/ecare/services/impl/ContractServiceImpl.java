@@ -133,7 +133,8 @@ public class ContractServiceImpl implements ContractService {
         return numbers;
     }
 
-    private String generateNumber() {
+    @Override
+    public String generateNumber() {
         Random random = new Random();
         String result;
         int suffix = random.nextInt(9999) + 1;

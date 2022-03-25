@@ -61,8 +61,8 @@ public class ClientServiceImpl implements ClientService {
     public void registerNewClient(ClientDto dto) throws ClientAlreadyExistsException, PasswordConfirmationFailedException {
         Client client = mapper.map(dto, Client.class);
         if(
-                clientRepository.findClientByEmail(client.getEmail()).isPresent() ||
-                        clientRepository.findClientByPassport(client.getPassport()).isPresent()
+                clientRepository.findClientByEmail(client.getEmail().toLowerCase()).isPresent() ||
+                        clientRepository.findClientByPassport(client.getPassport().toUpperCase()).isPresent()
         ) {
             throw new ClientAlreadyExistsException();
         };
@@ -72,6 +72,8 @@ public class ClientServiceImpl implements ClientService {
         }
 
         client.setRole("USER");
+        client.setPassport(client.getPassport().toUpperCase());
+        client.setEmail(client.getEmail().toLowerCase());
         client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
 

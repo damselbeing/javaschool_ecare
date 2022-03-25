@@ -58,14 +58,16 @@ public class TariffServiceImpl implements TariffService {
     @Transactional
     @Override
     public void addNewTariff(TariffDto dto) throws TariffAlreadyExistsException {
+        Tariff tariff = mapper.map(dto, Tariff.class);
 
         if(dto.getName() != null && dto.getPrice() >= 0) {
 
-            if(tariffRepository.findTariffByName(dto.getName()).isPresent()) {
+            if(tariffRepository.findTariffByName(dto.getName().toUpperCase()).isPresent()) {
                 throw new TariffAlreadyExistsException();
             }
 
-            tariffRepository.save(mapper.map(dto, Tariff.class));
+            tariff.setName(tariff.getName().toUpperCase());
+            tariffRepository.save(tariff);
 
         }
 
