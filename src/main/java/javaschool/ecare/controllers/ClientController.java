@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.concurrent.TimeoutException;
 
 @Controller
 @RequestMapping(path = "/client/")
@@ -59,7 +61,7 @@ public class ClientController {
     public String updateTariff(@PathVariable(value = "idClient") Long idClient,
                                   @PathVariable(value = "idContract") Long idContract,
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
-            throws ContractNotFoundException, TariffNotFoundException {
+            throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException {
         contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/client/account/";
     }

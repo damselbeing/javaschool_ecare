@@ -11,16 +11,19 @@ import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.ContractService;
+import javaschool.ecare.loader.LoaderService;
 import javaschool.ecare.services.api.TariffService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +37,7 @@ public class ContractServiceImpl implements ContractService {
     private final ClientRepository clientRepository;
     private final TariffRepository tariffRepository;
     private final TariffService tariffService;
+    private final LoaderService loaderService;
     private final ModelMapper mapper;
 
     @Autowired
@@ -42,12 +46,14 @@ public class ContractServiceImpl implements ContractService {
                                TariffRepository tariffRepository,
                                TariffServiceImpl tariffService,
                                ClientRepository clientRepository,
+                               LoaderService loaderService,
                                ModelMapper mapper) {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
         this.tariffRepository = tariffRepository;
         this.clientRepository = clientRepository;
         this.tariffService = tariffService;
+        this.loaderService = loaderService;
         this.mapper = mapper;
     }
 
@@ -102,7 +108,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional
     @Override
-    public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException {
+    public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException {
         Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
 
         if(idTariff != null && contract.isBlockedByAdmin() == false && contract.isBlockedByClient() == false) {
@@ -111,6 +117,8 @@ public class ContractServiceImpl implements ContractService {
             if(tariff.isArchived() == false) {
                 contract.setTariff(tariff);
                 contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+                loaderService.sendMessage();
+
             }
         }
 

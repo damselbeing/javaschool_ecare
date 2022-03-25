@@ -3,8 +3,10 @@ package javaschool.ecare.services.api;
 import javaschool.ecare.dto.ContractDto;
 import javaschool.ecare.exceptions.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 public interface ContractService {
 
@@ -26,7 +28,7 @@ public interface ContractService {
 
     String generateNumber();
 
-    void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException;
+    void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException;
 
     void addNewContract(ContractDto dto, Long id) throws ClientNotFoundException, ContractNotFoundException;
 }

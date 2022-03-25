@@ -1,46 +1,75 @@
-package javaschool.ecare.services.impl;
+package javaschool.ecare.loader;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.TariffAlreadyExistsException;
 import javaschool.ecare.repositories.TariffRepository;
-import javaschool.ecare.services.api.ContractService;
-import javaschool.ecare.services.api.LoaderService;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 @Service
 public class LoaderServiceImpl implements LoaderService {
 
+//        @Autowired
+//        ConnectionFactory connectionFactory;
+//        @Autowired
+//        TariffRepository tariffRepository;
+//        @Autowired
+//        ObjectMapper objectMapper;
+
         private final ConnectionFactory connectionFactory;
         private final TariffRepository tariffRepository;
+        private final ObjectMapper objectMapper;
 
         @Autowired
-        public LoaderServiceImpl(ConnectionFactory connectionFactory, TariffRepository tariffRepository) {
+        public LoaderServiceImpl(
+                ConnectionFactory connectionFactory,
+                TariffRepository tariffRepository,
+                ObjectMapper objectMapper) {
                 this.connectionFactory = connectionFactory;
                 this.tariffRepository = tariffRepository;
+                this.objectMapper = objectMapper;
         }
 
+
+
         @Override
-        public void loadMessage() throws IOException, TimeoutException, TariffAlreadyExistsException {
-                String popTariff = findPopTariff();
+        public void sendMessage() throws IOException, TimeoutException, TariffAlreadyExistsException {
+                Tariff popTariff = findPopTariff();
+                Message message = createMessage(popTariff);
+                String json = objectMapper.writeValueAsString(message);
                 try(Connection connection = connectionFactory.newConnection()) {
                         Channel channel = connection.createChannel();
                         channel.queueDeclare("pop_tariff", false, false, false, null);
-                        channel.basicPublish("", "pop_tariff", false, null, popTariff.getBytes());
+                        channel.basicPublish("", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
                         System.out.println("message has been sent");
                 }
         }
 
-        @Override
-        public String findPopTariff() throws TariffAlreadyExistsException {
+        private Message createMessage(Tariff popTariff) {
+                Message message = new Message();
+                message.setTariffName(popTariff.getName());
+                List<String> tariffOptions = new ArrayList<>();
+                popTariff.getOptions().forEach(
+                        option -> tariffOptions.add(option.getName())
+                );
+                message.setTariffOptions(tariffOptions);
+                return message;
+        }
+
+        private Tariff findPopTariff() throws TariffAlreadyExistsException {
 
                 List<Tariff> tariffs = tariffRepository.findAll();
                 Map<Long, Integer> map = new HashMap<>();
@@ -59,9 +88,8 @@ public class LoaderServiceImpl implements LoaderService {
                 }
 
                 Tariff popTariff = tariffRepository.findTariffByIdTariff(tariffId).orElseThrow(TariffAlreadyExistsException::new);
-                String tariffName = popTariff.getName();
 
-                return tariffName;
+                return popTariff;
         }
 
 

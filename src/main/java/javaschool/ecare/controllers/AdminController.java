@@ -14,8 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Controller
 @RequestMapping(path = "/admin/")
@@ -201,7 +203,7 @@ public class AdminController {
     public String updateContractTariff(@PathVariable(value = "idClient") Long idClient,
                                @PathVariable(value = "idContract") Long idContract,
                                @RequestParam(value = "tariffUpdated", required = false) String idTariff)
-            throws ContractNotFoundException, TariffNotFoundException {
+            throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException {
         contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/admin/contractProfile/{idClient}";
     }
