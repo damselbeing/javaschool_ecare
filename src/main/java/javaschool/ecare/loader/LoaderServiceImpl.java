@@ -10,6 +10,8 @@ import javaschool.ecare.repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.*;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
@@ -21,13 +23,6 @@ import java.util.concurrent.TimeoutException;
 
 @Service
 public class LoaderServiceImpl implements LoaderService {
-
-//        @Autowired
-//        ConnectionFactory connectionFactory;
-//        @Autowired
-//        TariffRepository tariffRepository;
-//        @Autowired
-//        ObjectMapper objectMapper;
 
         private final ConnectionFactory connectionFactory;
         private final TariffRepository tariffRepository;
@@ -43,9 +38,8 @@ public class LoaderServiceImpl implements LoaderService {
                 this.objectMapper = objectMapper;
         }
 
-
-
         @Override
+        @EventListener(ApplicationReadyEvent.class)
         public void sendMessage() throws IOException, TimeoutException, TariffAlreadyExistsException {
                 Tariff popTariff = findPopTariff();
                 Message message = createMessage(popTariff);
@@ -91,7 +85,6 @@ public class LoaderServiceImpl implements LoaderService {
 
                 return popTariff;
         }
-
 
 
 }

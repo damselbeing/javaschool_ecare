@@ -29,7 +29,7 @@ public class Tariff {
     @Column(nullable = false, name = "marked")
     private boolean markedForUpdate = false;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "options_tariffs",
             joinColumns = {@JoinColumn(name = "tariff_id")},
@@ -39,7 +39,7 @@ public class Tariff {
     @EqualsAndHashCode.Exclude
     private Set<Option> options;
 
-    @OneToMany(mappedBy = "tariff")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tariff")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Contract> contracts;
