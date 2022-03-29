@@ -67,6 +67,10 @@ public class Option {
 
     }
 
-
-
+    public Option(Long idOption, String name, double price, double connectionCost) {
+        this.idOption = idOption;
+        this.name = name;
+        this.price = price;
+        this.connectionCost = connectionCost;
+    }
 }

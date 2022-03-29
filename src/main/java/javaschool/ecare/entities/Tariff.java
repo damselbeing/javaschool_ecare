@@ -48,6 +48,11 @@ public class Tariff {
 
     }
 
-
-
+    public Tariff(Long idTariff, String name, double price, boolean archived, boolean markedForUpdate) {
+        this.idTariff = idTariff;
+        this.name = name;
+        this.price = price;
+        this.archived = archived;
+        this.markedForUpdate = markedForUpdate;
+    }
 }
