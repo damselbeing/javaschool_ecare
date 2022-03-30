@@ -108,7 +108,7 @@ public class ContractServiceImpl implements ContractService {
 
     @Transactional
     @Override
-    public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException {
+    public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
         Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
 
         if(idTariff != null && contract.isBlockedByAdmin() == false && contract.isBlockedByClient() == false) {

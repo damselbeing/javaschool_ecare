@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import javaschool.ecare.dto.TariffDto;
 import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.TariffAlreadyExistsException;
+import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.TariffRepository;
+import javaschool.ecare.services.api.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.*;
@@ -25,23 +28,23 @@ import java.util.concurrent.TimeoutException;
 public class LoaderServiceImpl implements LoaderService {
 
         private final ConnectionFactory connectionFactory;
-        private final TariffRepository tariffRepository;
+        private final TariffService tariffService;
         private final ObjectMapper objectMapper;
 
         @Autowired
         public LoaderServiceImpl(
                 ConnectionFactory connectionFactory,
-                TariffRepository tariffRepository,
+                TariffService tariffService,
                 ObjectMapper objectMapper) {
                 this.connectionFactory = connectionFactory;
-                this.tariffRepository = tariffRepository;
+                this.tariffService = tariffService;
                 this.objectMapper = objectMapper;
         }
 
         @Override
         @EventListener(ApplicationReadyEvent.class)
-        public void sendMessage() throws IOException, TimeoutException, TariffAlreadyExistsException {
-                Tariff popTariff = findPopTariff();
+        public void sendMessage() throws IOException, TimeoutException, TariffNotFoundException {
+                TariffDto popTariff = findPopTariff();
                 Message message = createMessage(popTariff);
                 String json = objectMapper.writeValueAsString(message);
                 try(Connection connection = connectionFactory.newConnection()) {
@@ -52,7 +55,7 @@ public class LoaderServiceImpl implements LoaderService {
                 }
         }
 
-        private Message createMessage(Tariff popTariff) {
+        private Message createMessage(TariffDto popTariff) {
                 Message message = new Message();
                 message.setTariffName(popTariff.getName());
                 List<String> tariffOptions = new ArrayList<>();
@@ -63,9 +66,9 @@ public class LoaderServiceImpl implements LoaderService {
                 return message;
         }
 
-        private Tariff findPopTariff() throws TariffAlreadyExistsException {
+        private TariffDto findPopTariff() throws TariffNotFoundException {
 
-                List<Tariff> tariffs = tariffRepository.findAll();
+                List<TariffDto> tariffs = tariffService.getTariffs();
                 Map<Long, Integer> map = new HashMap<>();
                 tariffs.forEach(tariff -> map.put(tariff.getIdTariff(), tariff.getContracts().size()));
                 System.out.println(map);
@@ -81,7 +84,7 @@ public class LoaderServiceImpl implements LoaderService {
                         }
                 }
 
-                Tariff popTariff = tariffRepository.findTariffByIdTariff(tariffId).orElseThrow(TariffAlreadyExistsException::new);
+                TariffDto popTariff = tariffService.findTariffByIdTariff(tariffId);
 
                 return popTariff;
         }

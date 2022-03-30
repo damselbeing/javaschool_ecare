@@ -61,7 +61,7 @@ public class ClientController {
     public String updateTariff(@PathVariable(value = "idClient") Long idClient,
                                   @PathVariable(value = "idContract") Long idContract,
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
-            throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException {
+            throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
         contractService.updateContractTariff(idContract, idTariff);
         return "redirect:/client/account/";
     }

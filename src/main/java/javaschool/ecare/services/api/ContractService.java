@@ -28,7 +28,7 @@ public interface ContractService {
 
     String generateNumber();
 
-    void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, TariffAlreadyExistsException, IOException, TimeoutException;
+    void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException;
 
     void addNewContract(ContractDto dto, Long id) throws ClientNotFoundException, ContractNotFoundException;
 }
