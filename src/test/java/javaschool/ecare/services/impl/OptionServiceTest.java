@@ -41,7 +41,7 @@ class OptionServiceTest {
     }
 
     @Test
-    void getOptions() {
+    void shouldGetOptions() {
         when(optionRepository.findAll()).thenReturn(new ArrayList<>());
         optionService.getOptions();
         verify(optionRepository).findAll();
