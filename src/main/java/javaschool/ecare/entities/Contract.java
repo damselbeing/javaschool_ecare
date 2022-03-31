@@ -46,6 +46,10 @@ public class Contract {
 
     }
 
-
-
+    public Contract(Long idContract, String number, boolean blockedByClient, boolean blockedByAdmin) {
+        this.idContract = idContract;
+        this.number = number;
+        this.blockedByClient = blockedByClient;
+        this.blockedByAdmin = blockedByAdmin;
+    }
 }
