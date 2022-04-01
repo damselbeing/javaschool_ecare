@@ -10,6 +10,7 @@ import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.TariffService;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class TariffServiceImpl implements TariffService {
 
@@ -63,6 +65,7 @@ public class TariffServiceImpl implements TariffService {
         if(dto.getName() != null && dto.getPrice() >= 0) {
 
             if(tariffRepository.findTariffByName(dto.getName().toUpperCase()).isPresent()) {
+                log.error("Tariff can't be saved because this tariff name is taken: " + dto.getName());
                 throw new TariffAlreadyExistsException();
             }
 
@@ -98,6 +101,7 @@ public class TariffServiceImpl implements TariffService {
                                 .anyMatch(o -> conflOpts.contains(o)))) {
                     optionsUpdated.add(optionSelected);
                 } else {
+                    log.error("Additional and conflicting options were chosen not correctly.");
                     throw new NotValidOptionsException();
                 }
             }

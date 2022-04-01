@@ -10,6 +10,7 @@ import javaschool.ecare.exceptions.PasswordConfirmationFailedException;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.repositories.ContractRepository;
 import javaschool.ecare.services.api.ClientService;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class ClientServiceImpl implements ClientService {
 
@@ -64,11 +66,14 @@ public class ClientServiceImpl implements ClientService {
                 clientRepository.findClientByEmail(client.getEmail().toLowerCase()).isPresent() ||
                         clientRepository.findClientByPassport(client.getPassport().toUpperCase()).isPresent()
         ) {
+            log.error("Client can't be saved because there is an account with this email: " + client.getEmail());
+            log.error("or Client can't be saved because there is an account with this passport: " + client.getPassport());
             throw new ClientAlreadyExistsException();
         };
 
         if (!dto.getPassword().equals(dto.getPasswordConfirm())){
-           throw new PasswordConfirmationFailedException();
+            log.error("Client can't be saved because the password confirmation failed");
+            throw new PasswordConfirmationFailedException();
         }
 
         client.setRole("USER");
