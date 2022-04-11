@@ -57,6 +57,9 @@ public class ContractServiceImpl implements ContractService {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<ContractDto> getContracts() {
@@ -65,6 +68,9 @@ public class ContractServiceImpl implements ContractService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public ContractDto findContractByIdContract(Long idContract) throws ContractNotFoundException {
@@ -73,6 +79,9 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(ContractNotFoundException::new);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void blockByAdmin(Long idContract) throws ContractNotFoundException {
@@ -80,6 +89,9 @@ public class ContractServiceImpl implements ContractService {
         contract.setBlockedByAdmin(true);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void blockByClient(Long idContract) throws ContractNotFoundException {
@@ -87,6 +99,9 @@ public class ContractServiceImpl implements ContractService {
         contract.setBlockedByClient(true);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void unblockByAdmin(Long idContract) throws ContractNotFoundException {
@@ -95,6 +110,9 @@ public class ContractServiceImpl implements ContractService {
         contract.setBlockedByClient(false);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void unblockByClient(Long idContract) throws ContractNotFoundException {
@@ -103,9 +121,11 @@ public class ContractServiceImpl implements ContractService {
         if(contract.isBlockedByAdmin() == false) {
             contract.setBlockedByClient(false);
         }
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
@@ -115,9 +135,12 @@ public class ContractServiceImpl implements ContractService {
             Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
 
             if(tariff.isArchived() == false) {
-                Tariff tariffOld = contract.getTariff();
-                Set<Contract> tariffOldContracts = tariffOld.getContracts();
-                tariffOldContracts.remove(contract);
+
+                if(contract.getTariff() != null) {
+                    Tariff tariffOld = contract.getTariff();
+                    Set<Contract> tariffOldContracts = tariffOld.getContracts();
+                    tariffOldContracts.remove(contract);
+                }
 
                 Tariff tariffNew = tariff;
                 contract.setTariff(tariffNew);
@@ -126,9 +149,11 @@ public class ContractServiceImpl implements ContractService {
 
             }
         }
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public Set<String> getGeneratedNumbers() {
@@ -146,6 +171,9 @@ public class ContractServiceImpl implements ContractService {
         return numbers;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public String generateNumber() {
         Random random = new Random();
@@ -162,6 +190,9 @@ public class ContractServiceImpl implements ContractService {
         return result;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void addNewContract(ContractDto dto, Long idClient) throws ClientNotFoundException, ContractNotFoundException {
@@ -171,6 +202,9 @@ public class ContractServiceImpl implements ContractService {
         client.setContract(contract);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void updateContractOptions(Long idContract, String[] options) throws ContractNotFoundException, OptionNotFoundException, NotValidOptionsException {
@@ -182,8 +216,6 @@ public class ContractServiceImpl implements ContractService {
             contract.setContractOptions(optionsUpdated);
             optionsUpdated.forEach(option -> option.getContracts().add(contract));
         }
-
-
 
     }
 

@@ -7,7 +7,6 @@ import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.services.api.OptionService;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,9 @@ public class OptionServiceImpl implements OptionService {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<OptionDto> getOptions() {
@@ -41,6 +43,9 @@ public class OptionServiceImpl implements OptionService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public OptionDto findOptionByIdOption(Long idOption) throws OptionNotFoundException {
@@ -49,6 +54,9 @@ public class OptionServiceImpl implements OptionService {
                 .orElseThrow(OptionNotFoundException::new);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void validateOptions(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
         for (int i = 0; i < optionsConflicting.length; i++) {
@@ -59,6 +67,9 @@ public class OptionServiceImpl implements OptionService {
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void updateOption(Long idOption, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
@@ -94,10 +105,6 @@ public class OptionServiceImpl implements OptionService {
         if (tariffsToBeUpdated != null) {
             tariffsToBeUpdated.forEach(tUp-> tUp.setMarkedForUpdate(true));
         }
-
     }
-
-
-
 
 }

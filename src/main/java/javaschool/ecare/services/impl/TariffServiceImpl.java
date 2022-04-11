@@ -34,6 +34,9 @@ public class TariffServiceImpl implements TariffService {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<TariffDto> getTariffs() {
@@ -42,6 +45,9 @@ public class TariffServiceImpl implements TariffService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void archiveTariff(Long idTariff) throws TariffNotFoundException {
@@ -49,6 +55,9 @@ public class TariffServiceImpl implements TariffService {
         tariff.setArchived(true);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public TariffDto findTariffByIdTariff(Long idTariff) throws TariffNotFoundException {
@@ -57,6 +66,9 @@ public class TariffServiceImpl implements TariffService {
                 .orElseThrow(TariffNotFoundException::new);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void addNewTariff(TariffDto dto) throws TariffAlreadyExistsException {
@@ -71,11 +83,12 @@ public class TariffServiceImpl implements TariffService {
 
             tariff.setName(tariff.getName().toUpperCase());
             tariffRepository.save(tariff);
-
         }
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public Set<Option> prepareTariffOptionsForUpdate(String[] options) throws NotValidOptionsException, OptionNotFoundException {
@@ -110,6 +123,9 @@ public class TariffServiceImpl implements TariffService {
         return optionsUpdated;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void updateTariffOptions(Long idTariff, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {

@@ -41,6 +41,9 @@ public class ClientServiceImpl implements ClientService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public ClientDto findClientByIdClient(Long id) throws ClientNotFoundException {
@@ -49,6 +52,9 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(ClientNotFoundException::new);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public List<ClientDto> getClients() {
@@ -57,7 +63,9 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public void registerNewClient(ClientDto dto) throws ClientAlreadyExistsException, PasswordConfirmationFailedException {
@@ -81,10 +89,11 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(client.getEmail().toLowerCase());
         client.setPassword(bCryptPasswordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
-
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     @Transactional
     @Override
     public ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException {
@@ -94,6 +103,9 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(ClientNotFoundException::new);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Transactional(readOnly = true)
     @Override
     public ClientDto findClientByEmail(String email) throws ClientNotFoundException {
@@ -101,4 +113,5 @@ public class ClientServiceImpl implements ClientService {
                 .map(client -> mapper.map(client, ClientDto.class))
                 .orElseThrow(ClientNotFoundException::new);
     }
+
 }
