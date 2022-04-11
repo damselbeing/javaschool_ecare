@@ -115,7 +115,12 @@ public class ContractServiceImpl implements ContractService {
             Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
 
             if(tariff.isArchived() == false) {
-                contract.setTariff(tariff);
+                Tariff tariffOld = contract.getTariff();
+                Set<Contract> tariffOldContracts = tariffOld.getContracts();
+                tariffOldContracts.remove(contract);
+
+                Tariff tariffNew = tariff;
+                contract.setTariff(tariffNew);
                 contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
                 loaderService.sendMessage();
 

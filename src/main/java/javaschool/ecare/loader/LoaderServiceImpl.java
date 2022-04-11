@@ -10,6 +10,7 @@ import javaschool.ecare.exceptions.TariffAlreadyExistsException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.TariffService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.event.*;
@@ -24,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
+@Log4j2
 @Service
 public class LoaderServiceImpl implements LoaderService {
 
@@ -51,7 +53,7 @@ public class LoaderServiceImpl implements LoaderService {
                         Channel channel = connection.createChannel();
                         channel.queueDeclare("pop_tariff", false, false, false, null);
                         channel.basicPublish("", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
-                        System.out.println("message has been sent");
+                        log.info("message has been sent to Epromo: " + message.getTariffName());
                 }
         }
 

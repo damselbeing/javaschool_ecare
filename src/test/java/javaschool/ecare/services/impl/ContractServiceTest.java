@@ -120,10 +120,17 @@ class ContractServiceTest {
 
     @Test
     void shouldUpdateContractTariff() throws TariffNotFoundException, IOException, ContractNotFoundException, TimeoutException {
-        Tariff tariff1 = new Tariff(1L, "Tariff1", 10.00, false, false);
+        Tariff tariff1New = new Tariff(1L, "Tariff1", 10.00, false, false);
+        Tariff tariff2Old = new Tariff(2L, "Tariff2", 30.00, false, false);
 
         Option option3 = new Option(3L, "Option3", 30.00, 40.00);
         Option option4 = new Option(4L, "Option4", 50.00, 60.00);
+
+        contract1.setTariff(tariff2Old);
+
+        Set<Contract> tariff2OldContracts = new HashSet<>();
+        tariff2OldContracts.add(contract1);
+        tariff2Old.setContracts(tariff2OldContracts);
 
         Set<Contract> contractOpt3 = new HashSet<>();
         contractOpt3.add(contract1);
@@ -142,11 +149,11 @@ class ContractServiceTest {
                 .thenReturn(Optional.ofNullable(contract1));
 
         when(tariffRepository.findTariffByIdTariff(1L))
-                .thenReturn(Optional.ofNullable(tariff1));
+                .thenReturn(Optional.ofNullable(tariff1New));
 
         contractService.updateContractTariff(1L, "1");
 
-        assertEquals(tariff1, contract1.getTariff());
+        assertEquals(tariff1New, contract1.getTariff());
     }
 
     @Test

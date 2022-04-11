@@ -2,11 +2,6 @@ package javaschool.ecare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.ConnectionFactory;
-import javaschool.ecare.loader.LoaderService;
-import javaschool.ecare.loader.LoaderServiceImpl;
-import javaschool.ecare.loader.Message;
-import javaschool.ecare.repositories.TariffRepository;
-import javaschool.ecare.services.api.TariffService;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
