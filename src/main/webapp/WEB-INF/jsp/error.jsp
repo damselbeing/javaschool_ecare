@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
 <head>
     <title>Error</title>
     <jsp:include page="head.jsp"></jsp:include>
