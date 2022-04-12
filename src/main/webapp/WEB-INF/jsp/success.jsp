@@ -1,5 +1,6 @@
-<!DOCTYPE html>
-<html lang="en" xml:lang="en">
+<!-- //NOSONAR -->
+<html>
+<!-- //NOSONAR -->
 <head>
     <title>Success</title>
     <jsp:include page="head.jsp"></jsp:include>
