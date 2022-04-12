@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -31,6 +33,7 @@ public class ContractServiceImpl implements ContractService {
 
 
     private static final String BASE_NUMBER = "4909001";
+    private Random rand = SecureRandom.getInstanceStrong();
 
     private final ContractRepository contractRepository;
     private final OptionRepository optionRepository;
@@ -47,7 +50,7 @@ public class ContractServiceImpl implements ContractService {
                                TariffServiceImpl tariffService,
                                ClientRepository clientRepository,
                                LoaderService loaderService,
-                               ModelMapper mapper) {
+                               ModelMapper mapper) throws NoSuchAlgorithmException {
         this.contractRepository = contractRepository;
         this.optionRepository = optionRepository;
         this.tariffRepository = tariffRepository;
@@ -176,9 +179,9 @@ public class ContractServiceImpl implements ContractService {
      */
     @Override
     public String generateNumber() {
-        Random random = new Random();
+        int rValue = this.rand.nextInt(9999);
         String result;
-        int suffix = random.nextInt(9999) + 1;
+        int suffix = rValue + 1;
         if (suffix < 10)
             result = BASE_NUMBER + "000" + suffix;
         else if (suffix < 100)

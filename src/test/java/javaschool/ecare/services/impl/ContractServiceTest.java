@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ class ContractServiceTest {
     private Contract contract1;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws NoSuchAlgorithmException {
         modelMapper = new ModelMapper();
         contractService = new ContractServiceImpl(
                 contractRepository,
