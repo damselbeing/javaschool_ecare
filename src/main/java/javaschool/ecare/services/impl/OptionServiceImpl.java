@@ -100,8 +100,7 @@ public class OptionServiceImpl implements OptionService {
         optionMain.setConflictingOptions(optionsConflictingUpdated);
         optionMain.setAdditionalOptions(optionsAdditionalUpdated);
 
-        Set<Tariff> tariffsToBeUpdated = new HashSet<>();
-        tariffsToBeUpdated = optionMain.getTariffs();
+        Set<Tariff> tariffsToBeUpdated = optionMain.getTariffs();
         if (tariffsToBeUpdated != null) {
             tariffsToBeUpdated.forEach(tUp-> tUp.setMarkedForUpdate(true));
         }

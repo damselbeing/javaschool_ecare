@@ -46,7 +46,7 @@ public class ClientController {
                                 @PathVariable(value = "idContract") Long idContract)
             throws ContractNotFoundException {
         contractService.blockByClient(idContract);
-        return "redirect:/client/account/";
+        return "redirect:/client/account/";//NOSONAR
     }
 
     @PostMapping("unblockContract/{idClient}/{idContract}")
@@ -54,7 +54,7 @@ public class ClientController {
                                 @PathVariable(value = "idContract") Long idContract)
             throws ContractNotFoundException {
         contractService.unblockByClient(idContract);
-        return "redirect:/client/account/";
+        return "redirect:/client/account/";//NOSONAR
     }
 
     @PostMapping("updateTariff/{idClient}/{idContract}")
@@ -63,7 +63,7 @@ public class ClientController {
                                   @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
         contractService.updateContractTariff(idContract, idTariff);
-        return "redirect:/client/account/";
+        return "redirect:/client/account/";//NOSONAR
     }
 
     @PostMapping("updateOptions/{idClient}/{idContract}")
@@ -75,7 +75,7 @@ public class ClientController {
             throws ClientNotFoundException, OptionNotFoundException, ContractNotFoundException {
         try {
             contractService.updateContractOptions(idContract, options);
-            return "redirect:/client/account/";
+            return "redirect:/client/account/";//NOSONAR
         } catch (NotValidOptionsException e) {
             model.addAttribute("client", clientService.findClientByIdClient(idClient));
             model.addAttribute("tariffs", tariffService.getTariffs());

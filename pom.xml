@@ -21,6 +21,15 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
+        <sonar.coverage.exclusions>
+            **/ecare/config/*,
+            **/ecare/controllers/*,
+            **/ecare/dto/*,
+            **/ecare/entities/*,
+            **/ecare/exceptions/*,
+            **/ecare/loader/*,
+            **/ecare/repositories/*
+        </sonar.coverage.exclusions>
 
     </properties>
     <dependencies>

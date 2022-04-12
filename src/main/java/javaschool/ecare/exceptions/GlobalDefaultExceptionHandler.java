@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalDefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error";
 
-    @ExceptionHandler(value = Exception.class) //NOSONAR not used in secure contexts
+    @ExceptionHandler(value = Exception.class)
     public ModelAndView
-    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {//NOSONAR
 
         if (AnnotationUtils.findAnnotation
                 (e.getClass(), ResponseStatus.class) != null)

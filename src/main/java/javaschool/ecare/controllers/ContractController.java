@@ -9,13 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/")
 public class ContractController {
 
-    private final ContractService contractService;
-
-    @Autowired
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
-    }
-
 
 
 }

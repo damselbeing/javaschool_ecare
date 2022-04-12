@@ -38,8 +38,6 @@ import static org.mockito.Mockito.when;
 class ContractServiceTest {
 
     @Mock
-    OptionRepository optionRepository;
-    @Mock
     TariffRepository tariffRepository;
     @Mock
     ContractRepository contractRepository;
@@ -59,7 +57,6 @@ class ContractServiceTest {
         modelMapper = new ModelMapper();
         contractService = new ContractServiceImpl(
                 contractRepository,
-                optionRepository,
                 tariffRepository,
                 tariffService,
                 clientRepository,

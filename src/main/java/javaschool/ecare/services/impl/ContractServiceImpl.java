@@ -36,7 +36,6 @@ public class ContractServiceImpl implements ContractService {
     private Random rand = SecureRandom.getInstanceStrong();
 
     private final ContractRepository contractRepository;
-    private final OptionRepository optionRepository;
     private final ClientRepository clientRepository;
     private final TariffRepository tariffRepository;
     private final TariffService tariffService;
@@ -45,14 +44,12 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     public ContractServiceImpl(ContractRepository contractRepository,
-                               OptionRepository optionRepository,
                                TariffRepository tariffRepository,
                                TariffServiceImpl tariffService,
                                ClientRepository clientRepository,
                                LoaderService loaderService,
                                ModelMapper mapper) throws NoSuchAlgorithmException {
         this.contractRepository = contractRepository;
-        this.optionRepository = optionRepository;
         this.tariffRepository = tariffRepository;
         this.clientRepository = clientRepository;
         this.tariffService = tariffService;

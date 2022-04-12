@@ -49,12 +49,12 @@ public class LoaderServiceImpl implements LoaderService {
                 TariffDto popTariff = findPopTariff();
                 Message message = createMessage(popTariff);
                 String json = objectMapper.writeValueAsString(message);
-                try(Connection connection = connectionFactory.newConnection()) {
-                        Channel channel = connection.createChannel();
-                        channel.queueDeclare("pop_tariff", false, false, false, null);
-                        channel.basicPublish("", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
-                        log.info("message has been sent to Epromo: " + message.getTariffName());
-                }
+                Connection connection = connectionFactory.newConnection();//NOSONAR not used in secure contexts
+                Channel channel = connection.createChannel();//NOSONAR not used in secure contexts
+                channel.queueDeclare("pop_tariff", false, false, false, null);
+                channel.basicPublish("", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
+                log.info("message has been sent to Epromo: " + message.getTariffName());
+
         }
 
         private Message createMessage(TariffDto popTariff) {
@@ -86,9 +86,7 @@ public class LoaderServiceImpl implements LoaderService {
                         }
                 }
 
-                TariffDto popTariff = tariffService.findTariffByIdTariff(tariffId);
-
-                return popTariff;
+                return tariffService.findTariffByIdTariff(tariffId);
         }
 
 
