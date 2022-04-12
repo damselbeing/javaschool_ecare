@@ -12,7 +12,7 @@ import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.TariffService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.context.event.ApplicationReadyEvent;
+
 import org.springframework.boot.context.event.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -73,7 +73,7 @@ public class LoaderServiceImpl implements LoaderService {
                 List<TariffDto> tariffs = tariffService.getTariffs();
                 Map<Long, Integer> map = new HashMap<>();
                 tariffs.forEach(tariff -> map.put(tariff.getIdTariff(), tariff.getContracts().size()));
-                System.out.println(map);
+
 
                 int maxValueInMap = (Collections.max(map.values()));
                 Long tariffId = null;

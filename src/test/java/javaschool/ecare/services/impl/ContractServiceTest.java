@@ -157,13 +157,13 @@ class ContractServiceTest {
         assertEquals(tariff1New, contract1.getTariff());
     }
 
-    @Test
-    void shouldGetGeneratedNumbers() {
-    }
-
-    @Test
-    void shouldGenerateNumber() {
-    }
+//    @Test
+//    void shouldGetGeneratedNumbers() {
+//    }
+//
+//    @Test
+//    void shouldGenerateNumber() {
+//    }
 
     @Test
     void shouldAddNewContract() throws ClientNotFoundException, ContractNotFoundException {

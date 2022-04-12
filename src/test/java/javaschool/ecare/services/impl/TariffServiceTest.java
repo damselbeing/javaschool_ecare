@@ -151,8 +151,8 @@ class TariffServiceTest {
 
     }
 
-    @Test
-    void shouldUpdateTariffOptions() {
-
-    }
+//    @Test
+//    void shouldUpdateTariffOptions() {
+//
+//    }
 }
