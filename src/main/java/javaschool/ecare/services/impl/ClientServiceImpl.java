@@ -68,7 +68,8 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public void registerNewClient(ClientDto dto) throws ClientAlreadyExistsException, PasswordConfirmationFailedException {
+    public void registerNewClient(ClientDto dto)
+            throws ClientAlreadyExistsException, PasswordConfirmationFailedException {
         Client client = mapper.map(dto, Client.class);
         if(
                 clientRepository.findClientByEmail(client.getEmail().toLowerCase()).isPresent() ||
@@ -77,7 +78,7 @@ public class ClientServiceImpl implements ClientService {
             log.error("Client can't be saved because there is an account with this email: " + client.getEmail());
             log.error("or Client can't be saved because there is an account with this passport: " + client.getPassport());
             throw new ClientAlreadyExistsException();
-        };
+        }
 
         if (!dto.getPassword().equals(dto.getPasswordConfirm())){
             log.error("Client can't be saved because the password confirmation failed");
@@ -96,8 +97,11 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public ClientDto findClientByContract(String number) throws ClientNotFoundException, ContractNotFoundException {
-        Contract contract = contractRepository.findContractByNumber(number).orElseThrow(ContractNotFoundException::new);
+    public ClientDto findClientByContract(String number)
+            throws ClientNotFoundException, ContractNotFoundException {
+        Contract contract = contractRepository
+                .findContractByNumber(number)
+                .orElseThrow(ContractNotFoundException::new);
         return clientRepository.findClientByContract(contract)
                 .map(client -> mapper.map(client, ClientDto.class))
                 .orElseThrow(ClientNotFoundException::new);

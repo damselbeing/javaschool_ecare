@@ -58,7 +58,8 @@ public class OptionServiceImpl implements OptionService {
      * {@inheritdoc}
      */
     @Override
-    public void validateOptions(String[] optionsAdditional, String[] optionsConflicting) throws NotValidOptionsException {
+    public void validateOptions(String[] optionsAdditional, String[] optionsConflicting)
+            throws NotValidOptionsException {
         for (int i = 0; i < optionsConflicting.length; i++) {
             if (Arrays.stream(optionsAdditional).anyMatch(optionsConflicting[i]::equals)) {
                 log.error("Additional and conflicting options were chosen not correctly.");
@@ -72,19 +73,26 @@ public class OptionServiceImpl implements OptionService {
      */
     @Transactional
     @Override
-    public void updateOption(Long idOption, String[] optionsAdditional, String[] optionsConflicting) throws OptionNotFoundException, NotValidOptionsException {
+    public void updateOption(Long idOption,
+                             String[] optionsAdditional,
+                             String[] optionsConflicting)
+            throws OptionNotFoundException, NotValidOptionsException {
         if(optionsAdditional != null && optionsConflicting != null) {
             validateOptions(optionsAdditional, optionsConflicting);
         }
 
-        Option optionMain = optionRepository.findOptionByIdOption(idOption).orElseThrow(OptionNotFoundException::new);
+        Option optionMain = optionRepository
+                .findOptionByIdOption(idOption)
+                .orElseThrow(OptionNotFoundException::new);
         Set<Option> optionsAdditionalUpdated = new HashSet<>();
         Set<Option> optionsConflictingUpdated = new HashSet<>();
 
         if(optionsAdditional != null) {
             for(int i = 0; i < optionsAdditional.length; i++) {
                 Long optionId = Long.valueOf(optionsAdditional[i]);
-                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                Option option = optionRepository
+                        .findOptionByIdOption(optionId)
+                        .orElseThrow(OptionNotFoundException::new);
                 optionsAdditionalUpdated.add(option);
             }
         }
@@ -92,7 +100,9 @@ public class OptionServiceImpl implements OptionService {
         if(optionsConflicting != null) {
             for(int i = 0; i < optionsConflicting.length; i++) {
                 Long optionId = Long.valueOf(optionsConflicting[i]);
-                Option option = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                Option option = optionRepository
+                        .findOptionByIdOption(optionId)
+                        .orElseThrow(OptionNotFoundException::new);
                 optionsConflictingUpdated.add(option);
             }
         }

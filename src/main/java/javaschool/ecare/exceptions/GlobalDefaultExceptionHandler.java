@@ -14,7 +14,7 @@ public class GlobalDefaultExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView
-    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {//NOSONAR
+    defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {                                                                                                                                     //NOSONAR
 
         if (AnnotationUtils.findAnnotation
                 (e.getClass(), ResponseStatus.class) != null)

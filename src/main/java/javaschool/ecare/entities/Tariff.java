@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -48,7 +47,11 @@ public class Tariff {
 
     }
 
-    public Tariff(Long idTariff, String name, double price, boolean archived, boolean markedForUpdate) {
+    public Tariff(Long idTariff,
+                  String name,
+                  double price,
+                  boolean archived,
+                  boolean markedForUpdate) {
         this.idTariff = idTariff;
         this.name = name;
         this.price = price;

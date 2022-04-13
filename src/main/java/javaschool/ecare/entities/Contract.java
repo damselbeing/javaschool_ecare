@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -46,7 +45,10 @@ public class Contract {
 
     }
 
-    public Contract(Long idContract, String number, boolean blockedByClient, boolean blockedByAdmin) {
+    public Contract(Long idContract,
+                    String number,
+                    boolean blockedByClient,
+                    boolean blockedByAdmin) {
         this.idContract = idContract;
         this.number = number;
         this.blockedByClient = blockedByClient;

@@ -28,7 +28,9 @@ public class TariffServiceImpl implements TariffService {
     private final ModelMapper mapper;
 
     @Autowired
-    public TariffServiceImpl(TariffRepository tariffRepository, OptionRepository optionRepository, ModelMapper mapper) {
+    public TariffServiceImpl(TariffRepository tariffRepository,
+                             OptionRepository optionRepository,
+                             ModelMapper mapper) {
         this.tariffRepository = tariffRepository;
         this.optionRepository = optionRepository;
         this.mapper = mapper;
@@ -51,7 +53,9 @@ public class TariffServiceImpl implements TariffService {
     @Transactional
     @Override
     public void archiveTariff(Long idTariff) throws TariffNotFoundException {
-        Tariff tariff = tariffRepository.findTariffByIdTariff(idTariff).orElseThrow(TariffNotFoundException::new);
+        Tariff tariff = tariffRepository
+                .findTariffByIdTariff(idTariff)
+                .orElseThrow(TariffNotFoundException::new);
         tariff.setArchived(true);
     }
 
@@ -91,13 +95,16 @@ public class TariffServiceImpl implements TariffService {
      */
     @Transactional
     @Override
-    public Set<Option> prepareTariffOptionsForUpdate(String[] options) throws NotValidOptionsException, OptionNotFoundException {
+    public Set<Option> prepareTariffOptionsForUpdate(String[] options)
+            throws NotValidOptionsException, OptionNotFoundException {
         Set<Option> optionsUpdated = new HashSet<>();
 
         if(options != null) {
             for(int i = 0; i < options.length; i++) {
                 Long optionId = Long.valueOf(options[i]);
-                Option optionSelected = optionRepository.findOptionByIdOption(optionId).orElseThrow(OptionNotFoundException::new);
+                Option optionSelected = optionRepository
+                        .findOptionByIdOption(optionId)
+                        .orElseThrow(OptionNotFoundException::new);
 
                 List<String> addOpts = new ArrayList<>();
                 optionSelected.getAdditionalOptions().stream()
@@ -128,8 +135,11 @@ public class TariffServiceImpl implements TariffService {
      */
     @Transactional
     @Override
-    public void updateTariffOptions(Long idTariff, String[] options) throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
-        Tariff tariff = tariffRepository.findTariffByIdTariff(idTariff).orElseThrow(TariffNotFoundException::new);
+    public void updateTariffOptions(Long idTariff, String[] options)
+            throws TariffNotFoundException, OptionNotFoundException, NotValidOptionsException {
+        Tariff tariff = tariffRepository
+                .findTariffByIdTariff(idTariff)
+                .orElseThrow(TariffNotFoundException::new);
         Set<Option> optionsUpdated = prepareTariffOptionsForUpdate(options);
         tariff.setOptions(optionsUpdated);
         if(tariff.isMarkedForUpdate() == true) {

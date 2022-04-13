@@ -7,8 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Set;
 
 @Data
 @Entity
@@ -58,7 +56,14 @@ public class Client {
 
     }
 
-    public Client(Long idClient, String name, String lastName, LocalDate birthDate, String passport, String address, String email, String password) {
+    public Client(Long idClient,
+                  String name,
+                  String lastName,
+                  LocalDate birthDate,
+                  String passport,
+                  String address,
+                  String email,
+                  String password) {
         this.idClient = idClient;
         this.name = name;
         this.lastName = lastName;

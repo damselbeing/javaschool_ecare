@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf()
-                    .disable()//NOSONAR not used in secure contexts
+                    .disable()                                                                                                                                                                                                          //NOSONAR not used in secure contexts
                 .authorizeRequests()
 
                     //Доступ только для не зарегистрированных пользователей

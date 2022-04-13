@@ -1,7 +1,6 @@
 package javaschool.ecare.loader;
 
 
-import javaschool.ecare.exceptions.TariffAlreadyExistsException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
 
 import java.io.IOException;

@@ -2,7 +2,6 @@ package javaschool.ecare.controllers;
 
 import javaschool.ecare.dto.ClientDto;
 import javaschool.ecare.exceptions.ClientAlreadyExistsException;
-import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.PasswordConfirmationFailedException;
 import javaschool.ecare.services.api.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;

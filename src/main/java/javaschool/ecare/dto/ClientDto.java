@@ -3,7 +3,6 @@ package javaschool.ecare.dto;
 import javaschool.ecare.entities.Contract;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data

@@ -5,20 +5,14 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import javaschool.ecare.dto.TariffDto;
-import javaschool.ecare.entities.Tariff;
-import javaschool.ecare.exceptions.TariffAlreadyExistsException;
 import javaschool.ecare.exceptions.TariffNotFoundException;
-import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.TariffService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.context.event.*;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.util.SerializationUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -45,14 +39,17 @@ public class LoaderServiceImpl implements LoaderService {
 
         @Override
         @EventListener(ApplicationReadyEvent.class)
-        public void sendMessage() throws IOException, TimeoutException, TariffNotFoundException {
+        public void sendMessage()
+                throws IOException, TimeoutException, TariffNotFoundException {
                 TariffDto popTariff = findPopTariff();
                 Message message = createMessage(popTariff);
                 String json = objectMapper.writeValueAsString(message);
-                Connection connection = connectionFactory.newConnection();//NOSONAR not used in secure contexts
-                Channel channel = connection.createChannel();//NOSONAR not used in secure contexts
-                channel.queueDeclare("pop_tariff", false, false, false, null);
-                channel.basicPublish("", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
+                Connection connection = connectionFactory.newConnection();                                                                                                                                                                              //NOSONAR not used in secure contexts
+                Channel channel = connection.createChannel();                                                                                                                                                                                                                   //NOSONAR not used in secure contexts
+                channel.queueDeclare(
+                        "pop_tariff", false, false, false, null);
+                channel.basicPublish(
+                        "", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
                 log.info("message has been sent to Epromo: " + message.getTariffName());
 
         }

@@ -8,7 +8,6 @@ import javaschool.ecare.entities.Tariff;
 import javaschool.ecare.exceptions.*;
 import javaschool.ecare.repositories.ClientRepository;
 import javaschool.ecare.repositories.ContractRepository;
-import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.repositories.TariffRepository;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.loader.LoaderService;
@@ -73,7 +72,8 @@ public class ContractServiceImpl implements ContractService {
      */
     @Transactional(readOnly = true)
     @Override
-    public ContractDto findContractByIdContract(Long idContract) throws ContractNotFoundException {
+    public ContractDto findContractByIdContract(Long idContract)
+            throws ContractNotFoundException {
         return contractRepository.findContractByIdContract(idContract)
                 .map(contract -> mapper.map(contract, ContractDto.class))
                 .orElseThrow(ContractNotFoundException::new);
@@ -84,8 +84,11 @@ public class ContractServiceImpl implements ContractService {
      */
     @Transactional
     @Override
-    public void blockByAdmin(Long idContract) throws ContractNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+    public void blockByAdmin(Long idContract)
+            throws ContractNotFoundException {
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
         contract.setBlockedByAdmin(true);
     }
 
@@ -95,7 +98,9 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     @Override
     public void blockByClient(Long idContract) throws ContractNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
         contract.setBlockedByClient(true);
     }
 
@@ -105,7 +110,9 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     @Override
     public void unblockByAdmin(Long idContract) throws ContractNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
         contract.setBlockedByAdmin(false);
         contract.setBlockedByClient(false);
     }
@@ -116,7 +123,9 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     @Override
     public void unblockByClient(Long idContract) throws ContractNotFoundException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
 
         if(contract.isBlockedByAdmin() == false) {
             contract.setBlockedByClient(false);
@@ -129,10 +138,14 @@ public class ContractServiceImpl implements ContractService {
     @Transactional
     @Override
     public void updateContractTariff(Long idContract, String idTariff) throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
 
         if(idTariff != null && contract.isBlockedByAdmin() == false && contract.isBlockedByClient() == false) {
-            Tariff tariff = tariffRepository.findTariffByIdTariff(Long.parseLong(idTariff)).orElseThrow(TariffNotFoundException::new);
+            Tariff tariff = tariffRepository
+                    .findTariffByIdTariff(Long.parseLong(idTariff))
+                    .orElseThrow(TariffNotFoundException::new);
 
             if(tariff.isArchived() == false) {
 
@@ -144,7 +157,8 @@ public class ContractServiceImpl implements ContractService {
 
                 Tariff tariffNew = tariff;
                 contract.setTariff(tariffNew);
-                contract.getContractOptions().forEach(option -> option.getContracts().remove(contract));
+                contract.getContractOptions()
+                        .forEach(option -> option.getContracts().remove(contract));
                 loaderService.sendMessage();
 
             }
@@ -197,8 +211,12 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void addNewContract(ContractDto dto, Long idClient) throws ClientNotFoundException, ContractNotFoundException {
         contractRepository.save(mapper.map(dto, Contract.class));
-        Client client = clientRepository.findClientByIdClient(idClient).orElseThrow(ClientNotFoundException::new);
-        Contract contract = contractRepository.findContractByNumber(dto.getNumber()).orElseThrow(ContractNotFoundException::new);
+        Client client = clientRepository
+                .findClientByIdClient(idClient)
+                .orElseThrow(ClientNotFoundException::new);
+        Contract contract = contractRepository
+                .findContractByNumber(dto.getNumber())
+                .orElseThrow(ContractNotFoundException::new);
         client.setContract(contract);
     }
 
@@ -207,8 +225,11 @@ public class ContractServiceImpl implements ContractService {
      */
     @Transactional
     @Override
-    public void updateContractOptions(Long idContract, String[] options) throws ContractNotFoundException, OptionNotFoundException, NotValidOptionsException {
-        Contract contract = contractRepository.findContractByIdContract(idContract).orElseThrow(ContractNotFoundException::new);
+    public void updateContractOptions(Long idContract, String[] options)
+            throws ContractNotFoundException, OptionNotFoundException, NotValidOptionsException {
+        Contract contract = contractRepository
+                .findContractByIdContract(idContract)
+                .orElseThrow(ContractNotFoundException::new);
 
         if(contract.isBlockedByClient() == false && contract.isBlockedByAdmin() == false) {
             Set<Option> optionsUpdated = tariffService.prepareTariffOptionsForUpdate(options);
