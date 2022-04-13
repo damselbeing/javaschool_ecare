@@ -75,13 +75,13 @@ public class ClientServiceImpl implements ClientService {
                 clientRepository.findClientByEmail(client.getEmail().toLowerCase()).isPresent() ||
                         clientRepository.findClientByPassport(client.getPassport().toUpperCase()).isPresent()
         ) {
-            log.error("Client can't be saved because there is an account with this email: " + client.getEmail());
+            log.error("Error! Client can't be saved because there is an account with this email: " + client.getEmail());
             log.error("or Client can't be saved because there is an account with this passport: " + client.getPassport());
             throw new ClientAlreadyExistsException();
         }
 
         if (!dto.getPassword().equals(dto.getPasswordConfirm())){
-            log.error("Client can't be saved because the password confirmation failed");
+            log.error("Error! Client can't be saved because the password confirmation failed.");
             throw new PasswordConfirmationFailedException();
         }
 

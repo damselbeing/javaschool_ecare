@@ -50,7 +50,7 @@ public class LoaderServiceImpl implements LoaderService {
                         "pop_tariff", false, false, false, null);
                 channel.basicPublish(
                         "", "pop_tariff", false, null, json.getBytes(StandardCharsets.UTF_8));
-                log.info("message has been sent to Epromo: " + message.getTariffName());
+                log.info(">>>>>>> Message has been sent to ePromo: " + message.getTariffName());
 
         }
 

@@ -7,7 +7,6 @@ import javaschool.ecare.exceptions.NotValidOptionsException;
 import javaschool.ecare.exceptions.OptionNotFoundException;
 import javaschool.ecare.repositories.OptionRepository;
 import javaschool.ecare.services.api.OptionService;
-import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Log4j2
+
 @Service
 public class OptionServiceImpl implements OptionService {
 
@@ -62,7 +61,6 @@ public class OptionServiceImpl implements OptionService {
             throws NotValidOptionsException {
         for (int i = 0; i < optionsConflicting.length; i++) {
             if (Arrays.stream(optionsAdditional).anyMatch(optionsConflicting[i]::equals)) {
-                log.error("Additional and conflicting options were chosen not correctly.");
                 throw new NotValidOptionsException();
             }
         }
@@ -77,6 +75,7 @@ public class OptionServiceImpl implements OptionService {
                              String[] optionsAdditional,
                              String[] optionsConflicting)
             throws OptionNotFoundException, NotValidOptionsException {
+
         if(optionsAdditional != null && optionsConflicting != null) {
             validateOptions(optionsAdditional, optionsConflicting);
         }
@@ -84,6 +83,7 @@ public class OptionServiceImpl implements OptionService {
         Option optionMain = optionRepository
                 .findOptionByIdOption(idOption)
                 .orElseThrow(OptionNotFoundException::new);
+
         Set<Option> optionsAdditionalUpdated = new HashSet<>();
         Set<Option> optionsConflictingUpdated = new HashSet<>();
 

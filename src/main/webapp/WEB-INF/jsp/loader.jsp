@@ -1,6 +1,4 @@
-<!-- //NOSONAR -->
 <html>
-<!-- //NOSONAR -->
 <head>
     <title>Loader</title>
     <jsp:include page="head.jsp"></jsp:include>

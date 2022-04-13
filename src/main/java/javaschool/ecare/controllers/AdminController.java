@@ -8,6 +8,7 @@ import javaschool.ecare.services.api.ClientService;
 import javaschool.ecare.services.api.ContractService;
 import javaschool.ecare.services.api.OptionService;
 import javaschool.ecare.services.api.TariffService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+@Log4j2
 @Controller
 @RequestMapping(path = "/admin/")
 public class AdminController {
+
+    private final String notValidOptionsError = "Error! Chosen options are not valid for update: ";
+    private final String clientsForModel = "clients";
+    private final String clientForModel = "client";
+    private final String tariffsForModel = "tariffs";
+    private final String optionsTotalForModel = "optionsTotal";
+    private final String errorForModel = "error";
+    private final String redirect = "redirect:/admin/contractProfile/{idClient}";
 
     private final ClientService clientService;
     private final ContractService contractService;
@@ -44,15 +55,16 @@ public class AdminController {
             Model model
     ) throws ClientNotFoundException {
         if(contractNumber == null) {
-            model.addAttribute("clients", clientService.getClients());                                                                                                          //NOSONAR
+            model.addAttribute(clientsForModel, clientService.getClients());
         } else {
             try{
                 List<ClientDto> listOfOne = new ArrayList<>();
                 listOfOne.add(clientService.findClientByContract(contractNumber));
-                model.addAttribute("clients", listOfOne);                                                                                                               //NOSONAR
+                model.addAttribute(clientsForModel, listOfOne);
             } catch (ContractNotFoundException e) {
-                model.addAttribute("clients", clientService.getClients());                                                                                      //NOSONAR
-                model.addAttribute("error", e.getMessage());                                                                                                        //NOSONAR
+                model.addAttribute(clientsForModel, clientService.getClients());
+                model.addAttribute(errorForModel, e.getMessage());
+                log.error("Error! Client with this number does not exist: " + contractNumber);
             }
 
         }
@@ -60,16 +72,13 @@ public class AdminController {
     }
 
 
-
-
-
     @GetMapping("contractProfile/{idClient}")
     public String showContractProfile(
             @PathVariable(value = "idClient") Long idClient,
             Model model
     ) throws ClientNotFoundException {
-        model.addAttribute("client", clientService.findClientByIdClient(idClient));                                                                                                     //NOSONAR
-        model.addAttribute("tariffs", tariffService.getTariffs());                                                                                                                      //NOSONAR
+        model.addAttribute(clientForModel, clientService.findClientByIdClient(idClient));
+        model.addAttribute(tariffsForModel, tariffService.getTariffs());
         return "admin/contract-profile";
     }
 
@@ -80,7 +89,9 @@ public class AdminController {
             @PathVariable(value = "idContract") Long idContract
             ) throws ContractNotFoundException {
         contractService.blockByAdmin(idContract);
-        return "redirect:/admin/contractProfile/{idClient}";                                                                                                                            //NOSONAR
+        log.warn("Contract has been blocked by Admin: "
+                + contractService.findContractByIdContract(idContract).getNumber());
+        return redirect;
     }
 
     @PostMapping("unblockContract/{idClient}/{idContract}")
@@ -89,12 +100,14 @@ public class AdminController {
             @PathVariable(value = "idContract") Long idContract
     ) throws ContractNotFoundException {
         contractService.unblockByAdmin(idContract);
-        return "redirect:/admin/contractProfile/{idClient}";                                                                                                                                                //NOSONAR
+        log.warn("Contract has been unblocked by Admin: "
+                + contractService.findContractByIdContract(idContract).getNumber());
+        return redirect;
     }
 
     @GetMapping("tariffs")
     public String viewTariffs(Model model) {
-        model.addAttribute("tariffs", tariffService.getTariffs());                                                                                                                                                      //NOSONAR
+        model.addAttribute(tariffsForModel, tariffService.getTariffs());
         TariffDto dto = new TariffDto();
         model.addAttribute("newTariff", dto);
         return "admin/view-tariffs";
@@ -104,22 +117,25 @@ public class AdminController {
     public String addNewTariff(@ModelAttribute("newTariff") TariffDto dto, Model model) {
         try{
             tariffService.addNewTariff(dto);
+            log.info("A new tariff has been created: " + dto.getName());
             return "redirect:/admin/tariffs";
         } catch(TariffAlreadyExistsException e) {
-            model.addAttribute("tariffs", tariffService.getTariffs());                                                                                                                                      //NOSONAR
+            model.addAttribute(tariffsForModel, tariffService.getTariffs());
             TariffDto dtoNew = new TariffDto();
             model.addAttribute("newTariff", dtoNew);
-            model.addAttribute("error", e.getMessage());                                                                                                                                                        //NOSONAR
+            model.addAttribute(errorForModel, e.getMessage());
+            log.error("Error! Tariff with this name already exists: " + dto.getName());
             return "admin/view-tariffs";
         }
 
     }
 
-
     @PostMapping("archiveTariff/{id}")
     public String archiveTariff(@PathVariable(value = "id") Long id)
             throws TariffNotFoundException {
         tariffService.archiveTariff(id);
+        TariffDto tariff = tariffService.findTariffByIdTariff(id);
+        log.warn("Tariff has been marked for deletion: " + tariff.getName());
         return "redirect:/admin/tariffs";
     }
 
@@ -127,7 +143,7 @@ public class AdminController {
     public String showTariffProfile(@PathVariable(value = "id") Long id, Model model)
             throws TariffNotFoundException {
         model.addAttribute("tariff", tariffService.findTariffByIdTariff(id));
-        model.addAttribute("optionsTotal", optionService.getOptions());                                                                                                                                         //NOSONAR
+        model.addAttribute(optionsTotalForModel, optionService.getOptions());
         return "admin/tariff-profile";
     }
 
@@ -139,11 +155,14 @@ public class AdminController {
     ) throws TariffNotFoundException, OptionNotFoundException {
         try {
             tariffService.updateTariffOptions(id, options);
+            log.info("Options of Tariff " + tariffService.findTariffByIdTariff(id).getName()
+                    + " have been updated to: " + Arrays.toString(options));
             return "redirect:/admin/tariffProfile/{id}";
         } catch (NotValidOptionsException e) {
             model.addAttribute("tariff", tariffService.findTariffByIdTariff(id));
-            model.addAttribute("optionsTotal", optionService.getOptions());                                                                                                                                         //NOSONAR
-            model.addAttribute("error", e.getMessage());                                                                                                                                                        //NOSONAR
+            model.addAttribute(optionsTotalForModel, optionService.getOptions());
+            model.addAttribute(errorForModel, e.getMessage());
+            log.error(notValidOptionsError + Arrays.toString(options));
             return "admin/tariff-profile";
         }
 
@@ -160,7 +179,7 @@ public class AdminController {
     public String showOptionProfile(@PathVariable(value = "id") Long id, Model model)
             throws OptionNotFoundException {
         model.addAttribute("option", optionService.findOptionByIdOption(id));
-        model.addAttribute("optionsTotal", optionService.getOptions());                                                                                                                                                         //NOSONAR
+        model.addAttribute(optionsTotalForModel, optionService.getOptions());
         return "admin/option-profile";
     }
 
@@ -174,11 +193,17 @@ public class AdminController {
     ) throws OptionNotFoundException {
         try {
             optionService.updateOption(id, optionsAdditional, optionsConflicting);
+            log.info("Option " + optionService.findOptionByIdOption(id).getName()
+                    + " has been updated: add.opt. " + Arrays.toString(optionsAdditional)
+                    + ", confl.opt. " + Arrays.toString(optionsConflicting));
             return "redirect:/admin/optionProfile/{id}";
         } catch (NotValidOptionsException e) {
             model.addAttribute("option", optionService.findOptionByIdOption(id));
-            model.addAttribute("optionsTotal", optionService.getOptions());                                                                                                                                     //NOSONAR
-            model.addAttribute("error", e.getMessage());                                                                                                                                            //NOSONAR
+            model.addAttribute(optionsTotalForModel, optionService.getOptions());
+            model.addAttribute(errorForModel, e.getMessage());
+            log.error(notValidOptionsError +
+                    "add.opt. " + Arrays.toString(optionsAdditional) +
+                    ", confl.opt. " + Arrays.toString(optionsConflicting));
             return "admin/option-profile";
         }
 
@@ -193,11 +218,14 @@ public class AdminController {
             throws ContractNotFoundException, OptionNotFoundException, ClientNotFoundException {
         try {
             contractService.updateContractOptions(idContract, options);
-            return "redirect:/admin/contractProfile/{idClient}";                                                                                                                                                    //NOSONAR
+            log.info("Options of Contract " + contractService.findContractByIdContract(idContract).getNumber()
+                    + " have been updated to: " + Arrays.toString(options));
+            return redirect;
         } catch (NotValidOptionsException e) {
-            model.addAttribute("client", clientService.findClientByIdClient(idClient));                                                                                                     //NOSONAR
-            model.addAttribute("tariffs", tariffService.getTariffs());                                                                                                                                  //NOSONAR
-            model.addAttribute("error", e.getMessage());                                                                                                                                            //NOSONAR
+            model.addAttribute(clientForModel, clientService.findClientByIdClient(idClient));
+            model.addAttribute(tariffsForModel, tariffService.getTariffs());
+            model.addAttribute(errorForModel, e.getMessage());
+            log.error(notValidOptionsError + Arrays.toString(options));
             return "admin/contract-profile";
         }
 
@@ -209,7 +237,9 @@ public class AdminController {
                                @RequestParam(value = "tariffUpdated", required = false) String idTariff)
             throws ContractNotFoundException, TariffNotFoundException, IOException, TimeoutException {
         contractService.updateContractTariff(idContract, idTariff);
-        return "redirect:/admin/contractProfile/{idClient}";                                                                                                                                        //NOSONAR
+        log.info("Tariff of Contract " + contractService.findContractByIdContract(idContract).getNumber()
+                + " has been updated to: " + contractService.findContractByIdContract(idContract).getTariff().getName());
+        return redirect;
     }
 
 
@@ -218,7 +248,7 @@ public class AdminController {
             @PathVariable(value = "idClient") Long idClient,
             Model model
     ) throws ClientNotFoundException {
-        model.addAttribute("client", clientService.findClientByIdClient(idClient));                                                                                         //NOSONAR
+        model.addAttribute(clientForModel, clientService.findClientByIdClient(idClient));
         model.addAttribute("telnumbers", contractService.getGeneratedNumbers());
         ContractDto dto = new ContractDto();
         model.addAttribute("number", dto);
@@ -231,7 +261,8 @@ public class AdminController {
             @ModelAttribute("number") ContractDto dto
     ) throws ClientNotFoundException, ContractNotFoundException {
         contractService.addNewContract(dto, idClient);
-        return "redirect:/admin/contractProfile/{idClient}";                                                                                                                                            //NOSONAR
+        log.info("A new contract has been created: " + dto.getNumber());
+        return redirect;
     }
 
 

@@ -56,15 +56,16 @@ public class Client {
 
     }
 
-    public Client(Long idClient,
+    public Client(Long idClient,                                                                                                                                                    //NOSONAR
                   String name,
                   String lastName,
                   LocalDate birthDate,
                   String passport,
                   String address,
                   String email,
-                  String password) {
-        this.idClient = idClient;
+                  String password)
+    {
+        this.idClient = idClient;                                                                                                                                                           //NOSONAR
         this.name = name;
         this.lastName = lastName;
         this.birthDate = birthDate;
